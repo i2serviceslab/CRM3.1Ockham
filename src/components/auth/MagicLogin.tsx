@@ -134,7 +134,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
       {/* Main Glassmorphism Card */}
       <div className="w-full max-w-md bg-[#0c0e17]/90 border border-white/10 backdrop-blur-2xl rounded-[36px] p-8 sm:p-10 shadow-2xl shadow-black relative z-10 space-y-7">
         
-        {/* Bespoke Geometric THE CORE Emblem */}
+        {/* Bespoke Geometric COPPER GIANT Emblem */}
         <div className="text-center space-y-3">
           <div className="relative w-16 h-16 mx-auto flex items-center justify-center">
             {/* Outer Concentric Core Rings */}
@@ -149,13 +149,13 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
 
           <div>
             <h1 className="text-2xl font-black text-white tracking-widest uppercase flex items-center justify-center gap-2">
-              <span>THE CORE</span>
+              <span>COPPER GIANT</span>
               <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 tracking-normal">
                 v2.1
               </span>
             </h1>
             <p className="text-xs text-slate-400 mt-1 font-medium">
-              Enterprise Multi-Tenant Intelligence Engine
+              Private Intelligence Engine
             </p>
           </div>
         </div>
@@ -371,7 +371,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
         {/* Footer Security Badge */}
         <div className="pt-2 border-t border-white/5 text-center flex items-center justify-center gap-2 text-[10px] text-slate-500 font-bold">
           <Fingerprint className="w-3.5 h-3.5 text-cyan-500" />
-          <span>Protegido con Encriptación Multi-Tenant THE CORE Security</span>
+          <span>Protegido con Encriptación Enterprise COPPER GIANT Security</span>
         </div>
       </div>
     </div>
