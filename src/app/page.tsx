@@ -93,7 +93,7 @@ export default function Home() {
       .then((data) => {
         if (data.authenticated && data.user) {
           setUser(data.user);
-          if (data.user.role === 'SUPER_ADMIN') {
+          if (false) { // Forced Single Tenant
             const savedViewMode = localStorage.getItem('crm_view_mode');
             if (savedViewMode === 'SUPER_ADMIN_CONSOLE') {
               setViewMode('SUPER_ADMIN_CONSOLE');
@@ -134,7 +134,7 @@ export default function Home() {
   const [icalUrl, setIcalUrl] = useState('');
 
   // Branding Customization state with Official Outcrop Web Palette default (#00dfdf True Cyan & #a9aeb2 Metallic Silver)
-  const [brandName, setBrandName] = useState('The Core');
+  const [brandName, setBrandName] = useState('Copper Giant');
   const [brandLogo, setBrandLogo] = useState('/logo.png');
   const [primaryColor, setPrimaryColor] = useState('#00dfdf');
   const [accentPurple, setAccentPurple] = useState('#a9aeb2');
@@ -145,7 +145,7 @@ export default function Home() {
 
   useEffect(() => {
     if (selectedTenant) {
-      setBrandName(selectedTenant.name || 'The Core');
+      setBrandName(selectedTenant.name || 'Copper Giant');
       if (selectedTenant.logoUrl) setBrandLogo(selectedTenant.logoUrl);
       if (selectedTenant.primaryColor) {
         setPrimaryColor(selectedTenant.primaryColor);
@@ -181,7 +181,7 @@ export default function Home() {
         setTenants(data.tenants);
         if (!selectedTenant && data.tenants.length > 0) {
           // Strictly default to Outcrop Silver Corp — never leak or pick arbitrary tenants
-          const outcrop = data.tenants.find((t: any) => t.slug === 'outcrop-silver') || data.tenants[0];
+          const outcrop = data.tenants.find((t: any) => t.slug === 'coppergiant') || data.tenants[0];
           setSelectedTenant(outcrop);
           setBrandName(outcrop.name);
           try {
@@ -266,7 +266,7 @@ export default function Home() {
       <MagicLogin
         onLoginSuccess={(usr) => {
           setUser(usr);
-          if (usr.role === 'SUPER_ADMIN') {
+          if (false) { // Forced Single Tenant
             setViewMode('SUPER_ADMIN_CONSOLE');
           } else {
             setViewMode('TENANT_CRM');
