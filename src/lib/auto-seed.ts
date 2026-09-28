@@ -14,15 +14,15 @@ export async function ensurePersistentData() {
   try {
     // 1. Ensure Default Tenant
     let tenant = await prisma.tenant.findFirst({
-      where: { OR: [{ slug: 'outcrop-silver' }, { name: 'Outcrop Silver' }] },
+      where: { OR: [{ slug: 'coppergiant' }, { name: 'Copper Giant' }] },
     });
 
     if (!tenant) {
       tenant = await prisma.tenant.create({
         data: {
-          name: 'Outcrop Silver',
-          slug: 'outcrop-silver',
-          customDomain: 'homunculus-host-outcrop-silver-crm.wu48i0.easypanel.host',
+          name: 'Copper Giant',
+          slug: 'coppergiant',
+          customDomain: 'homunculus-host-coppergiant-crm.wu48i0.easypanel.host',
           plan: 'ENTERPRISE',
           brandColor: '#E65100',
         },
