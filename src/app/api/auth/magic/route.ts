@@ -41,7 +41,7 @@ async function sendResendOtpEmail(email: string, otpCode: string): Promise<boole
                     <tr>
                       <td style="padding: 36px 36px 20px 36px; text-align: center; background: linear-gradient(180deg, rgba(0, 223, 223, 0.08) 0%, rgba(12, 14, 23, 0) 100%);">
                         <div style="display: inline-block; padding: 8px 16px; background-color: rgba(0, 223, 223, 0.1); border: 1px solid rgba(0, 223, 223, 0.3); border-radius: 100px; margin-bottom: 16px;">
-                          <span style="color: #00dfdf; font-size: 11px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;">OUTCROP SILVER CORP</span>
+                          <span style="color: #D97736; font-size: 11px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;">OUTCROP SILVER CORP</span>
                         </div>
                         <h1 style="margin: 0; font-size: 26px; font-weight: 900; letter-spacing: -0.5px; color: #ffffff;">THE CORE CRM</h1>
                         <p style="margin: 6px 0 0 0; font-size: 12px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Plataforma de Gestión de Inversionistas</p>
@@ -56,7 +56,7 @@ async function sendResendOtpEmail(email: string, otpCode: string): Promise<boole
                         
                         <!-- Glow PIN Display Box -->
                         <div style="text-align: center; margin: 28px 0; padding: 28px 20px; background: linear-gradient(135deg, #101422 0%, #161b2e 100%); border-radius: 20px; border: 1px solid rgba(0, 223, 223, 0.4); box-shadow: 0 0 30px rgba(0, 223, 223, 0.15);">
-                          <span style="font-size: 42px; font-weight: 900; letter-spacing: 12px; color: #00dfdf; font-family: 'Courier New', Courier, monospace; text-shadow: 0 0 10px rgba(0, 223, 223, 0.5);">${otpCode}</span>
+                          <span style="font-size: 42px; font-weight: 900; letter-spacing: 12px; color: #D97736; font-family: 'Courier New', Courier, monospace; text-shadow: 0 0 10px rgba(0, 223, 223, 0.5);">${otpCode}</span>
                         </div>
                         
                         <!-- Instructions & Security Notice -->

@@ -175,7 +175,7 @@ export const ThemeCustomizer: React.FC<ThemeCustomizerProps> = ({
           }`}
           style={{ borderColor: activeTab === 'typography' ? 'var(--primary-color)' : undefined }}
         >
-          <Type className="w-4 h-4 text-cyan-400" />
+          <Type className="w-4 h-4 text-[#D97736]" />
           <span>Tipografía & Fuentes Globales</span>
         </button>
 
@@ -352,7 +352,7 @@ export const ThemeCustomizer: React.FC<ThemeCustomizerProps> = ({
         <div className="space-y-8 animate-fadeIn">
           <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-8 rounded-3xl border border-white/10 space-y-6">
             <h2 className="text-lg font-black text-white flex items-center gap-2">
-              <Type className="w-5 h-5 text-cyan-400" />
+              <Type className="w-5 h-5 text-[#D97736]" />
               <span>Selección de Tipografía Corporativa Global</span>
             </h2>
 
@@ -403,7 +403,7 @@ export const ThemeCustomizer: React.FC<ThemeCustomizerProps> = ({
                 Este texto utiliza la fuente seleccionada en tiempo real. Todas las vistas, formularios y títulos responderán inmediatamente.
               </p>
               <div className="flex items-center gap-3 pt-2">
-                <span className="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-400 font-mono text-xs font-bold">
+                <span className="px-3 py-1 rounded-full bg-cyan-500/20 text-[#D97736] font-mono text-xs font-bold">
                   85/100 LEAD SCORE
                 </span>
                 <span className="text-xs font-mono text-slate-400">$2,450,000 USD PRESUPUESTO</span>

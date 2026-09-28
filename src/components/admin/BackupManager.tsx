@@ -114,7 +114,7 @@ export default function BackupManager() {
       {/* Header Banner */}
       <div className="p-6 rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-cyan-950/40 border border-cyan-500/20 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-cyan-400">
+          <div className="flex items-center gap-2 text-[#D97736]">
             <Database className="w-5 h-5" />
             <span className="text-xs font-black uppercase tracking-wider">Módulo de Respaldos de Base de Datos</span>
           </div>
@@ -129,7 +129,7 @@ export default function BackupManager() {
         <button
           onClick={handleCreateBackup}
           disabled={submitting}
-          className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/20 transition-all cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
+          className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-500/20 transition-all cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>{submitting ? 'Guardando...' : 'Crear Copia Manual Ahora'}</span>
@@ -162,7 +162,7 @@ export default function BackupManager() {
         </div>
 
         <div className="p-4 rounded-2xl bg-slate-900/80 border border-white/10 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-black">
+          <div className="w-10 h-10 rounded-xl bg-cyan-500/20 text-[#D97736] flex items-center justify-center font-black">
             <Clock className="w-5 h-5" />
           </div>
           <div>
@@ -202,7 +202,7 @@ export default function BackupManager() {
         <div style={{ backgroundColor: 'var(--bg-card)' }} className="rounded-3xl border border-white/5 shadow-xl overflow-hidden">
           <div className="p-4 border-b border-white/10 flex items-center justify-between">
             <h3 className="text-xs font-black uppercase tracking-wider text-slate-300 flex items-center gap-2">
-              <Database className="w-4 h-4 text-cyan-400" />
+              <Database className="w-4 h-4 text-[#D97736]" />
               <span>Historial de Respaldos de Base de Datos</span>
             </h3>
             <span className="text-[10px] text-slate-500 font-mono font-bold">Motor SQLite Encapsulado</span>
@@ -236,7 +236,7 @@ export default function BackupManager() {
                     <td className="p-4 text-right pr-6 flex items-center justify-end gap-2">
                       <button
                         onClick={() => handleDownloadBackup(b.filename)}
-                        className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-cyan-400 border border-white/10 transition-colors font-bold text-xs flex items-center gap-1.5 cursor-pointer"
+                        className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#D97736] border border-white/10 transition-colors font-bold text-xs flex items-center gap-1.5 cursor-pointer"
                         title="Descargar archivo de base de datos"
                       >
                         <Download className="w-3.5 h-3.5" />

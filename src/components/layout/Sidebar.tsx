@@ -51,11 +51,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   setActiveTab,
   contactCount,
   onLogout,
-  brandName = 'Outcrop Silver Corp',
+  brandName = 'Copper Giant',
   brandLogo,
   selectedTenant,
 }) => {
-  const currentLogo = brandLogo || '/logo.png';
+  const currentLogo = brandLogo || '/logo.webp';
   const menuItems = [
     { id: 'contacts' as ActiveTab, label: '360° Contacts', icon: Users, badge: contactCount },
     { id: 'graph' as ActiveTab, label: 'Relationship Graph', icon: Network, highlight: true },

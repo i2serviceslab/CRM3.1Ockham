@@ -377,7 +377,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
       return <FileSpreadsheet className="w-5 h-5 text-emerald-400" />;
     if (mimeType.includes('json') || mimeType.includes('code') || mimeType.includes('javascript'))
       return <FileCode className="w-5 h-5 text-amber-400" />;
-    return <File className="w-5 h-5 text-cyan-400" />;
+    return <File className="w-5 h-5 text-[#D97736]" />;
   };
 
   const categoriesList = [
@@ -403,7 +403,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-6">
         <div>
           <div className="flex items-center gap-3 flex-wrap">
-            <div className="p-2.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
+            <div className="p-2.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-[#D97736]">
               <FolderKanban className="w-7 h-7" />
             </div>
             <div>
@@ -435,7 +435,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
           <button
             type="button"
             onClick={() => setShowCloudImportModal(true)}
-            className="px-4 py-2.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 font-extrabold text-xs transition-colors flex items-center gap-2 cursor-pointer border border-cyan-500/30"
+            className="px-4 py-2.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-[#D97736] font-extrabold text-xs transition-colors flex items-center gap-2 cursor-pointer border border-cyan-500/30"
           >
             <ExternalLink className="w-4 h-4" />
             <span>Importar Nube / Drive</span>
@@ -446,7 +446,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             onClick={() => setShowFolderModal(true)}
             className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-extrabold text-xs transition-colors flex items-center gap-2 cursor-pointer border border-white/10"
           >
-            <FolderPlus className="w-4 h-4 text-cyan-400" />
+            <FolderPlus className="w-4 h-4 text-[#D97736]" />
             <span>Nueva Carpeta</span>
           </button>
 
@@ -481,7 +481,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
         }`}
         onClick={() => fileInputRef.current?.click()}
       >
-        <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-cyan-400 shadow-inner">
+        <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-[#D97736] shadow-inner">
           <Upload className={`w-6 h-6 ${uploading ? 'animate-bounce' : ''}`} />
         </div>
         <div>
@@ -552,7 +552,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
       {/* System Folders Section */}
       <div className="space-y-3">
         <h2 className="text-xs font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
-          <Folder className="w-4 h-4 text-cyan-400" />
+          <Folder className="w-4 h-4 text-[#D97736]" />
           <span>Carpetas del Proyecto ({folders.length})</span>
         </h2>
 
@@ -565,7 +565,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                 : 'bg-[#2A2A2A] border-white/5 text-slate-300 hover:border-white/20'
             }`}
           >
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-cyan-500/20 text-[#D97736] flex items-center justify-center font-bold text-xs shrink-0">
               ALL
             </div>
             <div className="min-w-0">
@@ -614,10 +614,10 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
       <div className="space-y-4 pt-4 border-t border-white/10">
         <div className="flex items-center justify-between">
           <h2 className="text-xs font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
-            <Layers className="w-4 h-4 text-cyan-400" />
+            <Layers className="w-4 h-4 text-[#D97736]" />
             <span>Archivos Registrados ({files.length})</span>
           </h2>
-          {loading && <span className="text-xs text-cyan-400 font-mono animate-pulse">Sincronizando...</span>}
+          {loading && <span className="text-xs text-[#D97736] font-mono animate-pulse">Sincronizando...</span>}
         </div>
 
         {files.length > 0 ? (
@@ -634,7 +634,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                     <div className="p-2.5 rounded-xl bg-white/5 shrink-0">
                       {getFileIcon(file.mimeType)}
                     </div>
-                    <span className="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 font-mono text-[10px] border border-cyan-500/20 truncate max-w-[120px]">
+                    <span className="px-2 py-0.5 rounded bg-cyan-500/10 text-[#D97736] font-mono text-[10px] border border-cyan-500/20 truncate max-w-[120px]">
                       {file.aiCategory || 'General'}
                     </span>
                   </div>
@@ -660,7 +660,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => handleAiSummarize(file)}
-                        className="p-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-[#D97736] transition-colors cursor-pointer"
                         title="Síntesis Ejecutiva Humunculus IA"
                       >
                         <Bot className="w-3.5 h-3.5" />
@@ -692,7 +692,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                           setSelectedFileForModal(file);
                           setShowPreviewModal(true);
                         }}
-                        className="p-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-[#D97736] transition-colors cursor-pointer"
                         title="Previsualización Integrada sin Descargar"
                       >
                         <Eye className="w-3.5 h-3.5" />
@@ -755,7 +755,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                   <div className="flex items-center gap-2 shrink-0">
                     <button
                       onClick={() => handleAiSummarize(file)}
-                      className="px-3 py-1 rounded-xl bg-cyan-500/10 text-cyan-400 text-xs font-bold flex items-center gap-1 hover:bg-cyan-500/20 cursor-pointer"
+                      className="px-3 py-1 rounded-xl bg-cyan-500/10 text-[#D97736] text-xs font-bold flex items-center gap-1 hover:bg-cyan-500/20 cursor-pointer"
                     >
                       <Bot className="w-3.5 h-3.5" />
                       <span>Resumen IA</span>
@@ -797,7 +797,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
           <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-extrabold text-sm text-white uppercase tracking-wider flex items-center gap-2">
-                <FolderPlus className="w-4 h-4 text-cyan-400" />
+                <FolderPlus className="w-4 h-4 text-[#D97736]" />
                 <span>Crear Nueva Carpeta</span>
               </h3>
               <button
@@ -864,7 +864,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
           <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-extrabold text-sm text-white uppercase tracking-wider flex items-center gap-2">
-                <Share2 className="w-4 h-4 text-cyan-400" />
+                <Share2 className="w-4 h-4 text-[#D97736]" />
                 <span>Compartir Archivo Seguro</span>
               </h3>
               <button
@@ -881,7 +881,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
               </p>
 
               <div className="p-3 rounded-xl bg-[#2A2A2A] border border-white/10 flex items-center justify-between gap-2">
-                <span className="text-[11px] font-mono text-cyan-400 truncate">
+                <span className="text-[11px] font-mono text-[#D97736] truncate">
                   {typeof window !== 'undefined' ? `${window.location.origin}${selectedFileForModal.url}` : selectedFileForModal.url}
                 </span>
                 <button
@@ -916,7 +916,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
           <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-lg space-y-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-extrabold text-sm text-white uppercase tracking-wider flex items-center gap-2">
-                <Bot className="w-4 h-4 text-cyan-400" />
+                <Bot className="w-4 h-4 text-[#D97736]" />
                 <span>Síntesis Ejecutiva Humunculus IA</span>
               </h3>
               <button
@@ -981,7 +981,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
           <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-4xl h-[85vh] flex flex-col justify-between gap-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3 shrink-0">
               <div className="flex items-center gap-2">
-                <Eye className="w-5 h-5 text-cyan-400" />
+                <Eye className="w-5 h-5 text-[#D97736]" />
                 <h3 className="font-extrabold text-sm text-white uppercase truncate max-w-md">
                   Previsualización: {selectedFileForModal.name}
                 </h3>
@@ -1009,7 +1009,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                 />
               ) : (
                 <div className="text-center p-8 space-y-3">
-                  <FileText className="w-12 h-12 text-cyan-400 mx-auto" />
+                  <FileText className="w-12 h-12 text-[#D97736] mx-auto" />
                   <p className="text-xs text-slate-300">
                     Vista previa de documento disponible. Haz clic abajo para abrir o descargar el archivo completo.
                   </p>
@@ -1049,7 +1049,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
           <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-extrabold text-sm text-white uppercase tracking-wider flex items-center gap-2">
-                <Layers className="w-4 h-4 text-cyan-400" />
+                <Layers className="w-4 h-4 text-[#D97736]" />
                 <span>Historial de Versiones (v{selectedFileForModal.version || 1})</span>
               </h3>
               <button
@@ -1063,7 +1063,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             <div className="space-y-2 max-h-60 overflow-y-auto">
               <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-between">
                 <div>
-                  <span className="font-extrabold text-xs text-cyan-400 block">v{selectedFileForModal.version || 1} (Versión Actual)</span>
+                  <span className="font-extrabold text-xs text-[#D97736] block">v{selectedFileForModal.version || 1} (Versión Actual)</span>
                   <span className="text-[10px] text-slate-400 font-mono">{(selectedFileForModal.size / 1024).toFixed(1)} KB</span>
                 </div>
                 <a href={selectedFileForModal.url} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg bg-cyan-500 text-black text-xs font-bold">
@@ -1103,7 +1103,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
           <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-extrabold text-sm text-white uppercase tracking-wider flex items-center gap-2">
-                <ExternalLink className="w-4 h-4 text-cyan-400" />
+                <ExternalLink className="w-4 h-4 text-[#D97736]" />
                 <span>Importar desde Google Drive / Nube</span>
               </h3>
               <button

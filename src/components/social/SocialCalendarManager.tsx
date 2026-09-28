@@ -452,7 +452,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
                       ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
                       : p.status === 'draft'
                       ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                      : 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
+                      : 'bg-cyan-500/20 text-[#D97736] border-cyan-500/30'
                   }`}
                 >
                   {p.status}
@@ -776,7 +776,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
                               ? 'bg-red-500/20 text-red-400 border-red-500/30'
                               : log.action.includes('update')
                               ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                              : 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
+                              : 'bg-cyan-500/20 text-[#D97736] border-cyan-500/30'
                           }`}
                         >
                           {log.action}

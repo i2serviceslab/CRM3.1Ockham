@@ -20,7 +20,7 @@ export interface CustomThemeConfig {
 export const DEFAULT_THEME_CONFIG: CustomThemeConfig = {
   id: 'outcrop-silver',
   name: 'Outcrop Silver Official',
-  primaryColor: '#00dfdf',
+  primaryColor: '#D97736',
   secondaryColor: '#a9aeb2',
   bgMain: '#0f172a',
   bgCard: '#1e2430',
@@ -40,7 +40,7 @@ export const THEME_PRESETS: CustomThemeConfig[] = [
   {
     id: 'outcrop-silver',
     name: 'Outcrop Silver Official (Cyan & Acero)',
-    primaryColor: '#00dfdf',
+    primaryColor: '#D97736',
     secondaryColor: '#a9aeb2',
     bgMain: '#0f172a',
     bgCard: '#1e2430',

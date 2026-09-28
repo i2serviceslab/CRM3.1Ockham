@@ -35,7 +35,7 @@ const getInvestorTypeColor = (type?: string): { border: string; bg: string; text
   if (t.includes('strategic') || t.includes('corporate')) {
     return { border: '#ec4899', bg: '#ec489922', text: '#f472b6' }; // Pink
   }
-  return { border: '#00dfdf', bg: '#00dfdf22', text: '#00dfdf' }; // True Cyan default
+  return { border: '#D97736', bg: '#D9773622', text: '#D97736' }; // True Cyan default
 };
 
 export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, onOpen360, onRefresh }) => {
@@ -324,7 +324,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
           ctx.beginPath();
           ctx.arc(particleX, particleY, isSelectedEdge ? 5 : 3.5, 0, Math.PI * 2);
           ctx.fillStyle = '#ffffff';
-          ctx.shadowColor = '#00dfdf';
+          ctx.shadowColor = '#D97736';
           ctx.shadowBlur = 10;
           ctx.fill();
           ctx.shadowBlur = 0; // Reset shadow
@@ -345,12 +345,12 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
           ctx.roundRect(midX - badgeW / 2, midY - badgeH / 2, badgeW, badgeH, 10);
           ctx.fill();
 
-          ctx.strokeStyle = isSelectedEdge ? '#00dfdf' : 'rgba(0, 223, 223, 0.6)';
+          ctx.strokeStyle = isSelectedEdge ? '#D97736' : 'rgba(0, 223, 223, 0.6)';
           ctx.lineWidth = 1.5;
           ctx.stroke();
 
           // Badge Text
-          ctx.fillStyle = isSelectedEdge ? '#00dfdf' : '#ffffff';
+          ctx.fillStyle = isSelectedEdge ? '#D97736' : '#ffffff';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(labelText, midX, midY + 0.5);
@@ -377,7 +377,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
         ctx.fillStyle = '#0f1218';
         ctx.fill();
 
-        ctx.strokeStyle = isSelected ? '#00dfdf' : color.border;
+        ctx.strokeStyle = isSelected ? '#D97736' : color.border;
         ctx.lineWidth = isSelected ? 3 : 2;
         ctx.stroke();
 
@@ -397,13 +397,13 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
 
         // Lead Score Badge above node
         const score = n.contact.leadScore || 70;
-        ctx.fillStyle = score >= 80 ? '#00dfdf' : score >= 60 ? '#fbbf24' : '#64748b';
+        ctx.fillStyle = score >= 80 ? '#D97736' : score >= 60 ? '#fbbf24' : '#64748b';
         ctx.font = 'bold 9px monospace';
         ctx.fillText(`${score} pts`, n.x, n.y - n.radius - 8);
 
         // Contact Name Label below node
         ctx.font = 'bold 11px Urbanist, sans-serif';
-        ctx.fillStyle = isSelected ? '#00dfdf' : '#e2e8f0';
+        ctx.fillStyle = isSelected ? '#D97736' : '#e2e8f0';
         ctx.fillText(n.contact.name, n.x, n.y + n.radius + 14);
 
         // Company / Type Sublabel
@@ -580,7 +580,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
       {/* Network Metrics Cards Bar */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-4 rounded-3xl border border-white/10 flex items-center gap-4 shadow-xl">
-          <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+          <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-[#D97736] shrink-0">
             <Share2 className="w-5 h-5" />
           </div>
           <div>
@@ -613,7 +613,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
       {/* Filter Chips Bar */}
       <div className="flex items-center gap-2 flex-wrap text-xs">
         <span className="text-slate-400 font-bold flex items-center gap-1.5 mr-2">
-          <Filter className="w-3.5 h-3.5 text-cyan-400" />
+          <Filter className="w-3.5 h-3.5 text-[#D97736]" />
           <span>Filtrar Red:</span>
         </span>
         {[
@@ -647,7 +647,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
         {/* Interactive Canvas Physics Space */}
         <div style={{ backgroundColor: 'var(--bg-card)' }} className="lg:col-span-2 rounded-3xl p-6 min-h-[560px] relative overflow-hidden border border-white/10 flex flex-col justify-between shadow-2xl">
           <div className="flex items-center justify-between text-xs font-mono text-slate-400 border-b border-white/5 pb-3">
-            <span className="flex items-center gap-2 font-bold text-cyan-400">
+            <span className="flex items-center gap-2 font-bold text-[#D97736]">
               <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
               SIMULADOR DE FÍSICA EN TIEMPO REAL
             </span>
@@ -686,7 +686,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
 
           <div className="text-[11px] text-slate-400 text-center font-mono border-t border-white/5 pt-2 flex items-center justify-between">
             <span>🖱️ Arrastra nodos para mover | Arrastra fondo para desplazar | Rueda del mouse para zoom</span>
-            <span className="text-[10px] text-cyan-400 font-bold">100% Interactivo</span>
+            <span className="text-[10px] text-[#D97736] font-bold">100% Interactivo</span>
           </div>
         </div>
 
@@ -713,7 +713,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
               <div className="p-4 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
                 <div className="flex items-center justify-between">
                   <h4 className="text-base font-black text-white">{selectedNode.name}</h4>
-                  <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs font-mono font-black">
+                  <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-[#D97736] border border-cyan-500/30 text-xs font-mono font-black">
                     {selectedNode.leadScore || 70} pts
                   </span>
                 </div>
@@ -721,7 +721,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
                   {selectedNode.title || 'Inversionista'} en <strong>{selectedNode.company || 'Independiente'}</strong>
                 </p>
                 <div className="flex gap-2 text-xs pt-1 flex-wrap">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-black border bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-black border bg-cyan-500/10 text-[#D97736] border-cyan-500/30">
                     {selectedNode.investorType || 'General'}
                   </span>
                   <span className="px-2.5 py-1 rounded-full text-[10px] font-black border bg-amber-500/10 text-amber-400 border-amber-500/30">
@@ -734,7 +734,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
               <div>
                 <h4 className="text-xs font-black text-slate-300 mb-3 uppercase tracking-wider flex items-center justify-between">
                   <span>Vínculos de Red Directos</span>
-                  <span className="text-cyan-400 font-mono">
+                  <span className="text-[#D97736] font-mono">
                     (
                     {
                       relationships.filter(
@@ -755,7 +755,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
                       return (
                         <div key={rel.id} className="p-3.5 rounded-2xl bg-slate-950 border border-white/10 space-y-1.5 group">
                           <div className="flex items-center justify-between text-xs font-black text-white">
-                            <span className="text-cyan-400 font-bold">{rel.relationshipType}</span>
+                            <span className="text-[#D97736] font-bold">{rel.relationshipType}</span>
                             <div className="flex items-center gap-2">
                               <span className="text-slate-200">{partner?.name || 'Contacto'}</span>
                               <button
@@ -806,7 +806,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
                       className="w-full p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-cyan-400/50 flex items-center justify-between text-left transition-all cursor-pointer group"
                     >
                       <div className="space-y-0.5">
-                        <div className="text-xs font-black text-white group-hover:text-cyan-400 transition-colors">
+                        <div className="text-xs font-black text-white group-hover:text-[#D97736] transition-colors">
                           {c.name}
                         </div>
                         <div className="text-[10px] font-bold" style={{ color: color.text }}>
@@ -818,7 +818,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
                         <span className="px-2 py-0.5 rounded-full bg-slate-900 border border-white/10 text-[10px] font-mono font-bold text-slate-300">
                           {relCount} {relCount === 1 ? 'vínculo' : 'vínculos'}
                         </span>
-                        <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" />
+                        <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-[#D97736] group-hover:translate-x-0.5 transition-all" />
                       </div>
                     </button>
                   );
@@ -835,7 +835,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
           <div className="w-full max-w-md bg-[#0c0e17] border border-white/10 rounded-3xl p-6 shadow-2xl space-y-4 font-['Urbanist']">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="text-sm font-black text-white flex items-center gap-2 uppercase tracking-tight">
-                <LinkIcon className="w-4 h-4 text-cyan-400" />
+                <LinkIcon className="w-4 h-4 text-[#D97736]" />
                 <span>Vincular Nueva Relación en la Red</span>
               </h3>
               <button
@@ -926,7 +926,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
                 <button
                   type="submit"
                   disabled={loadingRel}
-                  className="px-5 py-2.5 rounded-2xl bg-[#00dfdf] text-slate-950 font-black text-xs uppercase tracking-wider hover:brightness-110 cursor-pointer shadow-lg"
+                  className="px-5 py-2.5 rounded-2xl bg-[#D97736] text-slate-950 font-black text-xs uppercase tracking-wider hover:brightness-110 cursor-pointer shadow-lg"
                 >
                   {loadingRel ? 'Guardando...' : 'Vincular Relación'}
                 </button>

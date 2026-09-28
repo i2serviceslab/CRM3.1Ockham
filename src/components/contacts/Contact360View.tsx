@@ -855,7 +855,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
             {activeTab === 'Documents' && (
               <div className="space-y-4 animate-fadeIn">
                 <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                  <span className="text-[10px] font-black text-cyan-400 uppercase tracking-widest block">
+                  <span className="text-[10px] font-black text-[#D97736] uppercase tracking-widest block">
                     📄 RASTREABILIDAD DE REPORTES TÉCNICOS & ENSAYOS SANTA ANA
                   </span>
                   <span className="text-[10px] text-slate-400 font-bold">Proyecto Santa Ana - Leyes de Plata</span>
@@ -899,7 +899,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                       className="p-3.5 rounded-2xl border border-white/10 flex items-center justify-between gap-3"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+                        <div className="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-[#D97736] shrink-0">
                           <FileText className="w-4 h-4" />
                         </div>
                         <div>
@@ -919,7 +919,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                               ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
                               : doc.status === 'Solicitado por Inversionista'
                               ? 'bg-amber-500/20 text-amber-400 border-amber-500/30'
-                              : 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
+                              : 'bg-cyan-500/20 text-[#D97736] border-cyan-500/30'
                           }`}
                         >
                           {doc.status}
@@ -938,7 +938,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                             }).catch(() => {});
                             alert(`Envío de "${doc.title}" registrado en la cronología de ${contact.name}.`);
                           }}
-                          className="px-3 py-1.5 rounded-full bg-slate-900 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500 hover:text-black font-black text-[10px] uppercase transition-all cursor-pointer"
+                          className="px-3 py-1.5 rounded-full bg-slate-900 text-[#D97736] border border-cyan-500/30 hover:bg-cyan-500 hover:text-black font-black text-[10px] uppercase transition-all cursor-pointer"
                         >
                           Registrar Envío
                         </button>

@@ -230,8 +230,8 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
             onClick={() => setIsEditing(!isEditing)}
             style={
               isEditing
-                ? { backgroundColor: '#00dfdf', color: '#000000' }
-                : { backgroundColor: '#00dfdf22', color: '#00dfdf', borderColor: '#00dfdf88' }
+                ? { backgroundColor: '#D97736', color: '#000000' }
+                : { backgroundColor: '#D9773622', color: '#D97736', borderColor: '#D9773688' }
             }
             className="px-4 py-2 rounded-full text-xs font-black transition-all flex items-center gap-2 border hover:scale-105 cursor-pointer shadow-xl"
           >
@@ -265,7 +265,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
         <div className="p-5 rounded-3xl bg-slate-900/90 border border-cyan-500/30 space-y-4 animate-fadeIn shadow-2xl">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div className="flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-cyan-400" />
+              <Sliders className="w-4 h-4 text-[#D97736]" />
               <h3 className="text-sm font-black text-white uppercase tracking-wider">Builder de Panel de Métricas — Modo Edición</h3>
             </div>
             <button
@@ -296,7 +296,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
               }`}
             >
               <span className="text-xs font-black">1. Tarjetas KPI Rápidas</span>
-              {widgetConfig.showKPIs ? <Eye className="w-4 h-4 text-cyan-400" /> : <EyeOff className="w-4 h-4" />}
+              {widgetConfig.showKPIs ? <Eye className="w-4 h-4 text-[#D97736]" /> : <EyeOff className="w-4 h-4" />}
             </button>
 
             {/* Toggle 2: Composition */}
@@ -307,7 +307,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
               }`}
             >
               <span className="text-xs font-black">2. Composición Red</span>
-              {widgetConfig.showComposition ? <Eye className="w-4 h-4 text-cyan-400" /> : <EyeOff className="w-4 h-4" />}
+              {widgetConfig.showComposition ? <Eye className="w-4 h-4 text-[#D97736]" /> : <EyeOff className="w-4 h-4" />}
             </button>
 
             {/* Toggle 3: Geographic */}
@@ -318,7 +318,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
               }`}
             >
               <span className="text-xs font-black">3. Hubs Geográficos</span>
-              {widgetConfig.showGeographic ? <Eye className="w-4 h-4 text-cyan-400" /> : <EyeOff className="w-4 h-4" />}
+              {widgetConfig.showGeographic ? <Eye className="w-4 h-4 text-[#D97736]" /> : <EyeOff className="w-4 h-4" />}
             </button>
 
             {/* Toggle 4: Funnel */}
@@ -329,7 +329,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
               }`}
             >
               <span className="text-xs font-black">4. Embudo de Velocidad</span>
-              {widgetConfig.showFunnel ? <Eye className="w-4 h-4 text-cyan-400" /> : <EyeOff className="w-4 h-4" />}
+              {widgetConfig.showFunnel ? <Eye className="w-4 h-4 text-[#D97736]" /> : <EyeOff className="w-4 h-4" />}
             </button>
 
             {/* Toggle 5: Top Scorers */}
@@ -340,7 +340,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
               }`}
             >
               <span className="text-xs font-black">5. Top Inversionistas</span>
-              {widgetConfig.showTopScorers ? <Eye className="w-4 h-4 text-cyan-400" /> : <EyeOff className="w-4 h-4" />}
+              {widgetConfig.showTopScorers ? <Eye className="w-4 h-4 text-[#D97736]" /> : <EyeOff className="w-4 h-4" />}
             </button>
           </div>
         </div>

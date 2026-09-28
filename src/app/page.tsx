@@ -131,10 +131,10 @@ export default function Home() {
   const [showAgendaModal, setShowAgendaModal] = useState(false);
   const [icalUrl, setIcalUrl] = useState('');
 
-  // Branding Customization state with Official Outcrop Web Palette default (#00dfdf True Cyan & #a9aeb2 Metallic Silver)
+  // Branding Customization state with Official Outcrop Web Palette default (#D97736 True Cyan & #a9aeb2 Metallic Silver)
   const [brandName, setBrandName] = useState('Copper Giant');
   const [brandLogo, setBrandLogo] = useState('/logo.png');
-  const [primaryColor, setPrimaryColor] = useState('#00dfdf');
+  const [primaryColor, setPrimaryColor] = useState('#D97736');
   const [accentPurple, setAccentPurple] = useState('#a9aeb2');
 
   useEffect(() => {
@@ -431,7 +431,7 @@ export default function Home() {
                         title="Exportar Contactos a CSV"
                         className="px-3 py-1.5 rounded-full bg-slate-900/90 border border-white/10 text-slate-300 text-xs font-black flex items-center gap-1.5 hover:bg-slate-800 hover:text-white transition-all shadow-md cursor-pointer"
                       >
-                        <Download className="w-3.5 h-3.5 text-cyan-400" />
+                        <Download className="w-3.5 h-3.5 text-[#D97736]" />
                         <span className="hidden sm:inline">Exportar CSV</span>
                       </button>
                       <button

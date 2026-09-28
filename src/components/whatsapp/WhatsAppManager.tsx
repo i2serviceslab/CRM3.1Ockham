@@ -428,7 +428,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
               <span>Anti-Ban Engine Active</span>
             </span>
             <span className="px-2.5 py-0.5 rounded-full bg-white/5 text-[10px] font-mono text-slate-300 border border-white/10 flex items-center gap-1">
-              <Zap className="w-3 h-3 text-cyan-400" />
+              <Zap className="w-3 h-3 text-[#D97736]" />
               <span>NLP ES / EN Active</span>
             </span>
             <span className="px-2.5 py-0.5 rounded-full bg-white/5 text-[10px] font-mono text-slate-300 border border-white/10 flex items-center gap-1">
@@ -504,8 +504,8 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
             </div>
           ) : session.status === 'CONNECTING' ? (
             <div className="py-8 space-y-3">
-              <RefreshCw className="w-10 h-10 text-cyan-400 animate-spin mx-auto" />
-              <p className="text-xs text-cyan-400 font-bold tracking-wide">
+              <RefreshCw className="w-10 h-10 text-[#D97736] animate-spin mx-auto" />
+              <p className="text-xs text-[#D97736] font-bold tracking-wide">
                 Conectando con servidores centrales de WhatsApp...
               </p>
               <p className="text-[11px] text-slate-400">
@@ -675,7 +675,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
 
                     {/* PROMINENT CONTACT PROFILE NAME DISPLAY */}
                     <div className="flex items-center gap-2 pt-1">
-                      <div className="w-7 h-7 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs border border-cyan-500/30">
+                      <div className="w-7 h-7 rounded-full bg-cyan-500/20 text-[#D97736] flex items-center justify-center font-bold text-xs border border-cyan-500/30">
                         <User className="w-4 h-4" />
                       </div>
                       <div>
@@ -698,7 +698,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
                 <div className="space-y-3 pt-2 border-t border-white/5">
                   <div>
                     <label className="block text-[10px] font-black text-slate-300 uppercase mb-1 flex items-center gap-1">
-                      <Edit3 className="w-3 h-3 text-cyan-400" />
+                      <Edit3 className="w-3 h-3 text-[#D97736]" />
                       <span>Authorized Admin Name in Whitelist:</span>
                     </label>
                     <input
