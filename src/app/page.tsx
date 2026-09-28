@@ -22,11 +22,9 @@ import { RoadshowManager } from '@/components/roadshows/RoadshowManager';
 import { SocialCalendarManager } from '@/components/social/SocialCalendarManager';
 import SuperAdminDashboard from '@/components/admin/SuperAdminDashboard';
 import WhatsAppOtpLogin from '@/components/auth/WhatsAppOtpLogin';
-import TenantSetupWizard from '@/components/onboarding/TenantSetupWizard';
 import RealWebRtcRoom from '@/components/video/RealWebRtcRoom';
 import UserRoleManager from '@/components/users/UserRoleManager';
 import BackupManager from '@/components/admin/BackupManager';
-import MasterSuperAdminConsole from '@/components/admin/MasterSuperAdminConsole';
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import { ImportCSVModal } from '@/components/contacts/ImportCSVModal';
 import { FinancialTickerWidget } from '@/components/analytics/FinancialTickerWidget';
@@ -297,25 +295,6 @@ export default function Home() {
     window.location.href = '/';
   };
 
-  // 1. STANDALONE MASTER SUPER ADMIN CONSOLE — only for SUPER_ADMIN role
-  if (viewMode === 'SUPER_ADMIN_CONSOLE' && user?.role === 'SUPER_ADMIN') {
-    return (
-      <MasterSuperAdminConsole
-        onLaunchReplica={(t) => {
-          setSelectedTenant(t);
-          setBrandName(t.name);
-          setViewMode('TENANT_CRM');
-          try {
-            localStorage.setItem('crm_view_mode', 'TENANT_CRM');
-            localStorage.setItem('crm_selected_tenant', JSON.stringify(t));
-          } catch (e) {}
-        }}
-        onLogout={handleLogout}
-      />
-    );
-  }
-
-  // Safety: if somehow a non-SUPER_ADMIN ends up in SUPER_ADMIN_CONSOLE mode, redirect to CRM
   if (viewMode === 'SUPER_ADMIN_CONSOLE' && user?.role !== 'SUPER_ADMIN') {
     setViewMode('TENANT_CRM');
   }
@@ -1036,17 +1015,6 @@ export default function Home() {
           onCancel={() => setShowOtpLoginModal(false)}
         />
       )}
-
-      {showSetupWizard && selectedTenant && (
-        <TenantSetupWizard
-          tenant={selectedTenant}
-          onComplete={() => {
-            setShowSetupWizard(false);
-            setSelectedTenant({ ...selectedTenant, status: 'ACTIVE' });
-          }}
-        />
-      )}
-
       {/* Interactive Floating 360° Dossier */}
       {selectedContact360 && (
         <ErrorBoundary>
