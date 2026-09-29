@@ -131,10 +131,10 @@ export default function Home() {
   const [showAgendaModal, setShowAgendaModal] = useState(false);
   const [icalUrl, setIcalUrl] = useState('');
 
-  // Branding Customization state with Official Outcrop Web Palette default (#D97736 True Cyan & #a9aeb2 Metallic Silver)
+  // Branding Customization state with Official Outcrop Web Palette default (#FF002C True Cyan & #a9aeb2 Metallic Silver)
   const [brandName, setBrandName] = useState('Copper Giant');
   const [brandLogo, setBrandLogo] = useState('/logo.webp');
-  const [primaryColor, setPrimaryColor] = useState('#D97736');
+  const [primaryColor, setPrimaryColor] = useState('#FF002C');
   const [accentPurple, setAccentPurple] = useState('#a9aeb2');
 
   useEffect(() => {
@@ -431,7 +431,7 @@ export default function Home() {
                         title="Exportar Contactos a CSV"
                         className="px-3 py-1.5 rounded-full bg-slate-900/90 border border-white/10 text-slate-300 text-xs font-black flex items-center gap-1.5 hover:bg-slate-800 hover:text-white transition-all shadow-md cursor-pointer"
                       >
-                        <Download className="w-3.5 h-3.5 text-[#D97736]" />
+                        <Download className="w-3.5 h-3.5 text-[#FF002C]" />
                         <span className="hidden sm:inline">Exportar CSV</span>
                       </button>
                       <button
@@ -661,7 +661,7 @@ export default function Home() {
                                   </div>
                                   <div className="flex items-center gap-1 shrink-0">
                                     <span className="w-2 h-2 rounded-full bg-rose-500" />
-                                    <span className="w-2 h-2 rounded-full bg-orange-500" />
+                                    <span className="w-2 h-2 rounded-full bg-red-500" />
                                     <span className="w-2 h-2 rounded-full bg-amber-400" />
                                     <span className="w-2 h-2 rounded-full bg-emerald-400" />
                                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--primary-color)' }} />

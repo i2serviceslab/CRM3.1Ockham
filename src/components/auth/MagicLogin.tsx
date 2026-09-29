@@ -128,19 +128,19 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
   return (
     <div className="min-h-screen bg-[#07080c] flex items-center justify-center p-4 relative overflow-hidden font-['Urbanist'] select-none">
       {/* Background Obsidian Glow Grid */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-950/30 via-[#07080c] to-[#07080c] pointer-events-none" />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-orange-500/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-950/30 via-[#07080c] to-[#07080c] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-red-500/10 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Main Glassmorphism Card */}
       <div className="w-full max-w-md bg-[#0c0e17]/90 border border-white/10 backdrop-blur-2xl rounded-sm p-8 sm:p-10 shadow-2xl shadow-black relative z-10 space-y-7">
         
         {/* Bespoke Geometric COPPER GIANT Emblem */}
         <div className="text-center space-y-3">
-          <img src="/logo.webp" alt="Copper Giant" className="h-12 w-auto mx-auto object-contain brightness-0 invert" />
+          
           <div>
             <h1 className="text-2xl font-black text-white tracking-widest uppercase flex items-center justify-center gap-2">
               <span>COPPER GIANT</span>
-              <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-orange-500/10 text-[#D97736] border border-orange-500/30 tracking-normal">
+              <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-red-500/10 text-[#FF002C] border border-red-500/30 tracking-normal">
                 v2.1
               </span>
             </h1>
@@ -157,7 +157,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
             onClick={() => { setAuthMethod('WHATSAPP'); setError(null); }}
             className={`flex-1 py-2.5 rounded-sm text-xs font-black transition-all flex items-center justify-center gap-2 ${
               authMethod === 'WHATSAPP'
-                ? 'bg-[#D97736] text-slate-950 shadow-lg shadow-orange-500/20'
+                ? 'bg-[#FF002C] text-slate-950 shadow-lg shadow-red-500/20'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -170,7 +170,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
             onClick={() => { setAuthMethod('EMAIL'); setError(null); }}
             className={`flex-1 py-2.5 rounded-sm text-xs font-black transition-all flex items-center justify-center gap-2 ${
               authMethod === 'EMAIL'
-                ? 'bg-[#D97736] text-slate-950 shadow-lg shadow-orange-500/20'
+                ? 'bg-[#FF002C] text-slate-950 shadow-lg shadow-red-500/20'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -203,7 +203,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+57 300 000 0000"
-                    className="w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-white/10 rounded-sm text-xs font-mono text-white placeholder-slate-600 focus:outline-none focus:border-orange-400 transition-all"
+                    className="w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-white/10 rounded-sm text-xs font-mono text-white placeholder-slate-600 focus:outline-none focus:border-red-400 transition-all"
                   />
                 </div>
                 <p className="text-[11px] text-slate-400 leading-relaxed">
@@ -214,7 +214,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-sm bg-[#D97736] hover:brightness-110 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 transition-all transform active:scale-95"
+                className="w-full py-3.5 rounded-sm bg-[#FF002C] hover:brightness-110 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-red-500/20 flex items-center justify-center gap-2 transition-all transform active:scale-95"
               >
                 {loading ? 'Enviando Código...' : 'Enviar Clave por WhatsApp'}
                 <ArrowRight className="w-4 h-4" />
@@ -223,8 +223,8 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
           ) : (
             <form onSubmit={handleWhatsAppVerify} className="space-y-5">
               {previewCode && (
-                <div className="p-3.5 rounded-sm bg-orange-500/10 border border-orange-500/30 text-center space-y-1">
-                  <div className="flex items-center justify-center gap-1.5 text-[#D97736] text-xs font-bold">
+                <div className="p-3.5 rounded-sm bg-red-500/10 border border-red-500/30 text-center space-y-1">
+                  <div className="flex items-center justify-center gap-1.5 text-[#FF002C] text-xs font-bold">
                     <CheckCircle2 className="w-4 h-4" />
                     <span>Código enviado a tu WhatsApp</span>
                   </div>
@@ -239,7 +239,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
                   <button
                     type="button"
                     onClick={() => setWhatsappStep('PHONE')}
-                    className="text-[11px] text-[#D97736] hover:underline font-bold"
+                    className="text-[11px] text-[#FF002C] hover:underline font-bold"
                   >
                     Cambiar número
                   </button>
@@ -251,14 +251,14 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
                   value={whatsappCode}
                   onChange={(e) => setWhatsappCode(e.target.value)}
                   placeholder="123456"
-                  className="w-full py-3.5 text-center tracking-[0.5em] text-2xl font-mono font-black rounded-sm bg-slate-950 border border-white/10 text-[#D97736] focus:outline-none focus:border-orange-400"
+                  className="w-full py-3.5 text-center tracking-[0.5em] text-2xl font-mono font-black rounded-sm bg-slate-950 border border-white/10 text-[#FF002C] focus:outline-none focus:border-red-400"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-sm bg-[#D97736] hover:brightness-110 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 transition-all transform active:scale-95"
+                className="w-full py-3.5 rounded-sm bg-[#FF002C] hover:brightness-110 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-red-500/20 flex items-center justify-center gap-2 transition-all transform active:scale-95"
               >
                 {loading ? 'Verificando...' : 'Verificar e Ingresar a The Core'}
                 <ShieldCheck className="w-4 h-4" />
@@ -283,7 +283,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="usuario@empresa.com"
-                    className="w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-white/10 rounded-sm text-xs text-white placeholder-slate-600 focus:outline-none focus:border-orange-400 transition-all"
+                    className="w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-white/10 rounded-sm text-xs text-white placeholder-slate-600 focus:outline-none focus:border-red-400 transition-all"
                   />
                 </div>
               </div>
@@ -291,7 +291,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-sm bg-[#D97736] hover:brightness-110 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 transition-all transform active:scale-95"
+                className="w-full py-3.5 rounded-sm bg-[#FF002C] hover:brightness-110 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-red-500/20 flex items-center justify-center gap-2 transition-all transform active:scale-95"
               >
                 {loading ? 'Generando PIN...' : 'Enviar Código Magic PIN'}
                 <ArrowRight className="w-4 h-4" />
@@ -300,22 +300,22 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
           ) : (
             <form onSubmit={handleEmailVerify} className="space-y-5">
               {previewCode ? (
-                <div className="p-3.5 rounded-sm bg-orange-500/10 border border-orange-500/30 text-center space-y-1.5 animate-fadeIn">
-                  <div className="flex items-center justify-center gap-1.5 text-[#D97736] text-xs font-bold">
+                <div className="p-3.5 rounded-sm bg-red-500/10 border border-red-500/30 text-center space-y-1.5 animate-fadeIn">
+                  <div className="flex items-center justify-center gap-1.5 text-[#FF002C] text-xs font-bold">
                     <CheckCircle2 className="w-4 h-4" />
                     <span>PIN de acceso generado: <strong className="font-mono text-white tracking-widest text-sm">{previewCode}</strong></span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setEmailCode(previewCode)}
-                    className="text-[11px] text-orange-300 hover:text-white font-black underline cursor-pointer"
+                    className="text-[11px] text-red-300 hover:text-white font-black underline cursor-pointer"
                   >
                     Auto-completar PIN ({previewCode})
                   </button>
                 </div>
               ) : (
-                <div className="p-3.5 rounded-sm bg-orange-500/10 border border-orange-500/30 text-center space-y-1">
-                  <div className="flex items-center justify-center gap-1.5 text-[#D97736] text-xs font-bold">
+                <div className="p-3.5 rounded-sm bg-red-500/10 border border-red-500/30 text-center space-y-1">
+                  <div className="flex items-center justify-center gap-1.5 text-[#FF002C] text-xs font-bold">
                     <CheckCircle2 className="w-4 h-4" />
                     <span>Código enviado a tu correo corporativo</span>
                   </div>
@@ -330,7 +330,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
                   <button
                     type="button"
                     onClick={() => setEmailStep('EMAIL')}
-                    className="text-[11px] text-[#D97736] hover:underline font-bold"
+                    className="text-[11px] text-[#FF002C] hover:underline font-bold"
                   >
                     Cambiar correo
                   </button>
@@ -342,14 +342,14 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
                   value={emailCode}
                   onChange={(e) => setEmailCode(e.target.value)}
                   placeholder="000000"
-                  className="w-full py-3.5 text-center tracking-[0.5em] text-2xl font-mono font-black rounded-sm bg-slate-950 border border-white/10 text-[#D97736] focus:outline-none focus:border-orange-400"
+                  className="w-full py-3.5 text-center tracking-[0.5em] text-2xl font-mono font-black rounded-sm bg-slate-950 border border-white/10 text-[#FF002C] focus:outline-none focus:border-red-400"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-sm bg-[#D97736] hover:brightness-110 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 transition-all transform active:scale-95"
+                className="w-full py-3.5 rounded-sm bg-[#FF002C] hover:brightness-110 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-red-500/20 flex items-center justify-center gap-2 transition-all transform active:scale-95"
               >
                 {loading ? 'Verificando...' : 'Verificar e Ingresar a The Core'}
                 <ShieldCheck className="w-4 h-4" />
@@ -360,7 +360,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
 
         {/* Footer Security Badge */}
         <div className="pt-2 border-t border-white/5 text-center flex items-center justify-center gap-2 text-[10px] text-slate-500 font-bold">
-          <Fingerprint className="w-3.5 h-3.5 text-orange-500" />
+          <Fingerprint className="w-3.5 h-3.5 text-red-500" />
           <span>Protegido con Encriptación Enterprise COPPER GIANT Security</span>
         </div>
       </div>

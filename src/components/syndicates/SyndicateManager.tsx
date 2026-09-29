@@ -118,7 +118,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="text-base font-black text-white">{syn.name}</h3>
-                    <span className="text-[10px] text-[#D97736] font-bold uppercase tracking-wider">
+                    <span className="text-[10px] text-[#FF002C] font-bold uppercase tracking-wider">
                       Objetivo: {syn.targetFocus}
                     </span>
                   </div>
@@ -146,7 +146,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
                   </div>
 
                   <div className="p-3 rounded-sm bg-slate-950 border border-white/10 flex items-center gap-3">
-                    <Shield className="w-4 h-4 text-[#D97736] shrink-0" />
+                    <Shield className="w-4 h-4 text-[#FF002C] shrink-0" />
                     <div>
                       <div className="text-[10px] text-slate-400 font-bold uppercase">Miembros Activos</div>
                       <div className="text-sm font-black text-white">{syn.members.length} Inversionistas</div>
@@ -159,7 +159,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
               <div className="space-y-2 pt-3 border-t border-white/5">
                 <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-between">
                   <span>Miembros Integrantes del Sindicato</span>
-                  <span className="text-[#D97736] font-mono">Consorcio Activo</span>
+                  <span className="text-[#FF002C] font-mono">Consorcio Activo</span>
                 </div>
 
                 <div className="space-y-2">
@@ -169,7 +169,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
                       className="p-2.5 rounded-sm bg-slate-950 border border-white/5 flex items-center justify-between hover:border-white/20 transition-all"
                     >
                       <div className="flex items-center gap-2.5">
-                        <UserCheck className="w-3.5 h-3.5 text-[#D97736] shrink-0" />
+                        <UserCheck className="w-3.5 h-3.5 text-[#FF002C] shrink-0" />
                         <div>
                           <span className="text-xs font-black text-white">{m.name}</span>
                           <span className="text-[10px] text-slate-400 ml-2 font-medium">({m.company || 'Inversor'})</span>
@@ -178,7 +178,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
 
                       <button
                         onClick={() => onOpen360(m)}
-                        className="text-[10px] text-[#D97736] hover:underline font-extrabold flex items-center gap-1 cursor-pointer"
+                        className="text-[10px] text-[#FF002C] hover:underline font-extrabold flex items-center gap-1 cursor-pointer"
                       >
                         <span>Ficha 360°</span>
                         <ArrowRight className="w-3 h-3" />
@@ -198,7 +198,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
           <div className="w-full max-w-md bg-[#0c0e17] border border-white/10 rounded-sm p-6 shadow-2xl space-y-4 font-['Urbanist']">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="text-sm font-black text-white flex items-center gap-2 uppercase tracking-tight">
-                <Users className="w-4 h-4 text-[#D97736]" />
+                <Users className="w-4 h-4 text-[#FF002C]" />
                 <span>Crear Sindicato / Pool de Inversionistas</span>
               </h3>
               <button
@@ -220,7 +220,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
                   placeholder="Ej: Consorcio Plata Santa Ana Q3"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-orange-400"
+                  className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-red-400"
                 />
               </div>
 
@@ -233,7 +233,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
                   placeholder="Ej: Perforación de pozos profundos y ley de plata"
                   value={targetFocus}
                   onChange={(e) => setTargetFocus(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-orange-400"
+                  className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-red-400"
                 />
               </div>
 
@@ -246,7 +246,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
                   placeholder="Detalles de los objetivos de coinversión..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full p-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-orange-400"
+                  className="w-full p-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-red-400"
                 />
               </div>
 
@@ -269,7 +269,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
                         }}
                         className={`p-2.5 rounded-sm border text-xs flex items-center justify-between cursor-pointer transition-all ${
                           isSelected
-                            ? 'bg-orange-500/20 border-orange-400 text-white'
+                            ? 'bg-red-500/20 border-red-400 text-white'
                             : 'bg-slate-950 border-white/5 text-slate-400 hover:text-white'
                         }`}
                       >
@@ -291,7 +291,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-sm bg-[#D97736] text-slate-950 font-black text-xs uppercase tracking-wider hover:brightness-110 cursor-pointer shadow-lg"
+                  className="px-5 py-2.5 rounded-sm bg-[#FF002C] text-slate-950 font-black text-xs uppercase tracking-wider hover:brightness-110 cursor-pointer shadow-lg"
                 >
                   Crear Consorcio
                 </button>

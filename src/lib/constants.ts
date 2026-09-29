@@ -72,7 +72,7 @@ export const FOLLOW_UP_STAGES = [
 
 export const STAGE_COLORS: Record<string, string> = {
   "Interested - early": "bg-lime-500/20 text-lime-400 border-lime-500/30",
-  "Interested - considering": "bg-orange-500/20 text-orange-300 border-orange-500/30",
+  "Interested - considering": "bg-red-500/20 text-red-300 border-red-500/30",
   "Interested - committed": "bg-purple-500/20 text-purple-300 border-purple-500/30",
   "Interested - shareholder": "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
   "Former shareholder": "bg-amber-500/20 text-amber-300 border-amber-500/30",
@@ -83,7 +83,7 @@ export const STAGE_COLORS: Record<string, string> = {
 
 export const INVESTOR_TYPE_COLORS: Record<string, string> = {
   "Retail investor": "bg-zinc-800 text-zinc-300",
-  "Retail broker": "bg-orange-500/20 text-orange-300",
+  "Retail broker": "bg-red-500/20 text-red-300",
   "Retail VIP": "bg-amber-500/20 text-amber-300 font-bold",
   "HNW investor": "bg-lime-500/20 text-lime-300 font-bold",
   "Family office": "bg-purple-500/20 text-purple-300 font-bold",

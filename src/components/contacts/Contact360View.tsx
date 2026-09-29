@@ -439,7 +439,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                 <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Rating</span>
                 <div className="flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-rose-500" />
-                  <span className="w-2 h-2 rounded-full bg-orange-500" />
+                  <span className="w-2 h-2 rounded-full bg-red-500" />
                   <span className="w-2 h-2 rounded-full bg-amber-400" />
                   <span className="w-2 h-2 rounded-full bg-emerald-400" />
                   <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--primary-color)' }} />
@@ -855,7 +855,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
             {activeTab === 'Documents' && (
               <div className="space-y-4 animate-fadeIn">
                 <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                  <span className="text-[10px] font-black text-[#D97736] uppercase tracking-widest block">
+                  <span className="text-[10px] font-black text-[#FF002C] uppercase tracking-widest block">
                     📄 RASTREABILIDAD DE REPORTES TÉCNICOS & ENSAYOS SANTA ANA
                   </span>
                   <span className="text-[10px] text-slate-400 font-bold">Proyecto Santa Ana - Leyes de Plata</span>
@@ -899,7 +899,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                       className="p-3.5 rounded-sm border border-white/10 flex items-center justify-between gap-3"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-sm bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-[#D97736] shrink-0">
+                        <div className="w-9 h-9 rounded-sm bg-red-500/10 border border-red-500/30 flex items-center justify-center text-[#FF002C] shrink-0">
                           <FileText className="w-4 h-4" />
                         </div>
                         <div>
@@ -919,7 +919,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                               ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
                               : doc.status === 'Solicitado por Inversionista'
                               ? 'bg-amber-500/20 text-amber-400 border-amber-500/30'
-                              : 'bg-orange-500/20 text-[#D97736] border-orange-500/30'
+                              : 'bg-red-500/20 text-[#FF002C] border-red-500/30'
                           }`}
                         >
                           {doc.status}
@@ -938,7 +938,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                             }).catch(() => {});
                             alert(`Envío de "${doc.title}" registrado en la cronología de ${contact.name}.`);
                           }}
-                          className="px-3 py-1.5 rounded-full bg-slate-900 text-[#D97736] border border-orange-500/30 hover:bg-orange-500 hover:text-black font-black text-[10px] uppercase transition-all cursor-pointer"
+                          className="px-3 py-1.5 rounded-full bg-slate-900 text-[#FF002C] border border-red-500/30 hover:bg-red-500 hover:text-black font-black text-[10px] uppercase transition-all cursor-pointer"
                         >
                           Registrar Envío
                         </button>

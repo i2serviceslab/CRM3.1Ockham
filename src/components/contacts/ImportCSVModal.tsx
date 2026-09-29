@@ -134,12 +134,12 @@ export const ImportCSVModal: React.FC<ImportCSVModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/10 pb-4 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-sm bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-[#D97736]">
+            <div className="w-10 h-10 rounded-sm bg-red-500/10 border border-red-500/30 flex items-center justify-center text-[#FF002C]">
               <Upload className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-black text-white">Importar Contactos (CSV)</h2>
-              <p className="text-xs text-slate-400">Carga masiva a la empresa CRM: <strong className="text-[#D97736]">{tenantName}</strong></p>
+              <p className="text-xs text-slate-400">Carga masiva a la empresa CRM: <strong className="text-[#FF002C]">{tenantName}</strong></p>
             </div>
           </div>
           <button
@@ -163,7 +163,7 @@ export const ImportCSVModal: React.FC<ImportCSVModalProps> = ({
             </div>
             <button
               onClick={downloadSampleCSV}
-              className="px-3 py-1.5 rounded-sm bg-slate-800 hover:bg-slate-700 text-[#D97736] text-xs font-black flex items-center gap-1.5 transition-all shrink-0 border border-orange-500/20"
+              className="px-3 py-1.5 rounded-sm bg-slate-800 hover:bg-slate-700 text-[#FF002C] text-xs font-black flex items-center gap-1.5 transition-all shrink-0 border border-red-500/20"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Plantilla CSV</span>
@@ -172,7 +172,7 @@ export const ImportCSVModal: React.FC<ImportCSVModalProps> = ({
 
           {/* Upload Drop Zone */}
           {!resultStats && (
-            <div className="relative border-2 border-dashed border-white/10 hover:border-orange-500/50 rounded-sm p-8 text-center bg-slate-900/40 transition-colors">
+            <div className="relative border-2 border-dashed border-white/10 hover:border-red-500/50 rounded-sm p-8 text-center bg-slate-900/40 transition-colors">
               <input
                 type="file"
                 accept=".csv"
@@ -206,7 +206,7 @@ export const ImportCSVModal: React.FC<ImportCSVModalProps> = ({
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-black text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                  <Users className="w-4 h-4 text-[#D97736]" />
+                  <Users className="w-4 h-4 text-[#FF002C]" />
                   Vista Previa ({parsedContacts.length} contactos detectados)
                 </span>
               </div>
@@ -247,8 +247,8 @@ export const ImportCSVModal: React.FC<ImportCSVModalProps> = ({
 
           {/* Success Stats Results */}
           {resultStats && (
-            <div className="p-6 rounded-sm bg-orange-500/10 border border-orange-500/30 text-center space-y-4 animate-fadeIn">
-              <div className="w-12 h-12 rounded-full bg-orange-400/20 text-[#D97736] mx-auto flex items-center justify-center">
+            <div className="p-6 rounded-sm bg-red-500/10 border border-red-500/30 text-center space-y-4 animate-fadeIn">
+              <div className="w-12 h-12 rounded-full bg-red-400/20 text-[#FF002C] mx-auto flex items-center justify-center">
                 <CheckCircle2 className="w-7 h-7" />
               </div>
               <div>
@@ -259,7 +259,7 @@ export const ImportCSVModal: React.FC<ImportCSVModalProps> = ({
               <div className="grid grid-cols-3 gap-3 pt-2">
                 <div className="p-3 rounded-sm bg-slate-900/80 border border-white/5">
                   <span className="text-[10px] text-slate-400 font-bold block uppercase">Creados</span>
-                  <span className="text-xl font-black text-[#D97736] font-mono">{resultStats.countCreated}</span>
+                  <span className="text-xl font-black text-[#FF002C] font-mono">{resultStats.countCreated}</span>
                 </div>
                 <div className="p-3 rounded-sm bg-slate-900/80 border border-white/5">
                   <span className="text-[10px] text-slate-400 font-bold block uppercase">Actualizados</span>
@@ -287,7 +287,7 @@ export const ImportCSVModal: React.FC<ImportCSVModalProps> = ({
             <button
               onClick={handleSubmitImport}
               disabled={loading}
-              className="px-6 py-2.5 rounded-sm bg-orange-400 hover:bg-orange-300 text-slate-950 font-black text-xs transition-all shadow-lg flex items-center gap-2 disabled:opacity-50"
+              className="px-6 py-2.5 rounded-sm bg-red-400 hover:bg-red-300 text-slate-950 font-black text-xs transition-all shadow-lg flex items-center gap-2 disabled:opacity-50"
             >
               {loading ? (
                 <span>Procesando...</span>

@@ -175,7 +175,7 @@ export const ThemeCustomizer: React.FC<ThemeCustomizerProps> = ({
           }`}
           style={{ borderColor: activeTab === 'typography' ? 'var(--primary-color)' : undefined }}
         >
-          <Type className="w-4 h-4 text-[#D97736]" />
+          <Type className="w-4 h-4 text-[#FF002C]" />
           <span>Tipografía & Fuentes Globales</span>
         </button>
 
@@ -352,7 +352,7 @@ export const ThemeCustomizer: React.FC<ThemeCustomizerProps> = ({
         <div className="space-y-8 animate-fadeIn">
           <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-8 rounded-sm border border-white/10 space-y-6">
             <h2 className="text-lg font-black text-white flex items-center gap-2">
-              <Type className="w-5 h-5 text-[#D97736]" />
+              <Type className="w-5 h-5 text-[#FF002C]" />
               <span>Selección de Tipografía Corporativa Global</span>
             </h2>
 
@@ -364,7 +364,7 @@ export const ThemeCustomizer: React.FC<ThemeCustomizerProps> = ({
                 <select
                   value={themeConfig.fontFamily}
                   onChange={(e) => updateConfigField('fontFamily', e.target.value)}
-                  className="w-full px-4 py-3 rounded-sm bg-slate-950 text-xs font-bold text-white border border-white/10 focus:outline-none focus:border-orange-400 cursor-pointer"
+                  className="w-full px-4 py-3 rounded-sm bg-slate-950 text-xs font-bold text-white border border-white/10 focus:outline-none focus:border-red-400 cursor-pointer"
                 >
                   <option value="'Urbanist', sans-serif">Urbanist (Moderna, Geométrica)</option>
                   <option value="'Plus Jakarta Sans', sans-serif">Plus Jakarta Sans (SaaS Ejecutivo)</option>
@@ -382,7 +382,7 @@ export const ThemeCustomizer: React.FC<ThemeCustomizerProps> = ({
                 <select
                   value={themeConfig.monoFontFamily}
                   onChange={(e) => updateConfigField('monoFontFamily', e.target.value)}
-                  className="w-full px-4 py-3 rounded-sm bg-slate-950 text-xs font-bold text-white border border-white/10 focus:outline-none focus:border-orange-400 cursor-pointer"
+                  className="w-full px-4 py-3 rounded-sm bg-slate-950 text-xs font-bold text-white border border-white/10 focus:outline-none focus:border-red-400 cursor-pointer"
                 >
                   <option value="'JetBrains Mono', monospace">JetBrains Mono (Recomendada)</option>
                   <option value="'Fira Code', monospace">Fira Code</option>
@@ -403,7 +403,7 @@ export const ThemeCustomizer: React.FC<ThemeCustomizerProps> = ({
                 Este texto utiliza la fuente seleccionada en tiempo real. Todas las vistas, formularios y títulos responderán inmediatamente.
               </p>
               <div className="flex items-center gap-3 pt-2">
-                <span className="px-3 py-1 rounded-full bg-orange-500/20 text-[#D97736] font-mono text-xs font-bold">
+                <span className="px-3 py-1 rounded-full bg-red-500/20 text-[#FF002C] font-mono text-xs font-bold">
                   85/100 LEAD SCORE
                 </span>
                 <span className="text-xs font-mono text-slate-400">$2,450,000 USD PRESUPUESTO</span>

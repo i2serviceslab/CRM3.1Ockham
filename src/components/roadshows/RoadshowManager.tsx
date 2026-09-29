@@ -158,7 +158,7 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
               <div>
                 <h3 className="text-lg font-black text-white">{event.summitName}</h3>
                 <div className="flex items-center gap-3 text-xs text-slate-400 font-bold mt-1">
-                  <span className="flex items-center gap-1 text-[#D97736]">
+                  <span className="flex items-center gap-1 text-[#FF002C]">
                     <MapPin className="w-3.5 h-3.5" />
                     {event.city}, {event.country}
                   </span>
@@ -175,7 +175,7 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
             {/* Meetings Table */}
             <div>
               <h4 className="text-xs font-black text-slate-300 uppercase tracking-wider mb-3 flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#D97736]" />
+                <Clock className="w-4 h-4 text-[#FF002C]" />
                 <span>Itinerario de Reuniones 1 a 1 Programadas ({event.meetings.length})</span>
               </h4>
 
@@ -186,7 +186,7 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
                     className="p-4 rounded-sm bg-slate-950 border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-white/20 transition-all"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="px-3 py-1.5 rounded-sm bg-orange-500/10 text-[#D97736] border border-orange-500/30 text-xs font-mono font-black shrink-0">
+                      <div className="px-3 py-1.5 rounded-sm bg-red-500/10 text-[#FF002C] border border-red-500/30 text-xs font-mono font-black shrink-0">
                         {meeting.time}
                       </div>
                       <div>
@@ -201,7 +201,7 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
                           meeting.status === 'Completada'
                             ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
                             : meeting.status === 'Seguimiento Enviado'
-                            ? 'bg-orange-500/20 text-[#D97736] border-orange-500/30'
+                            ? 'bg-red-500/20 text-[#FF002C] border-red-500/30'
                             : 'bg-amber-500/20 text-amber-400 border-amber-500/30'
                         }`}
                       >
@@ -222,7 +222,7 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
           <div className="w-full max-w-md bg-[#0c0e17] border border-white/10 rounded-sm p-6 shadow-2xl space-y-4 font-['Urbanist']">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="text-sm font-black text-white flex items-center gap-2 uppercase tracking-tight">
-                <Calendar className="w-4 h-4 text-[#D97736]" />
+                <Calendar className="w-4 h-4 text-[#FF002C]" />
                 <span>Registrar Cumbre Minera / Roadshow</span>
               </h3>
               <button
@@ -244,7 +244,7 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
                   placeholder="Ej: PDAC 2026 Toronto"
                   value={summitName}
                   onChange={(e) => setSummitName(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-orange-400"
+                  className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-red-400"
                 />
               </div>
 
@@ -259,7 +259,7 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
                     placeholder="Ej: Toronto"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-orange-400"
+                    className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-red-400"
                   />
                 </div>
 
@@ -273,7 +273,7 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
                     placeholder="Ej: Canadá"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-orange-400"
+                    className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-red-400"
                   />
                 </div>
               </div>
@@ -287,7 +287,7 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
                   placeholder="Ej: 01 - 04 de Marzo, 2026"
                   value={dates}
                   onChange={(e) => setDates(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-orange-400"
+                  className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-red-400"
                 />
               </div>
 
@@ -300,7 +300,7 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
                   placeholder="Ej: Stand #2408 Metro Toronto Convention Centre"
                   value={boothNumber}
                   onChange={(e) => setBoothNumber(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-orange-400"
+                  className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-red-400"
                 />
               </div>
 
@@ -314,7 +314,7 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-sm bg-[#D97736] text-slate-950 font-black text-xs uppercase tracking-wider hover:brightness-110 cursor-pointer shadow-lg"
+                  className="px-5 py-2.5 rounded-sm bg-[#FF002C] text-slate-950 font-black text-xs uppercase tracking-wider hover:brightness-110 cursor-pointer shadow-lg"
                 >
                   Registrar Cumbre
                 </button>

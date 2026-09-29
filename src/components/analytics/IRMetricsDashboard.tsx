@@ -230,8 +230,8 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
             onClick={() => setIsEditing(!isEditing)}
             style={
               isEditing
-                ? { backgroundColor: '#D97736', color: '#000000' }
-                : { backgroundColor: '#D9773622', color: '#D97736', borderColor: '#D9773688' }
+                ? { backgroundColor: '#FF002C', color: '#000000' }
+                : { backgroundColor: '#FF002C22', color: '#FF002C', borderColor: '#FF002C88' }
             }
             className="px-4 py-2 rounded-full text-xs font-black transition-all flex items-center gap-2 border hover:scale-105 cursor-pointer shadow-xl"
           >
@@ -262,10 +262,10 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
 
       {/* Dashboard Customizer Control Panel */}
       {isEditing && (
-        <div className="p-5 rounded-sm bg-slate-900/90 border border-orange-500/30 space-y-4 animate-fadeIn shadow-2xl">
+        <div className="p-5 rounded-sm bg-slate-900/90 border border-red-500/30 space-y-4 animate-fadeIn shadow-2xl">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div className="flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-[#D97736]" />
+              <Sliders className="w-4 h-4 text-[#FF002C]" />
               <h3 className="text-sm font-black text-white uppercase tracking-wider">Builder de Panel de Métricas — Modo Edición</h3>
             </div>
             <button
@@ -292,55 +292,55 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
             <button
               onClick={() => handleSaveWidgetConfig({ ...widgetConfig, showKPIs: !widgetConfig.showKPIs })}
               className={`p-3 rounded-sm border text-left flex items-center justify-between transition-all cursor-pointer ${
-                widgetConfig.showKPIs ? 'bg-orange-500/10 border-orange-500/40 text-orange-300' : 'bg-slate-950 border-white/5 text-slate-500'
+                widgetConfig.showKPIs ? 'bg-red-500/10 border-red-500/40 text-red-300' : 'bg-slate-950 border-white/5 text-slate-500'
               }`}
             >
               <span className="text-xs font-black">1. Tarjetas KPI Rápidas</span>
-              {widgetConfig.showKPIs ? <Eye className="w-4 h-4 text-[#D97736]" /> : <EyeOff className="w-4 h-4" />}
+              {widgetConfig.showKPIs ? <Eye className="w-4 h-4 text-[#FF002C]" /> : <EyeOff className="w-4 h-4" />}
             </button>
 
             {/* Toggle 2: Composition */}
             <button
               onClick={() => handleSaveWidgetConfig({ ...widgetConfig, showComposition: !widgetConfig.showComposition })}
               className={`p-3 rounded-sm border text-left flex items-center justify-between transition-all cursor-pointer ${
-                widgetConfig.showComposition ? 'bg-orange-500/10 border-orange-500/40 text-orange-300' : 'bg-slate-950 border-white/5 text-slate-500'
+                widgetConfig.showComposition ? 'bg-red-500/10 border-red-500/40 text-red-300' : 'bg-slate-950 border-white/5 text-slate-500'
               }`}
             >
               <span className="text-xs font-black">2. Composición Red</span>
-              {widgetConfig.showComposition ? <Eye className="w-4 h-4 text-[#D97736]" /> : <EyeOff className="w-4 h-4" />}
+              {widgetConfig.showComposition ? <Eye className="w-4 h-4 text-[#FF002C]" /> : <EyeOff className="w-4 h-4" />}
             </button>
 
             {/* Toggle 3: Geographic */}
             <button
               onClick={() => handleSaveWidgetConfig({ ...widgetConfig, showGeographic: !widgetConfig.showGeographic })}
               className={`p-3 rounded-sm border text-left flex items-center justify-between transition-all cursor-pointer ${
-                widgetConfig.showGeographic ? 'bg-orange-500/10 border-orange-500/40 text-orange-300' : 'bg-slate-950 border-white/5 text-slate-500'
+                widgetConfig.showGeographic ? 'bg-red-500/10 border-red-500/40 text-red-300' : 'bg-slate-950 border-white/5 text-slate-500'
               }`}
             >
               <span className="text-xs font-black">3. Hubs Geográficos</span>
-              {widgetConfig.showGeographic ? <Eye className="w-4 h-4 text-[#D97736]" /> : <EyeOff className="w-4 h-4" />}
+              {widgetConfig.showGeographic ? <Eye className="w-4 h-4 text-[#FF002C]" /> : <EyeOff className="w-4 h-4" />}
             </button>
 
             {/* Toggle 4: Funnel */}
             <button
               onClick={() => handleSaveWidgetConfig({ ...widgetConfig, showFunnel: !widgetConfig.showFunnel })}
               className={`p-3 rounded-sm border text-left flex items-center justify-between transition-all cursor-pointer ${
-                widgetConfig.showFunnel ? 'bg-orange-500/10 border-orange-500/40 text-orange-300' : 'bg-slate-950 border-white/5 text-slate-500'
+                widgetConfig.showFunnel ? 'bg-red-500/10 border-red-500/40 text-red-300' : 'bg-slate-950 border-white/5 text-slate-500'
               }`}
             >
               <span className="text-xs font-black">4. Embudo de Velocidad</span>
-              {widgetConfig.showFunnel ? <Eye className="w-4 h-4 text-[#D97736]" /> : <EyeOff className="w-4 h-4" />}
+              {widgetConfig.showFunnel ? <Eye className="w-4 h-4 text-[#FF002C]" /> : <EyeOff className="w-4 h-4" />}
             </button>
 
             {/* Toggle 5: Top Scorers */}
             <button
               onClick={() => handleSaveWidgetConfig({ ...widgetConfig, showTopScorers: !widgetConfig.showTopScorers })}
               className={`p-3 rounded-sm border text-left flex items-center justify-between transition-all cursor-pointer ${
-                widgetConfig.showTopScorers ? 'bg-orange-500/10 border-orange-500/40 text-orange-300' : 'bg-slate-950 border-white/5 text-slate-500'
+                widgetConfig.showTopScorers ? 'bg-red-500/10 border-red-500/40 text-red-300' : 'bg-slate-950 border-white/5 text-slate-500'
               }`}
             >
               <span className="text-xs font-black">5. Top Inversionistas</span>
-              {widgetConfig.showTopScorers ? <Eye className="w-4 h-4 text-[#D97736]" /> : <EyeOff className="w-4 h-4" />}
+              {widgetConfig.showTopScorers ? <Eye className="w-4 h-4 text-[#FF002C]" /> : <EyeOff className="w-4 h-4" />}
             </button>
           </div>
         </div>

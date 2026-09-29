@@ -188,7 +188,7 @@ export const VoiceNoteRecorder: React.FC<VoiceNoteRecorderProps> = ({ contacts, 
                     `• Tarea de Seguimiento: Despachar informe de ensayos geológicos y agendar videollamada.`;
                   setTranscript(aiTakeaway);
                 }}
-                className="px-3.5 py-1.5 rounded-full bg-orange-500/20 text-[#D97736] border border-orange-500/40 font-black text-xs hover:bg-orange-500 hover:text-black transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
+                className="px-3.5 py-1.5 rounded-full bg-red-500/20 text-[#FF002C] border border-red-500/40 font-black text-xs hover:bg-red-500 hover:text-black transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
               >
                 <Volume2 className="w-3.5 h-3.5" />
                 <span>⚡ Extraer Puntos Clave con IA</span>
@@ -206,7 +206,7 @@ export const VoiceNoteRecorder: React.FC<VoiceNoteRecorderProps> = ({ contacts, 
                 value={transcript}
                 onChange={(e) => setTranscript(e.target.value)}
                 placeholder="Haz clic en 'Extraer Puntos Clave con IA' o escribe los puntos de la llamada..."
-                className="w-full p-3.5 bg-slate-950 border border-white/10 rounded-sm text-xs text-white placeholder-slate-600 focus:outline-none focus:border-orange-400 leading-relaxed font-mono"
+                className="w-full p-3.5 bg-slate-950 border border-white/10 rounded-sm text-xs text-white placeholder-slate-600 focus:outline-none focus:border-red-400 leading-relaxed font-mono"
               />
             </div>
             <button

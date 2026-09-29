@@ -679,23 +679,23 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
             {/* REAL-TIME THINKING & PROCESSING FEEDBACK INDICATOR */}
             {(sending || (messages.length > 0 && messages[messages.length - 1].role === 'user')) && (
               <div className="flex gap-3.5 max-w-4xl mx-auto items-start justify-start animate-fadeIn">
-                <div className="w-8 h-8 rounded-sm bg-orange-500/20 text-[#D97736] border border-orange-500/40 flex items-center justify-center font-bold shrink-0 mt-1 shadow-[0_0_15px_rgba(6,182,212,0.3)] animate-pulse">
-                  <Bot className="w-4 h-4 text-[#D97736]" />
+                <div className="w-8 h-8 rounded-sm bg-red-500/20 text-[#FF002C] border border-red-500/40 flex items-center justify-center font-bold shrink-0 mt-1 shadow-[0_0_15px_rgba(6,182,212,0.3)] animate-pulse">
+                  <Bot className="w-4 h-4 text-[#FF002C]" />
                 </div>
                 <div className="space-y-2 max-w-[85%]">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm text-[11px] font-mono font-bold bg-orange-950/40 border border-orange-500/30 text-orange-300">
-                    <span className="w-2 h-2 rounded-full bg-orange-400 animate-ping inline-block" />
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm text-[11px] font-mono font-bold bg-red-950/40 border border-red-500/30 text-red-300">
+                    <span className="w-2 h-2 rounded-full bg-red-400 animate-ping inline-block" />
                     <span>CopperMind Agent Activo</span>
-                    <span className="text-[10px] text-orange-500">• Mac Mini</span>
+                    <span className="text-[10px] text-red-500">• Mac Mini</span>
                   </div>
 
-                  <div className="p-4 rounded-sm bg-gradient-to-br from-[#1C1B1B] to-[#151515] border border-orange-500/20 shadow-xl space-y-3 relative overflow-hidden">
+                  <div className="p-4 rounded-sm bg-gradient-to-br from-[#1C1B1B] to-[#151515] border border-red-500/20 shadow-xl space-y-3 relative overflow-hidden">
                     {/* Glowing animated line on top border */}
-                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-orange-400 to-transparent animate-pulse" />
+                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-red-400 to-transparent animate-pulse" />
 
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-1.5 py-1">
-                        <span className="w-2 h-2 rounded-full bg-orange-400 animate-bounce [animation-delay:-0.3s]" />
+                        <span className="w-2 h-2 rounded-full bg-red-400 animate-bounce [animation-delay:-0.3s]" />
                         <span className="w-2 h-2 rounded-full bg-teal-400 animate-bounce [animation-delay:-0.15s]" />
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce" />
                       </div>
@@ -705,7 +705,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                     </div>
 
                     <div className="flex items-center gap-2 text-[11px] text-neutral-400 font-mono">
-                      <span className="text-[#D97736]">⚡</span>
+                      <span className="text-[#FF002C]">⚡</span>
                       <span>Consultando herramientas locales, memoria y CRM...</span>
                     </div>
                   </div>

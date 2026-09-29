@@ -112,9 +112,9 @@ export default function BackupManager() {
   return (
     <div className="space-y-6 font-['Urbanist'] animate-fadeIn">
       {/* Header Banner */}
-      <div className="p-6 rounded-sm bg-gradient-to-r from-slate-950 via-slate-900 to-orange-950/40 border border-orange-500/20 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="p-6 rounded-sm bg-gradient-to-r from-slate-950 via-slate-900 to-red-950/40 border border-red-500/20 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-[#D97736]">
+          <div className="flex items-center gap-2 text-[#FF002C]">
             <Database className="w-5 h-5" />
             <span className="text-xs font-black uppercase tracking-wider">Módulo de Respaldos de Base de Datos</span>
           </div>
@@ -129,7 +129,7 @@ export default function BackupManager() {
         <button
           onClick={handleCreateBackup}
           disabled={submitting}
-          className="flex items-center gap-2 px-5 py-3 rounded-sm bg-orange-500 hover:bg-orange-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-500/20 transition-all cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
+          className="flex items-center gap-2 px-5 py-3 rounded-sm bg-red-500 hover:bg-red-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-red-500/20 transition-all cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>{submitting ? 'Guardando...' : 'Crear Copia Manual Ahora'}</span>
@@ -162,7 +162,7 @@ export default function BackupManager() {
         </div>
 
         <div className="p-4 rounded-sm bg-slate-900/80 border border-white/10 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-sm bg-orange-500/20 text-[#D97736] flex items-center justify-center font-black">
+          <div className="w-10 h-10 rounded-sm bg-red-500/20 text-[#FF002C] flex items-center justify-center font-black">
             <Clock className="w-5 h-5" />
           </div>
           <div>
@@ -193,7 +193,7 @@ export default function BackupManager() {
           <p className="text-sm font-bold text-slate-300">No hay copias de seguridad generadas</p>
           <button
             onClick={handleCreateBackup}
-            className="px-4 py-2 rounded-sm bg-orange-500 text-slate-950 font-black text-xs"
+            className="px-4 py-2 rounded-sm bg-red-500 text-slate-950 font-black text-xs"
           >
             Crear Primera Copia de Seguridad
           </button>
@@ -202,7 +202,7 @@ export default function BackupManager() {
         <div style={{ backgroundColor: 'var(--bg-card)' }} className="rounded-sm border border-white/5 shadow-xl overflow-hidden">
           <div className="p-4 border-b border-white/10 flex items-center justify-between">
             <h3 className="text-xs font-black uppercase tracking-wider text-slate-300 flex items-center gap-2">
-              <Database className="w-4 h-4 text-[#D97736]" />
+              <Database className="w-4 h-4 text-[#FF002C]" />
               <span>Historial de Respaldos de Base de Datos</span>
             </h3>
             <span className="text-[10px] text-slate-500 font-mono font-bold">Motor SQLite Encapsulado</span>
@@ -221,7 +221,7 @@ export default function BackupManager() {
               <tbody className="divide-y divide-white/5 text-white font-medium">
                 {backups.map((b) => (
                   <tr key={b.filename} className="hover:bg-white/[0.02] transition-colors">
-                    <td className="p-4 pl-6 font-mono text-orange-300 font-bold">
+                    <td className="p-4 pl-6 font-mono text-red-300 font-bold">
                       <div className="flex items-center gap-2">
                         <Database className="w-4 h-4 text-slate-500" />
                         <span>{b.filename}</span>
@@ -236,7 +236,7 @@ export default function BackupManager() {
                     <td className="p-4 text-right pr-6 flex items-center justify-end gap-2">
                       <button
                         onClick={() => handleDownloadBackup(b.filename)}
-                        className="px-3 py-1.5 rounded-sm bg-slate-900 hover:bg-slate-800 text-[#D97736] border border-white/10 transition-colors font-bold text-xs flex items-center gap-1.5 cursor-pointer"
+                        className="px-3 py-1.5 rounded-sm bg-slate-900 hover:bg-slate-800 text-[#FF002C] border border-white/10 transition-colors font-bold text-xs flex items-center gap-1.5 cursor-pointer"
                         title="Descargar archivo de base de datos"
                       >
                         <Download className="w-3.5 h-3.5" />
