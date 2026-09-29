@@ -731,7 +731,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   <div className="p-3.5 flex items-center gap-3 border-b border-white/10">
                     <div
                       style={{
-                        background: 'linear-gradient(135deg, var(--primary-color), #06b6d4)',
+                        background: 'linear-gradient(135deg, var(--primary-color), #99001a)',
                       }}
                       className="w-9 h-9 rounded-full flex items-center justify-center text-black font-black text-sm shadow-md"
                     >

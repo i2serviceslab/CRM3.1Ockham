@@ -95,7 +95,7 @@ export const THEME_PRESETS: CustomThemeConfig[] = [
     id: 'deep-space',
     name: 'Titanium Deep Space (Violeta & Hielo)',
     primaryColor: '#a855f7',
-    secondaryColor: '#06b6d4',
+    secondaryColor: '#99001a',
     bgMain: '#0a0518',
     bgCard: '#160e2e',
     bgCardHover: '#221742',
