@@ -109,6 +109,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div
             className="flex items-center gap-2.5 cursor-pointer p-1 rounded-sm hover:bg-white/[0.06] transition-all duration-150 w-full min-w-0"
             onClick={() => document.getElementById('sidebar-logo-file-input')?.click()}
+          >
+            <img
+              src="/logo.svg"
+              alt="Brand Logo"
+              className="h-7 w-auto object-contain transition-transform duration-200 hover:scale-105 shrink-0"
             title="Haz clic para cambiar el logo corporativo"
           >
             <img

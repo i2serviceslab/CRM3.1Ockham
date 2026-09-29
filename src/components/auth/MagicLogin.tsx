@@ -136,6 +136,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
         
         {/* Bespoke Geometric COPPER GIANT Emblem */}
         <div className="text-center space-y-3">
+          <img src="/logo.svg" alt="Copper Giant" className="h-14 w-auto mx-auto object-contain mb-4" />
           
           <div>
             <h1 className="text-2xl font-black text-white tracking-widest uppercase flex items-center justify-center gap-2">
