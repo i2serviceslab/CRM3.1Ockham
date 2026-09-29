@@ -168,18 +168,7 @@ export function applyThemeConfig(config: CustomThemeConfig): void {
 
 export function initTheme(): CustomThemeConfig {
   if (typeof document === 'undefined') return DEFAULT_THEME_CONFIG;
-
-  try {
-    const savedConfig = localStorage.getItem('crm_theme_config');
-    if (savedConfig) {
-      const parsed: CustomThemeConfig = JSON.parse(savedConfig);
-      applyThemeConfig(parsed);
-      return parsed;
-    }
-  } catch (err) {
-    console.error('Error loading theme config from storage:', err);
-  }
-
+  // Always force official Copper Giant branding, ignoring legacy localStorage caches
   applyThemeConfig(DEFAULT_THEME_CONFIG);
   return DEFAULT_THEME_CONFIG;
 }
