@@ -49,13 +49,6 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Left: Master Console & Search Bar */}
       <div className="flex items-center gap-4 flex-1 max-w-xl">
         {/* Master Console Button */}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/20 active:scale-[0.97] text-neutral-300 text-xs font-mono font-medium transition-all duration-150 cursor-pointer shrink-0"
-            title="Volver a la Consola Maestra Super Admin"
-          >
-            <Shield className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
-            <span>Master Console</span>
-          </button>
-        )}
 
         {/* Search Input Bar */}
         <div className="relative w-full border border-white/10 rounded-lg focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/5 transition-all duration-200 bg-[#2A2A2A]">
