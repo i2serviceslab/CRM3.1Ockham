@@ -133,7 +133,7 @@ export default function Home() {
 
   // Branding Customization state with Official Outcrop Web Palette default (#D97736 True Cyan & #a9aeb2 Metallic Silver)
   const [brandName, setBrandName] = useState('Copper Giant');
-  const [brandLogo, setBrandLogo] = useState('/logo.png');
+  const [brandLogo, setBrandLogo] = useState('/logo.webp');
   const [primaryColor, setPrimaryColor] = useState('#D97736');
   const [accentPurple, setAccentPurple] = useState('#a9aeb2');
 
