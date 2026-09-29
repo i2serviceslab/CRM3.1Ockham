@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export const Copper GiantLogoSvg: React.FC<{ className?: string }> = ({ className = 'h-12 w-auto' }) => {
+export const CopperGiantLogoSvg: React.FC<{ className?: string }> = ({ className = 'h-12 w-auto' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
