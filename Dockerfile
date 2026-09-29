@@ -31,19 +31,21 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
+# Copy full node_modules and package.json so we can run npx prisma db push at runtime
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
 COPY --from=builder /app/public ./public
 RUN mkdir .next
 
-# Copy Standalone Bundle FIRST so we don't overwrite our full node_modules
+# Copy Standalone Bundle
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
 
-# Copy full node_modules AFTER standalone to ensure Prisma CLI is available
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+# We run as ROOT to ensure we have write permissions to the EasyPanel volume mount
+# SQLite needs to create files and WAL logs in /app/data
 
 EXPOSE 3000
 
-# Use semi-colon so if push fails (e.g. up to date), the server still boots
-CMD ["sh", "-c", "mkdir -p /app/data && npx prisma db push --accept-data-loss; node server.js"]
+CMD ["sh", "-c", "mkdir -p /app/data && npx prisma db push --accept-data-loss && node server.js"]
