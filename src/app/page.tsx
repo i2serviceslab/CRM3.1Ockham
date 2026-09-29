@@ -143,12 +143,9 @@ export default function Home() {
 
   useEffect(() => {
     if (selectedTenant) {
-      setBrandName(selectedTenant.name || 'Copper Giant');
-      if (selectedTenant.logoUrl) setBrandLogo(selectedTenant.logoUrl);
-      if (selectedTenant.primaryColor) {
-        setPrimaryColor(selectedTenant.primaryColor);
-        document.documentElement.style.setProperty('--primary-color', selectedTenant.primaryColor);
-      }
+      // Branding is now hardcoded to Copper Giant
+      document.documentElement.style.setProperty('--accent-primary', '#FF002C');
+      document.documentElement.style.setProperty('--primary-color', '#FF002C');
     }
   }, [selectedTenant]);
 
@@ -457,7 +454,7 @@ export default function Home() {
                           </span>
                         </div>
                         <p className="text-xs text-neutral-300 mt-1 font-medium leading-relaxed">
-                          {selectedTenant?.name ? 'Panel corporativo activo: ' + selectedTenant.name : 'Selecciona una empresa desde la Consola Maestra para comenzar.'}
+                          {selectedTenant?.name ? 'Panel corporativo activo: ' + selectedTenant.name : 'Gestiona tus contactos, relaciones e inversores en tiempo real.'}
                         </p>
                       </div>
                     </div>
