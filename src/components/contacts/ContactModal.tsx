@@ -335,10 +335,10 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-4">
                   <label
                     style={{ borderColor: 'var(--primary-color)' }}
-                    className="border-2 border-dashed rounded-3xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-white/5 transition-all bg-[#0f1218] text-center min-h-[180px]"
+                    className="border-2 border-dashed rounded-sm p-8 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-white/5 transition-all bg-[#0f1218] text-center min-h-[180px]"
                   >
                     {frontImage ? (
-                      <img src={frontImage} alt="Front" className="w-full h-36 object-cover rounded-2xl" />
+                      <img src={frontImage} alt="Front" className="w-full h-36 object-cover rounded-sm" />
                     ) : (
                       <>
                         <Camera style={{ color: 'var(--primary-color)' }} className="w-8 h-8" />
@@ -348,9 +348,9 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                     <input type="file" accept="image/*" onChange={handleFrontUpload} className="hidden" />
                   </label>
 
-                  <label className="border-2 border-dashed border-white/15 rounded-3xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer hover:border-white/30 transition-all bg-[#0f1218] text-center min-h-[180px]">
+                  <label className="border-2 border-dashed border-white/15 rounded-sm p-8 flex flex-col items-center justify-center gap-3 cursor-pointer hover:border-white/30 transition-all bg-[#0f1218] text-center min-h-[180px]">
                     {backImage ? (
-                      <img src={backImage} alt="Back" className="w-full h-36 object-cover rounded-2xl" />
+                      <img src={backImage} alt="Back" className="w-full h-36 object-cover rounded-sm" />
                     ) : (
                       <>
                         <Camera className="w-8 h-8 text-slate-500" />
@@ -433,7 +433,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                       value={voiceNoteTranscript}
                       onChange={(e) => setVoiceNoteTranscript(e.target.value)}
                       placeholder="Transcribed voice notes will appear here..."
-                      className="w-full p-4 bg-[#0f1218] border border-white/10 rounded-2xl text-xs text-white placeholder:text-slate-600 font-medium focus:outline-none"
+                      className="w-full p-4 bg-[#0f1218] border border-white/10 rounded-sm text-xs text-white placeholder:text-slate-600 font-medium focus:outline-none"
                     />
                   </div>
                 </div>
@@ -479,7 +479,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                             ? { backgroundColor: '#0f1218', borderColor: 'var(--primary-color)' }
                             : {}
                         }
-                        className={`p-5 rounded-3xl cursor-pointer transition-all border flex flex-col justify-between ${
+                        className={`p-5 rounded-sm cursor-pointer transition-all border flex flex-col justify-between ${
                           isSelected
                             ? 'font-black ring-2 shadow-lg'
                             : 'bg-[#0f1218] border-white/10 hover:border-white/20 text-white'
@@ -495,7 +495,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                 </div>
 
                 {error && (
-                  <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold text-center">
+                  <div className="p-3 rounded-sm bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold text-center">
                     {error}
                   </div>
                 )}
@@ -604,7 +604,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
             </div>
 
             {/* Quick Mic Audio Attachment */}
-            <div className="p-4 rounded-2xl bg-[#0f1218] border border-white/5 space-y-3">
+            <div className="p-4 rounded-sm bg-[#0f1218] border border-white/5 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-black flex items-center gap-2" style={{ color: 'var(--primary-color)' }}>
                   <Mic className="w-4 h-4" />
@@ -614,7 +614,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
               </div>
 
               {isRecording ? (
-                <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-between">
+                <div className="p-3.5 rounded-sm bg-rose-500/10 border border-rose-500/30 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 rounded-full bg-rose-500 animate-ping" />
                     <span className="text-xs font-black text-rose-400">Recording... {recordingTime}s</span>
@@ -628,7 +628,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                   </button>
                 </div>
               ) : audioUrl ? (
-                <div className="p-3.5 rounded-2xl bg-[#151922] border border-white/10 space-y-2">
+                <div className="p-3.5 rounded-sm bg-[#151922] border border-white/10 space-y-2">
                   <span className="text-xs font-black text-emerald-400 block">Audio Ready</span>
                   <audio src={audioUrl} controls className="w-full h-8" />
                 </div>
@@ -636,7 +636,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                 <button
                   type="button"
                   onClick={startRecording}
-                  className="w-full py-3 px-4 rounded-2xl bg-[#151922] border border-white/10 hover:border-white/30 text-slate-200 text-xs font-black flex items-center justify-center gap-2"
+                  className="w-full py-3 px-4 rounded-sm bg-[#151922] border border-white/10 hover:border-white/30 text-slate-200 text-xs font-black flex items-center justify-center gap-2"
                 >
                   <Mic style={{ color: 'var(--primary-color)' }} className="w-4 h-4" />
                   <span>Click to Record Quick Voice Note</span>
@@ -645,7 +645,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
             </div>
 
             {/* Outcrop Tag Taxonomy Section */}
-            <div className="p-4 rounded-2xl bg-[#0f1218] border border-white/5 space-y-3">
+            <div className="p-4 rounded-sm bg-[#0f1218] border border-white/5 space-y-3">
               <span className="text-xs font-black uppercase tracking-wider block" style={{ color: 'var(--primary-color)' }}>
                 Outcrop Silver Strict Taxonomy
               </span>
@@ -656,7 +656,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                   <select
                     value={investorType}
                     onChange={(e) => setInvestorType(e.target.value)}
-                    className="w-full p-2 bg-[#151922] border border-white/10 rounded-xl text-xs text-white font-bold"
+                    className="w-full p-2 bg-[#151922] border border-white/10 rounded-sm text-xs text-white font-bold"
                   >
                     {Array.from(new Set([...OUTCROP_TAGS.INVESTOR_TYPES, ...customTypes])).map((t) => (
                       <option key={t} value={t}>{t}</option>
@@ -669,7 +669,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                   <select
                     value={stage}
                     onChange={(e) => setStage(e.target.value)}
-                    className="w-full p-2 bg-[#151922] border border-white/10 rounded-xl text-xs text-white font-bold"
+                    className="w-full p-2 bg-[#151922] border border-white/10 rounded-sm text-xs text-white font-bold"
                   >
                     {Array.from(new Set([...OUTCROP_TAGS.STAGES, ...customStages])).map((s) => (
                       <option key={s} value={s}>{s}</option>
@@ -682,7 +682,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                   <select
                     value={source}
                     onChange={(e) => setSource(e.target.value)}
-                    className="w-full p-2 bg-[#151922] border border-white/10 rounded-xl text-xs text-white font-bold"
+                    className="w-full p-2 bg-[#151922] border border-white/10 rounded-sm text-xs text-white font-bold"
                   >
                     {OUTCROP_TAGS.SOURCES.map((src) => (
                       <option key={src} value={src}>{src}</option>
@@ -693,7 +693,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
             </div>
 
             {error && (
-              <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold text-center">
+              <div className="p-3 rounded-sm bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold text-center">
                 {error}
               </div>
             )}

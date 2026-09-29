@@ -48,7 +48,7 @@ export default function ManualPage() {
         }
       `}</style>
 
-      <div className="max-w-4xl mx-auto bg-[#0f172a] border border-white/10 rounded-3xl p-6 md:p-12 shadow-2xl printable-card space-y-8">
+      <div className="max-w-4xl mx-auto bg-[#0f172a] border border-white/10 rounded-sm p-6 md:p-12 shadow-2xl printable-card space-y-8">
         
         {/* Floating Actions Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6 no-print">
@@ -73,7 +73,7 @@ export default function ManualPage() {
         </div>
 
         {/* Intro Alert Box */}
-        <div className="bg-sky-500/10 border border-sky-500/30 p-5 rounded-2xl space-y-1">
+        <div className="bg-sky-500/10 border border-sky-500/30 p-5 rounded-sm space-y-1">
           <h4 className="text-xs font-black text-sky-400 uppercase tracking-wider">
             📌 Guía Ilustrada para Usuarios No Técnicos
           </h4>
@@ -109,8 +109,8 @@ export default function ManualPage() {
           </p>
           
           {/* Screenshot 7: Sidebar & Branding */}
-          <div className="rounded-2xl overflow-hidden border border-white/10 bg-slate-900/60 p-2">
-            <img src="/manual_images/07_sidebar_branding.png" alt="Barra Lateral e Identidad Outcrop Silver" className="w-full h-auto rounded-xl" />
+          <div className="rounded-sm overflow-hidden border border-white/10 bg-slate-900/60 p-2">
+            <img src="/manual_images/07_sidebar_branding.png" alt="Barra Lateral e Identidad Outcrop Silver" className="w-full h-auto rounded-sm" />
             <p className="text-[11px] text-center text-slate-400 mt-2 italic font-mono">
               Figura 1: Barra lateral de navegación con el widget Powered by i2 y accesos principales.
             </p>
@@ -127,8 +127,8 @@ export default function ManualPage() {
           </p>
 
           {/* Screenshot 1: Directory */}
-          <div className="rounded-2xl overflow-hidden border border-white/10 bg-slate-900/60 p-2">
-            <img src="/manual_images/01_directorio_360.png" alt="Directorio General de Inversionistas" className="w-full h-auto rounded-xl" />
+          <div className="rounded-sm overflow-hidden border border-white/10 bg-slate-900/60 p-2">
+            <img src="/manual_images/01_directorio_360.png" alt="Directorio General de Inversionistas" className="w-full h-auto rounded-sm" />
             <p className="text-[11px] text-center text-slate-400 mt-2 italic font-mono">
               Figura 2: Directorio principal con tarjetas de inversionistas, etiquetas y medidores de interés.
             </p>
@@ -140,8 +140,8 @@ export default function ManualPage() {
           </p>
 
           {/* Screenshot 2: 360 Dossier */}
-          <div className="rounded-2xl overflow-hidden border border-white/10 bg-slate-900/60 p-2">
-            <img src="/manual_images/02_expediente_360.png" alt="Expediente 360° del Inversionista" className="w-full h-auto rounded-xl" />
+          <div className="rounded-sm overflow-hidden border border-white/10 bg-slate-900/60 p-2">
+            <img src="/manual_images/02_expediente_360.png" alt="Expediente 360° del Inversionista" className="w-full h-auto rounded-sm" />
             <p className="text-[11px] text-center text-slate-400 mt-2 italic font-mono">
               Figura 3: Expediente 360° con pestañas de Resumen, Historial, Relaciones, Búsqueda IA e Ensayes Mineros.
             </p>
@@ -158,8 +158,8 @@ export default function ManualPage() {
           </p>
 
           {/* Screenshot 3: Kanban */}
-          <div className="rounded-2xl overflow-hidden border border-white/10 bg-slate-900/60 p-2">
-            <img src="/manual_images/03_embudo_kanban.png" alt="Tablero Kanban de Seguimiento" className="w-full h-auto rounded-xl" />
+          <div className="rounded-sm overflow-hidden border border-white/10 bg-slate-900/60 p-2">
+            <img src="/manual_images/03_embudo_kanban.png" alt="Tablero Kanban de Seguimiento" className="w-full h-auto rounded-sm" />
             <p className="text-[11px] text-center text-slate-400 mt-2 italic font-mono">
               Figura 4: Tablero Kanban interactivo y módulo superior de Tareas & Alertas Programadas.
             </p>
@@ -176,8 +176,8 @@ export default function ManualPage() {
           </p>
 
           {/* Screenshot 4: Interactive Graph */}
-          <div className="rounded-2xl overflow-hidden border border-white/10 bg-slate-900/60 p-2">
-            <img src="/manual_images/04_grafo_interactivo.png" alt="Grafo Interactivo de Conexiones" className="w-full h-auto rounded-xl" />
+          <div className="rounded-sm overflow-hidden border border-white/10 bg-slate-900/60 p-2">
+            <img src="/manual_images/04_grafo_interactivo.png" alt="Grafo Interactivo de Conexiones" className="w-full h-auto rounded-sm" />
             <p className="text-[11px] text-center text-slate-400 mt-2 italic font-mono">
               Figura 5: Malla física interactiva de conexiones entre inversionistas y panel de inspección.
             </p>
@@ -194,8 +194,8 @@ export default function ManualPage() {
           </p>
 
           {/* Screenshot 5: Social Media */}
-          <div className="rounded-2xl overflow-hidden border border-white/10 bg-slate-900/60 p-2">
-            <img src="/manual_images/05_redes_sociales_ia.png" alt="Calendario Editorial y Estudio de IA" className="w-full h-auto rounded-xl" />
+          <div className="rounded-sm overflow-hidden border border-white/10 bg-slate-900/60 p-2">
+            <img src="/manual_images/05_redes_sociales_ia.png" alt="Calendario Editorial y Estudio de IA" className="w-full h-auto rounded-sm" />
             <p className="text-[11px] text-center text-slate-400 mt-2 italic font-mono">
               Figura 6: Programador mensual de noticias corporativas y creador de contenidos con Inteligencia Artificial.
             </p>
@@ -212,21 +212,21 @@ export default function ManualPage() {
           </p>
 
           {/* Screenshot 6: WhatsApp Center */}
-          <div className="rounded-2xl overflow-hidden border border-white/10 bg-slate-900/60 p-2">
-            <img src="/manual_images/06_centro_whatsapp.png" alt="Centro de WhatsApp y Simulación" className="w-full h-auto rounded-xl" />
+          <div className="rounded-sm overflow-hidden border border-white/10 bg-slate-900/60 p-2">
+            <img src="/manual_images/06_centro_whatsapp.png" alt="Centro de WhatsApp y Simulación" className="w-full h-auto rounded-sm" />
             <p className="text-[11px] text-center text-slate-400 mt-2 italic font-mono">
               Figura 7: Centro de administración de WhatsApp, lista autorizada y consola de comandos.
             </p>
           </div>
 
-          <div className="bg-[#84cc16]/10 border border-[#84cc16]/30 p-4 rounded-2xl space-y-1 mt-4">
+          <div className="bg-[#84cc16]/10 border border-[#84cc16]/30 p-4 rounded-sm space-y-1 mt-4">
             <h4 className="text-xs font-black text-[#84cc16] uppercase tracking-wider">
               📱 Tabla Resumen de Comandos de WhatsApp
             </h4>
           </div>
 
           <div className="overflow-x-auto pt-2">
-            <table className="w-full text-xs text-left border border-white/10 rounded-2xl overflow-hidden">
+            <table className="w-full text-xs text-left border border-white/10 rounded-sm overflow-hidden">
               <thead className="bg-slate-800 text-white font-bold">
                 <tr>
                   <th className="p-3 border-b border-white/10">Comando</th>

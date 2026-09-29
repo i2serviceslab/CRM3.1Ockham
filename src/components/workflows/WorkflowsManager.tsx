@@ -80,7 +80,7 @@ export const WorkflowsManager: React.FC<WorkflowsManagerProps> = ({ tenantId }) 
 
         <button
           onClick={() => setShowModal(true)}
-          className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/25 flex items-center gap-2"
+          className="px-4 py-2 rounded-sm bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/25 flex items-center gap-2"
         >
           <Plus className="w-4 h-4" />
           <span>Nueva Regla Automática</span>
@@ -92,7 +92,7 @@ export const WorkflowsManager: React.FC<WorkflowsManagerProps> = ({ tenantId }) 
         {rules.map((rule) => (
           <div key={rule.id} className="neo-card p-6 flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold ${rule.isActive ? 'bg-indigo-500/20 text-indigo-300' : 'bg-slate-800 text-slate-500'}`}>
+              <div className={`w-12 h-12 rounded-sm flex items-center justify-center font-bold ${rule.isActive ? 'bg-indigo-500/20 text-indigo-300' : 'bg-slate-800 text-slate-500'}`}>
                 <Play className="w-5 h-5" />
               </div>
 
@@ -116,7 +116,7 @@ export const WorkflowsManager: React.FC<WorkflowsManagerProps> = ({ tenantId }) 
       {/* Create Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#191a2e] border border-white/10 rounded-3xl p-6 shadow-2xl space-y-4">
+          <div className="w-full max-w-md bg-[#191a2e] border border-white/10 rounded-sm p-6 shadow-2xl space-y-4">
             <h3 className="text-sm font-bold text-white">Nueva Regla de Automatización</h3>
             <form onSubmit={handleCreateRule} className="space-y-3">
               <div>
@@ -127,13 +127,13 @@ export const WorkflowsManager: React.FC<WorkflowsManagerProps> = ({ tenantId }) 
                   placeholder="Ej. Notificar equipo si Lead Score > 80"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#141523] border border-white/10 rounded-xl text-xs text-white"
+                  className="w-full px-3 py-2 bg-[#141523] border border-white/10 rounded-sm text-xs text-white"
                 />
               </div>
 
               <div>
                 <label className="block text-xs text-slate-300 mb-1">Disparador (Trigger)</label>
-                <select value={triggerType} onChange={(e) => setTriggerType(e.target.value)} className="w-full px-3 py-2 bg-[#141523] border border-white/10 rounded-xl text-xs text-white">
+                <select value={triggerType} onChange={(e) => setTriggerType(e.target.value)} className="w-full px-3 py-2 bg-[#141523] border border-white/10 rounded-sm text-xs text-white">
                   <option value="LEAD_SCORE_ABOVE">Lead Score mayor a X</option>
                   <option value="STAGE_CHANGED">Etapa de contacto cambiada</option>
                   <option value="TAG_ADDED">Etiqueta asignada</option>
@@ -146,13 +146,13 @@ export const WorkflowsManager: React.FC<WorkflowsManagerProps> = ({ tenantId }) 
                   type="text"
                   value={triggerValue}
                   onChange={(e) => setTriggerValue(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#141523] border border-white/10 rounded-xl text-xs text-white"
+                  className="w-full px-3 py-2 bg-[#141523] border border-white/10 rounded-sm text-xs text-white"
                 />
               </div>
 
               <div>
                 <label className="block text-xs text-slate-300 mb-1">Acción Automática</label>
-                <select value={actionType} onChange={(e) => setActionType(e.target.value)} className="w-full px-3 py-2 bg-[#141523] border border-white/10 rounded-xl text-xs text-white">
+                <select value={actionType} onChange={(e) => setActionType(e.target.value)} className="w-full px-3 py-2 bg-[#141523] border border-white/10 rounded-sm text-xs text-white">
                   <option value="NOTIFY_TEAM">Notificar al Equipo Commercial</option>
                   <option value="SEND_WHATSAPP">Enviar Mensaje de WhatsApp Automático</option>
                   <option value="ADD_SCORE">Incrementar Lead Score (+20)</option>
@@ -160,8 +160,8 @@ export const WorkflowsManager: React.FC<WorkflowsManagerProps> = ({ tenantId }) 
               </div>
 
               <div className="flex justify-end gap-2 pt-2">
-                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 rounded-xl bg-white/5 text-xs text-slate-300">Cancelar</button>
-                <button type="submit" className="px-5 py-2 rounded-xl bg-indigo-600 text-xs font-bold text-white">Guardar Regla</button>
+                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 rounded-sm bg-white/5 text-xs text-slate-300">Cancelar</button>
+                <button type="submit" className="px-5 py-2 rounded-sm bg-indigo-600 text-xs font-bold text-white">Guardar Regla</button>
               </div>
             </form>
           </div>

@@ -245,7 +245,7 @@ export const KanbanPipeline: React.FC<KanbanPipelineProps> = ({ contacts, onOpen
               <div
                 key={t.id}
                 style={{ backgroundColor: 'var(--bg-card-inner)' }}
-                className={`p-3.5 rounded-2xl space-y-2 border transition-all ${
+                className={`p-3.5 rounded-sm space-y-2 border transition-all ${
                   t.completed ? 'opacity-50 border-white/5' : t.priority === 'HIGH' ? 'border-rose-500/30' : 'border-amber-500/30'
                 }`}
               >
@@ -321,7 +321,7 @@ export const KanbanPipeline: React.FC<KanbanPipelineProps> = ({ contacts, onOpen
             >
               <div>
                 {/* Stage Column Header Pill */}
-                <div className={`p-3.5 rounded-2xl border text-xs font-black mb-4 flex items-center justify-between shadow-md ${col.color}`}>
+                <div className={`p-3.5 rounded-sm border text-xs font-black mb-4 flex items-center justify-between shadow-md ${col.color}`}>
                   <span className="truncate pr-2">{col.label}</span>
                   <span className="bg-white/20 px-2.5 py-0.5 rounded-full text-[10px] font-black shrink-0">
                     {colContacts.length}
@@ -340,7 +340,7 @@ export const KanbanPipeline: React.FC<KanbanPipelineProps> = ({ contacts, onOpen
                         onDragStart={(e) => handleDragStart(e, contact.id)}
                         onDragEnd={() => setDraggedContactId(null)}
                         style={{ backgroundColor: 'var(--bg-card-inner)' }}
-                        className={`p-4 rounded-2xl border border-white/5 space-y-2.5 hover:border-white/20 transition-all group cursor-grab active:cursor-grabbing shadow-md ${
+                        className={`p-4 rounded-sm border border-white/5 space-y-2.5 hover:border-white/20 transition-all group cursor-grab active:cursor-grabbing shadow-md ${
                           isDraggingThis ? 'opacity-40 scale-95 border-dashed border-sky-400' : ''
                         }`}
                       >
@@ -407,7 +407,7 @@ export const KanbanPipeline: React.FC<KanbanPipelineProps> = ({ contacts, onOpen
                   })}
 
                   {colContacts.length === 0 && (
-                    <div className="text-center py-12 text-[11px] text-slate-500 font-mono border-2 border-dashed border-white/5 rounded-2xl">
+                    <div className="text-center py-12 text-[11px] text-slate-500 font-mono border-2 border-dashed border-white/5 rounded-sm">
                       Drag a contact here
                     </div>
                   )}
@@ -460,7 +460,7 @@ export const KanbanPipeline: React.FC<KanbanPipelineProps> = ({ contacts, onOpen
                     value={taskContactId}
                     onChange={(e) => setTaskContactId(e.target.value)}
                     style={{ backgroundColor: 'var(--bg-card-inner)' }}
-                    className="w-full p-2.5 rounded-2xl text-xs text-white border border-white/10 focus:outline-none"
+                    className="w-full p-2.5 rounded-sm text-xs text-white border border-white/10 focus:outline-none"
                   >
                     {contacts.map((c) => (
                       <option key={c.id} value={c.id}>
@@ -478,7 +478,7 @@ export const KanbanPipeline: React.FC<KanbanPipelineProps> = ({ contacts, onOpen
                     value={taskAssignee}
                     onChange={(e) => setTaskAssignee(e.target.value)}
                     style={{ backgroundColor: 'var(--bg-card-inner)' }}
-                    className="w-full p-2.5 rounded-2xl text-xs text-white border border-white/10 focus:outline-none"
+                    className="w-full p-2.5 rounded-sm text-xs text-white border border-white/10 focus:outline-none"
                   >
                     <option value="Carlos Carvajal (IR Lead)">Carlos Carvajal (IR Lead)</option>
                     <option value="Guillermo Gutiérrez (Director)">Guillermo Gutiérrez (Director)</option>
@@ -496,7 +496,7 @@ export const KanbanPipeline: React.FC<KanbanPipelineProps> = ({ contacts, onOpen
                     value={taskPriority}
                     onChange={(e) => setTaskPriority(e.target.value as any)}
                     style={{ backgroundColor: 'var(--bg-card-inner)' }}
-                    className="w-full p-2.5 rounded-2xl text-xs text-white border border-white/10 focus:outline-none"
+                    className="w-full p-2.5 rounded-sm text-xs text-white border border-white/10 focus:outline-none"
                   >
                     <option value="HIGH">🔴 HIGH</option>
                     <option value="MEDIUM">🟡 MEDIUM</option>
@@ -539,7 +539,7 @@ export const KanbanPipeline: React.FC<KanbanPipelineProps> = ({ contacts, onOpen
                   value={taskAlertChannel}
                   onChange={(e) => setTaskAlertChannel(e.target.value as any)}
                   style={{ backgroundColor: 'var(--bg-card-inner)' }}
-                  className="w-full p-2.5 rounded-2xl text-xs text-white border border-white/10 focus:outline-none"
+                  className="w-full p-2.5 rounded-sm text-xs text-white border border-white/10 focus:outline-none"
                 >
                   <option value="WhatsApp">💬 WhatsApp Immediate Alert</option>
                   <option value="CRM & Banner">📲 CRM On-Screen Banner Alert</option>
@@ -557,7 +557,7 @@ export const KanbanPipeline: React.FC<KanbanPipelineProps> = ({ contacts, onOpen
                   value={taskDescription}
                   onChange={(e) => setTaskDescription(e.target.value)}
                   style={{ backgroundColor: 'var(--bg-card-inner)' }}
-                  className="w-full p-3 rounded-2xl text-xs text-white focus:outline-none"
+                  className="w-full p-3 rounded-sm text-xs text-white focus:outline-none"
                 />
               </div>
 

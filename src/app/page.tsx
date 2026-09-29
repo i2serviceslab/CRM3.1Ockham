@@ -376,9 +376,9 @@ export default function Home() {
 
               {/* DORMANT KEY INVESTOR ALERTS BANNER */}
               {contacts.filter(c => (c.leadScore || 0) >= 75 || (c.investorType || '').toLowerCase().includes('family office')).length > 0 && (
-                <div className="p-4 rounded-md bg-[#1C1B1B] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-none animate-fadeIn">
+                <div className="p-4 rounded-sm bg-[#1C1B1B] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-none animate-fadeIn">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-md bg-[var(--accent-primary-subtle)] text-[var(--accent-primary)] border border-[var(--accent-primary)]/20 flex items-center justify-center font-bold shrink-0">
+                    <div className="w-9 h-9 rounded-sm bg-[var(--accent-primary-subtle)] text-[var(--accent-primary)] border border-[var(--accent-primary)]/20 flex items-center justify-center font-bold shrink-0">
                       <TrendingUp className="w-4 h-4 text-[var(--accent-primary)]" />
                     </div>
                     <div>
@@ -398,7 +398,7 @@ export default function Home() {
                       const topContact = contacts.find(c => (c.leadScore || 0) >= 75);
                       if (topContact) setSelectedContact360(topContact);
                     }}
-                    className="px-3.5 py-1.5 rounded-md bg-[var(--accent-primary)] hover:opacity-90 text-white font-semibold text-xs transition-all shrink-0 cursor-pointer shadow-sm"
+                    className="px-3.5 py-1.5 rounded-sm bg-[var(--accent-primary)] hover:opacity-90 text-white font-semibold text-xs transition-all shrink-0 cursor-pointer shadow-sm"
                   >
                     Agendar Seguimiento 360°
                   </button>
@@ -465,17 +465,17 @@ export default function Home() {
 
                   {/* Stats Counters Grid (Responsive Grid) */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-5 mt-5 border-t border-white/5">
-                    <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-2xl border border-white/5 bento-card-spotlight">
+                    <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-sm border border-white/5 bento-card-spotlight">
                       <span className="text-xs text-neutral-400 font-semibold uppercase tracking-wider block mb-1">Inversionistas Activos</span>
                       <span className="text-2xl font-bold text-white font-mono">{contacts.filter(c => c.stage.includes('Interested')).length}</span>
                     </div>
 
-                    <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-2xl border border-white/5 bento-card-spotlight">
+                    <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-sm border border-white/5 bento-card-spotlight">
                       <span className="text-xs text-neutral-400 font-semibold uppercase tracking-wider block mb-1">Conexiones del Grafo</span>
                       <span style={{ color: 'var(--primary-color)' }} className="text-2xl font-bold font-mono">{contacts.reduce((acc, c) => acc + (c.sourceRelationships?.length || 0) + (c.targetRelationships?.length || 0), 0)} Conexiones</span>
                     </div>
 
-                    <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-2xl border border-white/5 bento-card-spotlight">
+                    <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-sm border border-white/5 bento-card-spotlight">
                       <span className="text-xs text-neutral-400 font-semibold uppercase tracking-wider block mb-1">Puntuación Promedio</span>
                       <span style={{ color: 'var(--secondary-color)' }} className="text-2xl font-bold font-mono">{contacts.length > 0 ? Math.round(contacts.reduce((acc, c) => acc + (c.leadScore || 0), 0) / contacts.length) : 0} pts</span>
                     </div>
@@ -499,7 +499,7 @@ export default function Home() {
                     </span>
 
                     {/* View Mode Switcher Toolbar */}
-                    <div className="flex items-center gap-1 p-1 rounded-lg bg-[#1C1B1B] border border-white/10 ml-2">
+                    <div className="flex items-center gap-1 p-1 rounded-sm bg-[#1C1B1B] border border-white/10 ml-2">
                       <button
                         onClick={() => setContactViewMode('grid')}
                         className={`p-1.5 rounded transition-all cursor-pointer ${
@@ -641,7 +641,7 @@ export default function Home() {
                                 </div>
                               </div>
 
-                              <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-2xl mb-4 space-y-2">
+                              <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm mb-4 space-y-2">
                                 <div className="flex items-center justify-between text-xs gap-2">
                                   <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider shrink-0">Fuente</span>
                                   <div className="flex items-center gap-1.5 flex-wrap">
@@ -707,10 +707,10 @@ export default function Home() {
                         {contacts.map((contact) => (
                           <div
                             key={contact.id}
-                            className="p-3.5 rounded-lg bg-[#1C1B1B] border border-white/10 hover:bg-[#222121] hover:border-white/20 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
+                            className="p-3.5 rounded-sm bg-[#1C1B1B] border border-white/10 hover:bg-[#222121] hover:border-white/20 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
                           >
                             <div className="flex items-center gap-3.5 min-w-0 flex-1">
-                              <div className="w-9 h-9 rounded-lg bg-[var(--accent-primary-subtle)] text-[var(--accent-primary)] border border-[var(--accent-primary)]/20 font-bold text-sm flex items-center justify-center shrink-0">
+                              <div className="w-9 h-9 rounded-sm bg-[var(--accent-primary-subtle)] text-[var(--accent-primary)] border border-[var(--accent-primary)]/20 font-bold text-sm flex items-center justify-center shrink-0">
                                 {contact.name.charAt(0)}
                               </div>
                               <div className="min-w-0 flex-1">
@@ -740,7 +740,7 @@ export default function Home() {
 
                               <button
                                 onClick={() => setSelectedContact360(contact)}
-                                className="px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-[var(--accent-primary)] hover:text-white hover:border-transparent text-xs font-semibold transition-all duration-150 cursor-pointer flex items-center gap-1 text-white"
+                                className="px-3 py-1.5 rounded-sm border border-white/10 bg-white/[0.03] hover:bg-[var(--accent-primary)] hover:text-white hover:border-transparent text-xs font-semibold transition-all duration-150 cursor-pointer flex items-center gap-1 text-white"
                               >
                                 <span>Perfil 360°</span>
                                 <ArrowUpRight className="w-3.5 h-3.5" />
@@ -753,7 +753,7 @@ export default function Home() {
 
                     {/* MODE 3: HIGH DENSITY DATA TABLE */}
                     {contactViewMode === 'table' && (
-                      <div className="overflow-x-auto rounded-lg border border-white/10 bg-[#1C1B1B]">
+                      <div className="overflow-x-auto rounded-sm border border-white/10 bg-[#1C1B1B]">
                         <table className="w-full text-left border-collapse text-xs">
                           <thead>
                             <tr className="border-b border-white/10 bg-[#2A2A2A] text-neutral-400 font-mono text-[11px] uppercase tracking-wider">
@@ -1063,7 +1063,7 @@ export default function Home() {
 
             <div className="space-y-4">
               {/* iCal Feed Import Section */}
-              <div className="p-4 rounded-2xl bg-slate-900 border border-white/10 space-y-2">
+              <div className="p-4 rounded-sm bg-slate-900 border border-white/10 space-y-2">
                 <div className="text-xs font-black text-amber-400 uppercase tracking-wider">Sync External Calendar (Google / Outlook / Apple)</div>
                 <p className="text-[11px] text-slate-400">
                   Paste your shared <strong>iCal (.ics) feed URL</strong> to automatically sync your meetings to this CRM.
@@ -1074,7 +1074,7 @@ export default function Home() {
                     value={icalUrl}
                     onChange={(e) => setIcalUrl(e.target.value)}
                     placeholder="https://calendar.google.com/calendar/ical/.../basic.ics"
-                    className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-xs text-white font-mono placeholder-slate-600"
+                    className="flex-1 px-3 py-2 rounded-sm bg-slate-950 border border-white/10 text-xs text-white font-mono placeholder-slate-600"
                   />
                   <button
                     onClick={async () => {
@@ -1093,7 +1093,7 @@ export default function Home() {
                         alert(e.message);
                       }
                     }}
-                    className="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs hover:bg-amber-400"
+                    className="px-4 py-2 rounded-sm bg-amber-500 text-slate-950 font-black text-xs hover:bg-amber-400"
                   >
                     Sync iCal
                   </button>
@@ -1101,14 +1101,14 @@ export default function Home() {
               </div>
 
               {/* 1-Click Meeting Scheduling */}
-              <div className="p-4 rounded-2xl bg-slate-900 border border-white/10 space-y-3">
+              <div className="p-4 rounded-sm bg-slate-900 border border-white/10 space-y-3">
                 <div className="text-xs font-black text-blue-400 uppercase tracking-wider">1-Click Instant Calendar Invite Generator</div>
                 <div className="space-y-2">
                   <input
                     type="text"
                     id="evt-title-input"
                     placeholder="Meeting Title (e.g. Santa Ana Investor Review)"
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-xs text-white"
+                    className="w-full px-3 py-2 rounded-sm bg-slate-950 border border-white/10 text-xs text-white"
                   />
                   <div className="flex gap-2">
                     <button
@@ -1129,7 +1129,7 @@ export default function Home() {
                           window.open(data.syncLinks.googleUrl, '_blank');
                         }
                       }}
-                      className="flex-1 py-2 rounded-xl bg-blue-500/20 text-blue-400 text-xs font-bold border border-blue-500/30 hover:bg-blue-500/30"
+                      className="flex-1 py-2 rounded-sm bg-blue-500/20 text-blue-400 text-xs font-bold border border-blue-500/30 hover:bg-blue-500/30"
                     >
                       Sync to Google Calendar
                     </button>
@@ -1151,7 +1151,7 @@ export default function Home() {
                           window.open(data.syncLinks.outlookUrl, '_blank');
                         }
                       }}
-                      className="flex-1 py-2 rounded-xl bg-sky-500/20 text-sky-400 text-xs font-bold border border-sky-500/30 hover:bg-sky-500/30"
+                      className="flex-1 py-2 rounded-sm bg-sky-500/20 text-sky-400 text-xs font-bold border border-sky-500/30 hover:bg-sky-500/30"
                     >
                       Sync to Outlook Web
                     </button>

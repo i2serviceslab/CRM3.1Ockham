@@ -262,7 +262,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
 
       {/* Dashboard Customizer Control Panel */}
       {isEditing && (
-        <div className="p-5 rounded-3xl bg-slate-900/90 border border-cyan-500/30 space-y-4 animate-fadeIn shadow-2xl">
+        <div className="p-5 rounded-sm bg-slate-900/90 border border-orange-500/30 space-y-4 animate-fadeIn shadow-2xl">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div className="flex items-center gap-2">
               <Sliders className="w-4 h-4 text-[#D97736]" />
@@ -291,8 +291,8 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
             {/* Toggle 1: KPIs */}
             <button
               onClick={() => handleSaveWidgetConfig({ ...widgetConfig, showKPIs: !widgetConfig.showKPIs })}
-              className={`p-3 rounded-2xl border text-left flex items-center justify-between transition-all cursor-pointer ${
-                widgetConfig.showKPIs ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300' : 'bg-slate-950 border-white/5 text-slate-500'
+              className={`p-3 rounded-sm border text-left flex items-center justify-between transition-all cursor-pointer ${
+                widgetConfig.showKPIs ? 'bg-orange-500/10 border-orange-500/40 text-orange-300' : 'bg-slate-950 border-white/5 text-slate-500'
               }`}
             >
               <span className="text-xs font-black">1. Tarjetas KPI Rápidas</span>
@@ -302,8 +302,8 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
             {/* Toggle 2: Composition */}
             <button
               onClick={() => handleSaveWidgetConfig({ ...widgetConfig, showComposition: !widgetConfig.showComposition })}
-              className={`p-3 rounded-2xl border text-left flex items-center justify-between transition-all cursor-pointer ${
-                widgetConfig.showComposition ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300' : 'bg-slate-950 border-white/5 text-slate-500'
+              className={`p-3 rounded-sm border text-left flex items-center justify-between transition-all cursor-pointer ${
+                widgetConfig.showComposition ? 'bg-orange-500/10 border-orange-500/40 text-orange-300' : 'bg-slate-950 border-white/5 text-slate-500'
               }`}
             >
               <span className="text-xs font-black">2. Composición Red</span>
@@ -313,8 +313,8 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
             {/* Toggle 3: Geographic */}
             <button
               onClick={() => handleSaveWidgetConfig({ ...widgetConfig, showGeographic: !widgetConfig.showGeographic })}
-              className={`p-3 rounded-2xl border text-left flex items-center justify-between transition-all cursor-pointer ${
-                widgetConfig.showGeographic ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300' : 'bg-slate-950 border-white/5 text-slate-500'
+              className={`p-3 rounded-sm border text-left flex items-center justify-between transition-all cursor-pointer ${
+                widgetConfig.showGeographic ? 'bg-orange-500/10 border-orange-500/40 text-orange-300' : 'bg-slate-950 border-white/5 text-slate-500'
               }`}
             >
               <span className="text-xs font-black">3. Hubs Geográficos</span>
@@ -324,8 +324,8 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
             {/* Toggle 4: Funnel */}
             <button
               onClick={() => handleSaveWidgetConfig({ ...widgetConfig, showFunnel: !widgetConfig.showFunnel })}
-              className={`p-3 rounded-2xl border text-left flex items-center justify-between transition-all cursor-pointer ${
-                widgetConfig.showFunnel ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300' : 'bg-slate-950 border-white/5 text-slate-500'
+              className={`p-3 rounded-sm border text-left flex items-center justify-between transition-all cursor-pointer ${
+                widgetConfig.showFunnel ? 'bg-orange-500/10 border-orange-500/40 text-orange-300' : 'bg-slate-950 border-white/5 text-slate-500'
               }`}
             >
               <span className="text-xs font-black">4. Embudo de Velocidad</span>
@@ -335,8 +335,8 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
             {/* Toggle 5: Top Scorers */}
             <button
               onClick={() => handleSaveWidgetConfig({ ...widgetConfig, showTopScorers: !widgetConfig.showTopScorers })}
-              className={`p-3 rounded-2xl border text-left flex items-center justify-between transition-all cursor-pointer ${
-                widgetConfig.showTopScorers ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300' : 'bg-slate-950 border-white/5 text-slate-500'
+              className={`p-3 rounded-sm border text-left flex items-center justify-between transition-all cursor-pointer ${
+                widgetConfig.showTopScorers ? 'bg-orange-500/10 border-orange-500/40 text-orange-300' : 'bg-slate-950 border-white/5 text-slate-500'
               }`}
             >
               <span className="text-xs font-black">5. Top Inversionistas</span>
@@ -480,7 +480,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
 
               <div className="grid grid-cols-2 gap-3">
                 {geoData.map((g, idx) => (
-                  <div key={idx} style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-2xl space-y-1">
+                  <div key={idx} style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-sm space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-extrabold text-white">{g.label}</span>
                       <span className={`text-xs font-mono font-black ${g.color}`}>{g.pct}%</span>
@@ -510,7 +510,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
 
               <div className="space-y-2.5">
                 {pipelineDisplayData.map((item, idx) => (
-                  <div key={idx} style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3 rounded-2xl space-y-1.5">
+                  <div key={idx} style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3 rounded-sm space-y-1.5">
                     <div className="flex items-center justify-between text-xs font-bold">
                       <span className="text-slate-200">{item.stage}</span>
                       <span className="text-white font-mono">{item.count} contactos ({item.percentage}%)</span>
@@ -540,7 +540,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
                     key={c.id}
                     onClick={() => onOpenContact360 && onOpenContact360(c)}
                     style={{ backgroundColor: 'var(--bg-card-inner)' }}
-                    className="p-3 rounded-2xl flex items-center justify-between cursor-pointer hover:border-white/20 border border-transparent transition-all group"
+                    className="p-3 rounded-sm flex items-center justify-between cursor-pointer hover:border-white/20 border border-transparent transition-all group"
                   >
                     <div className="min-w-0 flex-1">
                       <h4 className="text-xs font-black text-white group-hover:text-sky-400 transition-colors truncate">

@@ -158,7 +158,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-900/90 to-emerald-950/40 border border-emerald-500/20 shadow-2xl">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-6 rounded-sm bg-gradient-to-r from-slate-900 via-slate-900/90 to-emerald-950/40 border border-emerald-500/20 shadow-2xl">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-emerald-400">
             <Users className="w-6 h-6" />
@@ -174,7 +174,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all transform hover:scale-[1.02] active:scale-95"
+          className="flex items-center gap-2 px-5 py-3 rounded-sm bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all transform hover:scale-[1.02] active:scale-95"
         >
           <Plus className="w-4 h-4" />
           Add Team User
@@ -182,7 +182,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
       </div>
 
       {toast && (
-        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center justify-between">
+        <div className="p-4 rounded-sm bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center justify-between">
           <span>{toast}</span>
           <button onClick={() => setToast(null)} className="text-slate-400 hover:text-white">✕</button>
         </div>
@@ -198,7 +198,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{ backgroundColor: 'var(--bg-card)' }}
-            className="w-full pl-11 pr-4 py-3 rounded-2xl border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition-colors"
+            className="w-full pl-11 pr-4 py-3 rounded-sm border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition-colors"
           />
         </div>
 
@@ -207,7 +207,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
             <button
               key={r}
               onClick={() => setSelectedRole(r)}
-              className={`px-4 py-2 rounded-xl text-xs font-black transition-all border ${
+              className={`px-4 py-2 rounded-sm text-xs font-black transition-all border ${
                 selectedRole === r
                   ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-md'
                   : 'bg-slate-900 text-slate-400 border-white/10 hover:text-white'
@@ -225,12 +225,12 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
           Loading user directory...
         </div>
       ) : filteredUsers.length === 0 ? (
-        <div style={{ backgroundColor: 'var(--bg-card)' }} className="py-16 text-center rounded-3xl border border-white/5 space-y-3">
+        <div style={{ backgroundColor: 'var(--bg-card)' }} className="py-16 text-center rounded-sm border border-white/5 space-y-3">
           <Users className="w-12 h-12 text-slate-600 mx-auto" />
           <p className="text-sm font-bold text-slate-300">No users found</p>
         </div>
       ) : (
-        <div style={{ backgroundColor: 'var(--bg-card)' }} className="rounded-3xl border border-white/5 shadow-xl overflow-hidden">
+        <div style={{ backgroundColor: 'var(--bg-card)' }} className="rounded-sm border border-white/5 shadow-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-900/60 border-b border-white/10 text-slate-400 uppercase font-black tracking-wider">
@@ -287,7 +287,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
                       <td className="p-4 text-right pr-6">
                         <button
                           onClick={() => handleDeleteUser(u.id)}
-                          className="p-2 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/30 transition-colors"
+                          className="p-2 rounded-sm bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/30 transition-colors"
                           title="Remove user"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -307,7 +307,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
           <div
             style={{ backgroundColor: 'var(--bg-card)' }}
-            className="w-full max-w-md p-6 rounded-3xl border border-white/10 space-y-5 shadow-2xl relative"
+            className="w-full max-w-md p-6 rounded-sm border border-white/10 space-y-5 shadow-2xl relative"
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2">
@@ -330,7 +330,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
                   placeholder="e.g. Sofia Martinez"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
+                  className="w-full px-4 py-2.5 rounded-sm bg-slate-900 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
                 />
               </div>
 
@@ -341,7 +341,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
                   placeholder={tenantName ? `usuario@${tenantName.toLowerCase().replace(/\s+/g, '')}.com` : "usuario@empresa.com"}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
+                  className="w-full px-4 py-2.5 rounded-sm bg-slate-900 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
                 />
               </div>
 
@@ -352,7 +352,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
                   placeholder="+57 300 000 0000"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
+                  className="w-full px-4 py-2.5 rounded-sm bg-slate-900 border border-white/10 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
                 />
               </div>
 
@@ -361,7 +361,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
                 <select
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-xs text-white focus:outline-none focus:border-emerald-400"
+                  className="w-full px-4 py-2.5 rounded-sm bg-slate-900 border border-white/10 text-xs text-white focus:outline-none focus:border-emerald-400"
                 >
                   <option value="AGENT">AGENT / ANALYST (Standard CRM Access)</option>
                   <option value="MANAGER">MANAGER / IR LEAD (Full Pipeline & Team Scope)</option>
@@ -374,7 +374,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold hover:bg-slate-700 transition-colors"
+                  className="px-4 py-2.5 rounded-sm bg-slate-800 text-slate-300 text-xs font-bold hover:bg-slate-700 transition-colors"
                 >
                   Cancel
                 </button>
@@ -382,7 +382,7 @@ export default function UserRoleManager({ currentTenantId, tenantName }: UserRol
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 text-xs font-black uppercase tracking-wider hover:brightness-110 transition-all shadow-md"
+                  className="px-5 py-2.5 rounded-sm bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 text-xs font-black uppercase tracking-wider hover:brightness-110 transition-all shadow-md"
                 >
                   {submitting ? 'Saving...' : 'Authorize User'}
                 </button>

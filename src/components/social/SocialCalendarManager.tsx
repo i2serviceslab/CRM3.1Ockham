@@ -284,7 +284,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
     }
 
     return (
-      <div className="grid grid-cols-7 gap-px bg-white/10 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+      <div className="grid grid-cols-7 gap-px bg-white/10 rounded-sm overflow-hidden border border-white/10 shadow-2xl">
         {/* Days Header */}
         {['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map((dayName) => (
           <div key={dayName} className="bg-[#121522] py-2.5 text-center text-xs font-black text-slate-400 uppercase tracking-widest">
@@ -337,7 +337,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
                     setSelectedDefaultDate(date);
                     setIsPostModalOpen(true);
                   }}
-                  className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                  className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-white hover:bg-white/10 rounded-sm transition-all"
                 >
                   <Plus className="w-3.5 h-3.5" />
                 </button>
@@ -395,7 +395,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
   // Render List View
   const renderListView = () => {
     return (
-      <div className="bg-[#0d0f17] border border-white/10 rounded-2xl overflow-hidden shadow-2xl space-y-px">
+      <div className="bg-[#0d0f17] border border-white/10 rounded-sm overflow-hidden shadow-2xl space-y-px">
         {posts.length === 0 ? (
           <div className="text-center py-16 text-slate-500 font-medium">
             No hay publicaciones programadas para este periodo.
@@ -452,7 +452,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
                       ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
                       : p.status === 'draft'
                       ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                      : 'bg-cyan-500/20 text-[#D97736] border-cyan-500/30'
+                      : 'bg-orange-500/20 text-[#D97736] border-orange-500/30'
                   }`}
                 >
                   {p.status}
@@ -468,11 +468,11 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
   return (
     <div className="p-6 space-y-6 font-['Urbanist'] max-w-[1600px] mx-auto text-slate-100">
       {/* Top Header & Main Navigation Tabs */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#0d0f17] border border-white/10 p-5 rounded-2xl shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#0d0f17] border border-white/10 p-5 rounded-sm shadow-2xl">
         <div className="flex items-center gap-4">
           <div
             style={{ backgroundColor: 'var(--primary-color-alpha)', color: 'var(--primary-color)' }}
-            className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg"
+            className="w-12 h-12 rounded-sm flex items-center justify-center shadow-lg"
           >
             <CalendarIcon className="w-6 h-6" />
           </div>
@@ -493,7 +493,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
         </div>
 
         {/* Sub-Tab Selector Buttons */}
-        <div className="flex items-center gap-1.5 bg-[#161822] p-1.5 rounded-xl border border-white/10">
+        <div className="flex items-center gap-1.5 bg-[#161822] p-1.5 rounded-sm border border-white/10">
           {[
             { id: 'calendar', label: 'Calendario', icon: CalendarIcon },
             { id: 'gallery', label: 'Galería Multimedia', icon: ImageIcon },
@@ -505,7 +505,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
               <button
                 key={tab.id}
                 onClick={() => setActiveMainTab(tab.id as MainTab)}
-                className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer ${
+                className={`px-4 py-2 rounded-sm text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer ${
                   isActive
                     ? 'bg-[var(--accent-primary)] text-white shadow-md'
                     : 'text-neutral-300 hover:text-white hover:bg-white/5'
@@ -523,29 +523,29 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
       {activeMainTab === 'calendar' && (
         <div className="space-y-4">
           {/* Calendar Toolbar Controls */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-[#0d0f17] border border-white/10 p-4 rounded-2xl">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-[#0d0f17] border border-white/10 p-4 rounded-sm">
             {/* Month Title & Prev/Next */}
             <div className="flex items-center gap-3">
               <h2 className="text-xl font-black text-white capitalize">
                 {currentDate.toLocaleDateString('es-CL', { month: 'long', year: 'numeric' })}
               </h2>
 
-              <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
+              <div className="flex items-center gap-1 bg-white/5 p-1 rounded-sm border border-white/10">
                 <button
                   onClick={handlePrevMonth}
-                  className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                  className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-sm transition-colors"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleToday}
-                  className="px-2.5 py-1 text-xs font-bold text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                  className="px-2.5 py-1 text-xs font-bold text-slate-300 hover:text-white hover:bg-white/10 rounded-sm transition-colors"
                 >
                   Today
                 </button>
                 <button
                   onClick={handleNextMonth}
-                  className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                  className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-sm transition-colors"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -558,7 +558,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
               <select
                 value={platformFilter}
                 onChange={(e) => setPlatformFilter(e.target.value)}
-                className="bg-[#161822] border border-white/10 rounded-xl px-3 py-1.5 text-xs text-slate-200 outline-none"
+                className="bg-[#161822] border border-white/10 rounded-sm px-3 py-1.5 text-xs text-slate-200 outline-none"
               >
                 <option value="all">All Platforms</option>
                 <option value="instagram">Instagram</option>
@@ -570,7 +570,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="bg-[#161822] border border-white/10 rounded-xl px-3 py-1.5 text-xs text-slate-200 outline-none"
+                className="bg-[#161822] border border-white/10 rounded-sm px-3 py-1.5 text-xs text-slate-200 outline-none"
               >
                 <option value="all">All Categories</option>
                 {categories.map((c) => (
@@ -581,10 +581,10 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
               </select>
 
               {/* View Mode */}
-              <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl">
+              <div className="flex items-center gap-1 bg-white/5 p-1 rounded-sm">
                 <button
                   onClick={() => setViewMode('monthly')}
-                  className={`p-1.5 rounded-lg transition-all ${
+                  className={`p-1.5 rounded-sm transition-all ${
                     viewMode === 'monthly' ? 'bg-[var(--primary-color)] text-black' : 'text-slate-400 hover:text-white'
                   }`}
                   title="Monthly View"
@@ -593,7 +593,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-1.5 rounded-lg transition-all ${
+                  className={`p-1.5 rounded-sm transition-all ${
                     viewMode === 'list' ? 'bg-[var(--primary-color)] text-black' : 'text-slate-400 hover:text-white'
                   }`}
                   title="List View"
@@ -604,10 +604,10 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
 
               {/* Density Mode (Compact vs Full) */}
               {viewMode === 'monthly' && (
-                <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl">
+                <div className="flex items-center gap-1 bg-white/5 p-1 rounded-sm">
                   <button
                     onClick={() => setDensityMode('compact')}
-                    className={`px-2.5 py-1 text-[10px] font-black rounded-lg transition-all ${
+                    className={`px-2.5 py-1 text-[10px] font-black rounded-sm transition-all ${
                       densityMode === 'compact' ? 'bg-white/20 text-white' : 'text-slate-400'
                     }`}
                   >
@@ -615,7 +615,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
                   </button>
                   <button
                     onClick={() => setDensityMode('full')}
-                    className={`px-2.5 py-1 text-[10px] font-black rounded-lg transition-all ${
+                    className={`px-2.5 py-1 text-[10px] font-black rounded-sm transition-all ${
                       densityMode === 'full' ? 'bg-white/20 text-white' : 'text-slate-400'
                     }`}
                   >
@@ -627,7 +627,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
               {/* Category Manager Button */}
               <button
                 onClick={() => setIsCategoriesModalOpen(true)}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-bold rounded-xl border border-white/10 transition-all"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-bold rounded-sm border border-white/10 transition-all"
               >
                 <Tag className="w-3.5 h-3.5 text-[var(--primary-color)]" />
                 Categories
@@ -641,7 +641,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
                   setIsPostModalOpen(true);
                 }}
                 style={{ backgroundColor: 'var(--primary-color)', color: '#000000' }}
-                className="flex items-center gap-1.5 px-4 py-1.5 text-xs font-black rounded-xl hover:brightness-110 transition-all shadow-lg shadow-black/50"
+                className="flex items-center gap-1.5 px-4 py-1.5 text-xs font-black rounded-sm hover:brightness-110 transition-all shadow-lg shadow-black/50"
               >
                 <Plus className="w-4 h-4" />
                 New Post
@@ -665,7 +665,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
       {/* SUB-TAB 2: MEDIA GALLERY */}
       {activeMainTab === 'gallery' && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between bg-[#0d0f17] border border-white/10 p-4 rounded-2xl">
+          <div className="flex items-center justify-between bg-[#0d0f17] border border-white/10 p-4 rounded-sm">
             <h2 className="text-lg font-bold text-white">Media Gallery ({mediaList.length} files)</h2>
             <div className="relative">
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -674,7 +674,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
                 value={mediaSearch}
                 onChange={(e) => setMediaSearch(e.target.value)}
                 placeholder="Search files..."
-                className="bg-[#161822] border border-white/10 rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 outline-none focus:border-[var(--primary-color)]"
+                className="bg-[#161822] border border-white/10 rounded-sm pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 outline-none focus:border-[var(--primary-color)]"
               />
             </div>
           </div>
@@ -691,7 +691,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
                 <div
                   key={media.id}
                   onClick={() => setPreviewMedia(media)}
-                  className="group relative bg-[#121522] border border-white/10 rounded-2xl overflow-hidden cursor-pointer hover:border-white/30 transition-all shadow-md"
+                  className="group relative bg-[#121522] border border-white/10 rounded-sm overflow-hidden cursor-pointer hover:border-white/30 transition-all shadow-md"
                 >
                   <div className="aspect-square relative">
                     {media.fileType === 'video' ? (
@@ -717,13 +717,13 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
       {/* SUB-TAB 3: AUDIT LOG */}
       {activeMainTab === 'audit' && (
         <div className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3 bg-[#0d0f17] border border-white/10 p-4 rounded-2xl">
+          <div className="flex flex-wrap items-center justify-between gap-3 bg-[#0d0f17] border border-white/10 p-4 rounded-sm">
             <h2 className="text-lg font-bold text-white">Audit Log</h2>
             <div className="flex items-center gap-3">
               <select
                 value={auditActionFilter}
                 onChange={(e) => setAuditActionFilter(e.target.value)}
-                className="bg-[#161822] border border-white/10 rounded-xl px-3 py-1.5 text-xs text-slate-200 outline-none"
+                className="bg-[#161822] border border-white/10 rounded-sm px-3 py-1.5 text-xs text-slate-200 outline-none"
               >
                 <option value="">All Actions</option>
                 <option value="create_post">create_post</option>
@@ -735,7 +735,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
 
               <button
                 onClick={fetchAuditLogs}
-                className="p-2 bg-white/5 hover:bg-white/10 rounded-xl text-slate-300 hover:text-white transition-all"
+                className="p-2 bg-white/5 hover:bg-white/10 rounded-sm text-slate-300 hover:text-white transition-all"
               >
                 <RefreshCw className="w-4 h-4" />
               </button>
@@ -749,7 +749,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
           ) : auditLogs.length === 0 ? (
             <div className="text-center py-20 text-slate-500">No audit log records yet.</div>
           ) : (
-            <div className="bg-[#0d0f17] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="bg-[#0d0f17] border border-white/10 rounded-sm overflow-hidden shadow-2xl">
               <table className="w-full text-xs text-left">
                 <thead className="bg-[#121522] border-b border-white/10 text-slate-400 uppercase font-black tracking-wider">
                   <tr>
@@ -776,7 +776,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
                               ? 'bg-red-500/20 text-red-400 border-red-500/30'
                               : log.action.includes('update')
                               ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                              : 'bg-cyan-500/20 text-[#D97736] border-cyan-500/30'
+                              : 'bg-orange-500/20 text-[#D97736] border-orange-500/30'
                           }`}
                         >
                           {log.action}

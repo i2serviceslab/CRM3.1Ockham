@@ -398,7 +398,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
     <div className="space-y-8 font-['Urbanist'] max-w-6xl mx-auto animate-fadeIn">
       {/* Toast Notification Alert */}
       {toastMessage && (
-        <div className="fixed top-5 right-5 z-50 p-4 rounded-2xl bg-emerald-500 text-black font-black text-xs shadow-2xl flex items-center gap-3 border border-emerald-300 animate-bounce">
+        <div className="fixed top-5 right-5 z-50 p-4 rounded-sm bg-emerald-500 text-black font-black text-xs shadow-2xl flex items-center gap-3 border border-emerald-300 animate-bounce">
           <CheckCircle2 className="w-5 h-5 stroke-[3]" />
           <span>{toastMessage}</span>
         </div>
@@ -420,7 +420,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
             Bot de WhatsApp con Escudo Anti-Baneo, Lenguaje Natural (ES/EN), vCard nativa (.vcf), Escáner guiado por fotos y Transcripción IA.
           </p>
           <div className="flex items-center gap-2 mt-2 flex-wrap">
-            <span className="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-extrabold text-[10px] border border-emerald-500/30">
+            <span className="px-2 py-0.5 rounded-sm bg-emerald-500/20 text-emerald-300 font-extrabold text-[10px] border border-emerald-500/30">
               v9.2 — 1-CLIC INSTANT PAIRING
             </span>
             <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-[10px] font-mono text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
@@ -492,11 +492,11 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
         {/* Real Scannable 2D Barcode Display Card */}
         <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-6 rounded-[28px] border border-white/5 space-y-3 shadow-xl flex flex-col items-center justify-center text-center">
           {session.qrCode ? (
-            <div className="p-4 bg-white rounded-2xl shadow-2xl space-y-2 border border-slate-200 animate-fadeIn">
+            <div className="p-4 bg-white rounded-sm shadow-2xl space-y-2 border border-slate-200 animate-fadeIn">
               <img
                 src={qrImageUrl || getQrSrc(session.qrCode) || ''}
                 alt="WhatsApp Baileys QR Code"
-                className="w-52 h-52 object-contain mx-auto rounded-lg shadow-md bg-white"
+                className="w-52 h-52 object-contain mx-auto rounded-sm shadow-md bg-white"
               />
               <p className="text-[11px] text-slate-900 font-extrabold uppercase tracking-wide">
                 Escanea este código QR con WhatsApp en tu celular
@@ -525,7 +525,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
         </div>
 
         {/* Instant 1-Click Direct Pairing Card */}
-        <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-6 rounded-[28px] border border-cyan-500/20 space-y-3 shadow-xl">
+        <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-6 rounded-[28px] border border-orange-500/20 space-y-3 shadow-xl">
           <div className="flex items-center gap-2 text-emerald-400">
             <Zap className="w-5 h-5" />
             <h3 className="text-xs font-black uppercase text-white">Vinculación Directa Instantánea (1-Clic)</h3>
@@ -540,13 +540,13 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
               value={pairingPhone}
               onChange={(e) => setPairingPhone(e.target.value)}
               placeholder="+573124031892"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white placeholder-slate-500 font-mono font-bold"
+              className="w-full px-3.5 py-2.5 rounded-sm bg-black/40 border border-white/10 text-xs text-white placeholder-slate-500 font-mono font-bold"
             />
             <button
               type="button"
               onClick={handleDirectPair}
               disabled={loading}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-black font-black text-xs uppercase tracking-wider hover:brightness-110 transition-all cursor-pointer shadow-lg disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-sm bg-gradient-to-r from-emerald-500 to-teal-600 text-black font-black text-xs uppercase tracking-wider hover:brightness-110 transition-all cursor-pointer shadow-lg disabled:opacity-50 flex items-center justify-center gap-2"
             >
               <Zap className="w-4 h-4" />
               <span>{loading ? 'Vinculando...' : '⚡ Activar y Vincular WhatsApp Ahora (1-Clic)'}</span>
@@ -563,7 +563,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
       <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-6 lg:p-8 rounded-[28px] border border-white/10 space-y-4 shadow-2xl">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black">
+            <div className="w-10 h-10 rounded-sm bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black">
               <MessageSquare className="w-6 h-6" />
             </div>
             <div>
@@ -590,7 +590,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
               onClick={() => {
                 setChatInput(promptText);
               }}
-              className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-slate-200 whitespace-nowrap transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-sm bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-slate-200 whitespace-nowrap transition-colors cursor-pointer"
             >
               {promptText}
             </button>
@@ -598,7 +598,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
         </div>
 
         {/* Chat History Box */}
-        <div className="h-64 overflow-y-auto p-4 rounded-2xl bg-black/50 border border-white/10 space-y-3 font-sans">
+        <div className="h-64 overflow-y-auto p-4 rounded-sm bg-black/50 border border-white/10 space-y-3 font-sans">
           {chatMessages.map((msg, i) => (
             <div key={i} className={`flex flex-col ${msg.isBot ? 'items-start' : 'items-end'}`}>
               <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mb-1">
@@ -607,7 +607,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
                 <span>{msg.time}</span>
               </div>
               <div
-                className={`p-3.5 rounded-2xl max-w-[85%] text-xs leading-relaxed whitespace-pre-wrap ${
+                className={`p-3.5 rounded-sm max-w-[85%] text-xs leading-relaxed whitespace-pre-wrap ${
                   msg.isBot
                     ? 'bg-slate-800 text-slate-100 border border-white/10 rounded-tl-none shadow-md font-mono'
                     : 'bg-emerald-600 text-white rounded-tr-none font-medium shadow-md'
@@ -626,11 +626,11 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
             placeholder="Escribe tu mensaje o comando para el Bot (ej: Hola, Resumen, Agrega a...)"
-            className="flex-1 px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-xs text-white placeholder-slate-500 font-mono focus:border-emerald-500 outline-none"
+            className="flex-1 px-4 py-3 rounded-sm bg-black/60 border border-white/10 text-xs text-white placeholder-slate-500 font-mono focus:border-emerald-500 outline-none"
           />
           <button
             type="submit"
-            className="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2 shadow-lg"
+            className="px-6 py-3 rounded-sm bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2 shadow-lg"
           >
             <span>Enviar</span>
             <Send className="w-4 h-4" />
@@ -643,7 +643,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
         <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--primary-color)' }} className="p-6 lg:p-8 rounded-[28px] border-2 space-y-6 shadow-2xl animate-pulseOnce">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-black">
+              <div className="w-10 h-10 rounded-sm bg-amber-500/20 text-amber-400 flex items-center justify-center font-black">
                 <AlertCircle className="w-6 h-6" />
               </div>
               <div>
@@ -665,7 +665,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
               <div
                 key={req.fromNumber}
                 style={{ backgroundColor: 'var(--bg-card-inner)' }}
-                className="p-5 rounded-2xl border border-white/10 space-y-4 shadow-xl hover:border-amber-400/50 transition-colors"
+                className="p-5 rounded-sm border border-white/10 space-y-4 shadow-xl hover:border-amber-400/50 transition-colors"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="space-y-1">
@@ -675,7 +675,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
 
                     {/* PROMINENT CONTACT PROFILE NAME DISPLAY */}
                     <div className="flex items-center gap-2 pt-1">
-                      <div className="w-7 h-7 rounded-full bg-cyan-500/20 text-[#D97736] flex items-center justify-center font-bold text-xs border border-cyan-500/30">
+                      <div className="w-7 h-7 rounded-full bg-orange-500/20 text-[#D97736] flex items-center justify-center font-bold text-xs border border-orange-500/30">
                         <User className="w-4 h-4" />
                       </div>
                       <div>
@@ -688,7 +688,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
                       </div>
                     </div>
 
-                    <p className="text-xs text-slate-300 italic mt-2 bg-black/40 p-2.5 rounded-xl border border-white/5">
+                    <p className="text-xs text-slate-300 italic mt-2 bg-black/40 p-2.5 rounded-sm border border-white/5">
                       "{req.lastMessage}"
                     </p>
                   </div>
@@ -706,7 +706,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
                       value={editingNames[req.fromNumber] || req.senderName || ''}
                       onChange={(e) => setEditingNames({ ...editingNames, [req.fromNumber]: e.target.value })}
                       placeholder="Administrator Name (e.g. Sara / Nelson)"
-                      className="w-full hs-input-hero text-xs py-2 font-bold text-white bg-black/60 border-cyan-500/30 focus:border-cyan-400"
+                      className="w-full hs-input-hero text-xs py-2 font-bold text-white bg-black/60 border-orange-500/30 focus:border-orange-400"
                     />
                   </div>
 
@@ -714,7 +714,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
                     <button
                       type="button"
                       onClick={() => handleApproveRequest(req.fromNumber)}
-                      className="flex-1 py-2.5 rounded-xl bg-emerald-500 text-black text-xs font-black flex items-center justify-center gap-2 hover:bg-emerald-400 transition-colors shadow-lg cursor-pointer"
+                      className="flex-1 py-2.5 rounded-sm bg-emerald-500 text-black text-xs font-black flex items-center justify-center gap-2 hover:bg-emerald-400 transition-colors shadow-lg cursor-pointer"
                     >
                       <Check className="w-4 h-4 stroke-[3]" />
                       <span>✅ Approve Access ({editingNames[req.fromNumber] || req.senderName || 'Admin'})</span>
@@ -723,7 +723,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
                     <button
                       type="button"
                       onClick={() => handleRejectRequest(req.fromNumber)}
-                      className="py-2.5 px-3 rounded-xl bg-rose-500/20 text-rose-300 hover:bg-rose-500 hover:text-white text-xs font-black flex items-center justify-center transition-colors cursor-pointer"
+                      className="py-2.5 px-3 rounded-sm bg-rose-500/20 text-rose-300 hover:bg-rose-500 hover:text-white text-xs font-black flex items-center justify-center transition-colors cursor-pointer"
                       title="Reject Request"
                     >
                       <X className="w-4 h-4 stroke-[3]" />
@@ -784,7 +784,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
             <div
               key={item.id}
               style={{ backgroundColor: 'var(--bg-card-inner)' }}
-              className="p-3.5 rounded-2xl flex items-center justify-between border border-white/5 hover:border-white/20 transition-colors"
+              className="p-3.5 rounded-sm flex items-center justify-between border border-white/5 hover:border-white/20 transition-colors"
             >
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
@@ -907,7 +907,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
 
         {/* Bot Response Box */}
         {lastBotResponse && (
-          <div className="p-4 rounded-2xl bg-black/60 border border-white/10 space-y-2 animate-fadeIn">
+          <div className="p-4 rounded-sm bg-black/60 border border-white/10 space-y-2 animate-fadeIn">
             <div className="flex items-center justify-between text-xs font-black text-slate-400 border-b border-white/10 pb-2">
               <span>CRM AUTOMATED BOT RESPONSE (BAILEYS)</span>
               <span className="text-emerald-400 font-mono">200 OK</span>

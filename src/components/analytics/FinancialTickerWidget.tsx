@@ -346,7 +346,7 @@ export const FinancialTickerWidget: React.FC = () => {
   const categories = ['ALL', 'Metales & Minerales', 'Energía & Recursos', 'Acciones Mineras', 'Índices Globales', 'Divisas & Forex', 'Tecnología', 'Criptoactivos'];
 
   return (
-    <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-4 rounded-3xl border border-white/5 shadow-xl w-full font-['Urbanist'] animate-fadeIn relative">
+    <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-4 rounded-sm border border-white/5 shadow-xl w-full font-['Urbanist'] animate-fadeIn relative">
       {/* Widget Header */}
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
         <div className="flex items-center gap-2 text-white">
@@ -359,7 +359,7 @@ export const FinancialTickerWidget: React.FC = () => {
 
         <div className="flex items-center gap-2.5 flex-wrap">
           {/* Base Currency Switcher (USD, CAD, EUR) */}
-          <div className="flex items-center gap-1 p-1 rounded-lg bg-white/5 border border-white/10 font-mono text-[11px]">
+          <div className="flex items-center gap-1 p-1 rounded-sm bg-white/5 border border-white/10 font-mono text-[11px]">
             {(['USD', 'CAD', 'EUR'] as const).map((curr) => (
               <button
                 key={curr}
@@ -393,7 +393,7 @@ export const FinancialTickerWidget: React.FC = () => {
           {/* Edit Market Tickers Button */}
           <button
             onClick={() => setShowEditModal(true)}
-            className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-white flex items-center gap-1.5 transition-all cursor-pointer"
+            className="px-2.5 py-1 rounded-sm bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-white flex items-center gap-1.5 transition-all cursor-pointer"
             title="Buscar & Personalizar Tickers del Panel"
           >
             <Search className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
@@ -406,14 +406,14 @@ export const FinancialTickerWidget: React.FC = () => {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {loading && tickers.length === 0 ? (
           [1, 2, 3, 4].map((n) => (
-            <div key={n} className="p-3 rounded-2xl h-24 skeleton-shimmer border border-white/5" />
+            <div key={n} className="p-3 rounded-sm h-24 skeleton-shimmer border border-white/5" />
           ))
         ) : (
           tickers.map((ticker) => (
             <div
               key={ticker.symbol}
               style={{ backgroundColor: 'var(--bg-card-inner)' }}
-              className="p-3 rounded-2xl flex flex-col justify-between border border-white/5 bento-card-spotlight group"
+              className="p-3 rounded-sm flex flex-col justify-between border border-white/5 bento-card-spotlight group"
             >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-neutral-300 truncate pr-1" title={ticker.name}>
@@ -448,11 +448,11 @@ export const FinancialTickerWidget: React.FC = () => {
       {/* EDIT & SEARCH MARKET TICKERS MODAL */}
       {showEditModal && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-2xl bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto animate-fadeIn">
+          <div className="w-full max-w-2xl bg-[#1C1B1B] border border-white/10 rounded-sm p-6 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto animate-fadeIn">
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[var(--accent-primary-subtle)] text-[var(--accent-primary)] border border-[var(--accent-primary)]/20 flex items-center justify-center font-bold">
+                <div className="w-9 h-9 rounded-sm bg-[var(--accent-primary-subtle)] text-[var(--accent-primary)] border border-[var(--accent-primary)]/20 flex items-center justify-center font-bold">
                   <Search className="w-4 h-4 text-[var(--accent-primary)]" />
                 </div>
                 <div>
@@ -478,7 +478,7 @@ export const FinancialTickerWidget: React.FC = () => {
                   placeholder="Buscar ticker (ej: Oro, Plata, Cobre, Petrol, Nvidia, Apple, Dólar, USD/COP, S&P)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 rounded-2xl bg-[#2A2A2A] border border-white/10 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[var(--accent-primary)] font-mono"
+                  className="w-full pl-11 pr-4 py-3 rounded-sm bg-[#2A2A2A] border border-white/10 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[var(--accent-primary)] font-mono"
                   autoFocus
                 />
                 {searchQuery && (
@@ -536,7 +536,7 @@ export const FinancialTickerWidget: React.FC = () => {
                         key={preset.symbol}
                         type="button"
                         onClick={() => handleTogglePreset(preset)}
-                        className={`p-2.5 rounded-2xl text-left border transition-all flex items-center justify-between gap-3 cursor-pointer ${
+                        className={`p-2.5 rounded-sm text-left border transition-all flex items-center justify-between gap-3 cursor-pointer ${
                           isActive
                             ? 'bg-[var(--accent-primary-subtle)] border-[var(--accent-primary)] text-white'
                             : 'bg-[#2A2A2A] border-white/10 text-slate-300 hover:bg-white/10'
@@ -566,14 +566,14 @@ export const FinancialTickerWidget: React.FC = () => {
                   })}
                 </div>
               ) : (
-                <div className="p-4 rounded-2xl bg-[#2A2A2A] border border-white/10 text-center space-y-3">
+                <div className="p-4 rounded-sm bg-[#2A2A2A] border border-white/10 text-center space-y-3">
                   <p className="text-xs text-slate-400">
                     No se encontró ningún activo en el catálogo con el término <strong className="text-white">"{searchQuery}"</strong>.
                   </p>
                   <button
                     type="button"
                     onClick={() => handleQuickAddSearched(searchQuery)}
-                    className="px-4 py-2 rounded-xl bg-[var(--accent-primary)] text-white text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer shadow-lg"
+                    className="px-4 py-2 rounded-sm bg-[var(--accent-primary)] text-white text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer shadow-lg"
                   >
                     <Plus className="w-4 h-4" />
                     <span>Agregar "{searchQuery.toUpperCase()}" con 1-Clic</span>
@@ -592,10 +592,10 @@ export const FinancialTickerWidget: React.FC = () => {
                 {tickers.map((ticker) => (
                   <div
                     key={ticker.symbol}
-                    className="p-3 rounded-2xl bg-[#2A2A2A] border border-white/10 flex items-center justify-between gap-3"
+                    className="p-3 rounded-sm bg-[#2A2A2A] border border-white/10 flex items-center justify-between gap-3"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center text-xs font-mono font-bold text-white shrink-0">
+                      <div className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center text-xs font-mono font-bold text-white shrink-0">
                         {ticker.symbol.substring(0, 3)}
                       </div>
                       <div className="min-w-0">
@@ -607,7 +607,7 @@ export const FinancialTickerWidget: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleDeleteTicker(ticker.symbol)}
-                      className="p-2 rounded-xl bg-white/5 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer shrink-0"
+                      className="p-2 rounded-sm bg-white/5 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer shrink-0"
                       title="Eliminar ticker"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -629,7 +629,7 @@ export const FinancialTickerWidget: React.FC = () => {
                   placeholder="Símbolo (ej: COP/USD)"
                   value={newSymbol}
                   onChange={(e) => setNewSymbol(e.target.value)}
-                  className="px-3 py-2 rounded-xl bg-[#2A2A2A] border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[var(--accent-primary)] font-mono"
+                  className="px-3 py-2 rounded-sm bg-[#2A2A2A] border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[var(--accent-primary)] font-mono"
                   required
                 />
                 <input
@@ -637,7 +637,7 @@ export const FinancialTickerWidget: React.FC = () => {
                   placeholder="Nombre (ej: Dólar Col)"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
-                  className="px-3 py-2 rounded-xl bg-[#2A2A2A] border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[var(--accent-primary)]"
+                  className="px-3 py-2 rounded-sm bg-[#2A2A2A] border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[var(--accent-primary)]"
                 />
                 <input
                   type="number"
@@ -645,14 +645,14 @@ export const FinancialTickerWidget: React.FC = () => {
                   placeholder="Precio Base (ej: 4050.50)"
                   value={newPrice}
                   onChange={(e) => setNewPrice(e.target.value)}
-                  className="px-3 py-2 rounded-xl bg-[#2A2A2A] border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[var(--accent-primary)] font-mono"
+                  className="px-3 py-2 rounded-sm bg-[#2A2A2A] border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[var(--accent-primary)] font-mono"
                   required
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-2.5 rounded-xl bg-[var(--accent-primary)] text-white text-xs font-bold uppercase tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[var(--accent-primary-subtle)]"
+                className="w-full py-2.5 rounded-sm bg-[var(--accent-primary)] text-white text-xs font-bold uppercase tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[var(--accent-primary-subtle)]"
               >
                 <Plus className="w-4 h-4" />
                 <span>Agregar Activo al Panel</span>
@@ -664,7 +664,7 @@ export const FinancialTickerWidget: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowEditModal(false)}
-                className="px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-colors cursor-pointer"
+                className="px-6 py-2.5 rounded-sm bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-colors cursor-pointer"
               >
                 Guardar y Cerrar
               </button>

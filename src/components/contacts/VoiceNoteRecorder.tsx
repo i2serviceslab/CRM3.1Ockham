@@ -110,14 +110,14 @@ export const VoiceNoteRecorder: React.FC<VoiceNoteRecorderProps> = ({ contacts, 
       </div>
 
       {successMsg && (
-        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-3 font-bold">
+        <div className="p-4 rounded-sm bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-3 font-bold">
           <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
           <span>{successMsg}</span>
         </div>
       )}
 
       {errorMsg && (
-        <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs flex items-center gap-3 font-bold">
+        <div className="p-4 rounded-sm bg-red-500/10 border border-red-500/30 text-red-400 text-xs flex items-center gap-3 font-bold">
           <span className="text-red-400 shrink-0">⚠️</span>
           <span>{errorMsg}</span>
         </div>
@@ -170,7 +170,7 @@ export const VoiceNoteRecorder: React.FC<VoiceNoteRecorderProps> = ({ contacts, 
 
         {/* Audio Preview & AI Transcript */}
         {audioUrl && (
-          <div className="p-5 rounded-3xl bg-[#0f1218] border border-white/10 space-y-4 text-left">
+          <div className="p-5 rounded-sm bg-[#0f1218] border border-white/10 space-y-4 text-left">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Volume2 style={{ color: 'var(--primary-color)' }} className="w-4 h-4" />
@@ -188,7 +188,7 @@ export const VoiceNoteRecorder: React.FC<VoiceNoteRecorderProps> = ({ contacts, 
                     `• Tarea de Seguimiento: Despachar informe de ensayos geológicos y agendar videollamada.`;
                   setTranscript(aiTakeaway);
                 }}
-                className="px-3.5 py-1.5 rounded-full bg-cyan-500/20 text-[#D97736] border border-cyan-500/40 font-black text-xs hover:bg-cyan-500 hover:text-black transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
+                className="px-3.5 py-1.5 rounded-full bg-orange-500/20 text-[#D97736] border border-orange-500/40 font-black text-xs hover:bg-orange-500 hover:text-black transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
               >
                 <Volume2 className="w-3.5 h-3.5" />
                 <span>⚡ Extraer Puntos Clave con IA</span>
@@ -206,7 +206,7 @@ export const VoiceNoteRecorder: React.FC<VoiceNoteRecorderProps> = ({ contacts, 
                 value={transcript}
                 onChange={(e) => setTranscript(e.target.value)}
                 placeholder="Haz clic en 'Extraer Puntos Clave con IA' o escribe los puntos de la llamada..."
-                className="w-full p-3.5 bg-slate-950 border border-white/10 rounded-2xl text-xs text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 leading-relaxed font-mono"
+                className="w-full p-3.5 bg-slate-950 border border-white/10 rounded-sm text-xs text-white placeholder-slate-600 focus:outline-none focus:border-orange-400 leading-relaxed font-mono"
               />
             </div>
             <button

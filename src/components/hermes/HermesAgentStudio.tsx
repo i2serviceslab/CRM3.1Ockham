@@ -391,11 +391,11 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
   );
 
   return (
-    <div className="flex flex-col h-[calc(100vh-120px)] w-full bg-[#131313] rounded-2xl border border-white/10 overflow-hidden text-[#E5E2E1]">
+    <div className="flex flex-col h-[calc(100vh-120px)] w-full bg-[#131313] rounded-sm border border-white/10 overflow-hidden text-[#E5E2E1]">
       {/* ── TOP HEADER ───────────────────────────────────────── */}
       <div className="h-14 px-6 border-b border-white/10 flex items-center justify-between bg-[#1C1B1B] shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] border border-[var(--accent-primary)]/30 flex items-center justify-center font-bold">
+          <div className="w-8 h-8 rounded-sm bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] border border-[var(--accent-primary)]/30 flex items-center justify-center font-bold">
             <Bot className="w-4 h-4 text-[var(--accent-primary)]" />
           </div>
           <div>
@@ -429,7 +429,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
           {/* Settings Trigger */}
           <button
             onClick={() => setShowConfigModal(true)}
-            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 hover:text-white transition-colors cursor-pointer"
+            className="p-2 rounded-sm bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 hover:text-white transition-colors cursor-pointer"
             title="Configurar conexión con Mac Mini"
           >
             <Settings2 className="w-4 h-4" />
@@ -444,7 +444,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
           <div className="p-3 border-b border-white/10 space-y-2">
             <button
               onClick={handleCreateNewSession}
-              className="w-full py-2 px-3 rounded-lg bg-[var(--accent-primary)] hover:opacity-90 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
+              className="w-full py-2 px-3 rounded-sm bg-[var(--accent-primary)] hover:opacity-90 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Nueva Consulta</span>
@@ -457,7 +457,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                 placeholder="Buscar chats..."
                 value={sessionSearch}
                 onChange={(e) => setSessionSearch(e.target.value)}
-                className="w-full pl-8 pr-2.5 py-1.5 rounded-lg bg-[#202020] border border-white/10 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-[var(--accent-primary)] transition-colors"
+                className="w-full pl-8 pr-2.5 py-1.5 rounded-sm bg-[#202020] border border-white/10 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-[var(--accent-primary)] transition-colors"
               />
             </div>
           </div>
@@ -473,7 +473,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                   <div
                     key={s.id}
                     onClick={() => setCurrentSessionId(s.id)}
-                    className={`group w-full flex items-center justify-between p-2.5 rounded-lg text-xs transition-all cursor-pointer ${
+                    className={`group w-full flex items-center justify-between p-2.5 rounded-sm text-xs transition-all cursor-pointer ${
                       isSelected
                         ? 'bg-[var(--accent-primary)]/15 text-white border border-[var(--accent-primary)]/30 font-semibold'
                         : 'text-neutral-400 hover:bg-white/5 hover:text-neutral-200 border border-transparent'
@@ -516,7 +516,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
               </div>
             ) : messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center space-y-4 py-12">
-                <div className="w-14 h-14 rounded-2xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] border border-[var(--accent-primary)]/20 flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 rounded-sm bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] border border-[var(--accent-primary)]/20 flex items-center justify-center shadow-lg">
                   <Sparkles className="w-7 h-7 text-[var(--accent-primary)]" />
                 </div>
                 <div className="max-w-md space-y-1">
@@ -556,7 +556,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                         setActiveWorker(sug.worker);
                         setInputPrompt(`Por favor ejecuta la siguiente tarea: ${sug.label}`);
                       }}
-                      className="p-3 rounded-xl bg-[#1C1B1B] hover:bg-[#252424] border border-white/10 hover:border-white/20 text-left transition-all group cursor-pointer"
+                      className="p-3 rounded-sm bg-[#1C1B1B] hover:bg-[#252424] border border-white/10 hover:border-white/20 text-left transition-all group cursor-pointer"
                     >
                       <div className="font-bold text-xs text-white group-hover:text-[var(--accent-primary)] transition-colors">
                         {sug.label}
@@ -584,7 +584,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                     }`}
                   >
                     {!isUser && (
-                      <div className="w-8 h-8 rounded-lg bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] border border-[var(--accent-primary)]/30 flex items-center justify-center font-bold shrink-0 mt-1">
+                      <div className="w-8 h-8 rounded-sm bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] border border-[var(--accent-primary)]/30 flex items-center justify-center font-bold shrink-0 mt-1">
                         <Bot className="w-4 h-4 text-[var(--accent-primary)]" />
                       </div>
                     )}
@@ -596,7 +596,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                     >
                       {/* Worker Execution Badge */}
                       {m.workerName && (
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-[#1C1B1B] border border-white/10 text-neutral-300">
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[11px] font-mono font-bold bg-[#1C1B1B] border border-white/10 text-neutral-300">
                           <Zap className="w-3 h-3 text-[var(--accent-primary)]" />
                           <span>Worker: {m.workerName}</span>
                           {m.workerStatus === 'completed' && (
@@ -607,7 +607,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
 
                       {/* Message Bubble */}
                       <div
-                        className={`p-4 rounded-2xl text-xs leading-relaxed transition-all shadow-sm ${
+                        className={`p-4 rounded-sm text-xs leading-relaxed transition-all shadow-sm ${
                           isUser
                             ? 'bg-[var(--accent-primary)] text-white font-medium rounded-tr-sm'
                             : 'bg-[#1C1B1B] text-[#E5E2E1] border border-white/10 rounded-tl-sm font-normal'
@@ -615,7 +615,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                       >
                         {/* Audio Player if voice note */}
                         {m.audioUrl && (
-                          <div className="mb-3 p-2.5 rounded-lg bg-black/30 border border-white/10">
+                          <div className="mb-3 p-2.5 rounded-sm bg-black/30 border border-white/10">
                             <div className="flex items-center gap-2 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-neutral-400">
                               <Mic className="w-3 h-3 text-[var(--accent-primary)]" />
                               <span>Nota de voz procesada</span>
@@ -633,7 +633,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                                 href={f.url}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="flex items-center gap-2 p-2 rounded-lg bg-black/20 hover:bg-black/40 border border-white/10 text-xs transition-colors"
+                                className="flex items-center gap-2 p-2 rounded-sm bg-black/20 hover:bg-black/40 border border-white/10 text-xs transition-colors"
                               >
                                 <FileText className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
                                 <span className="truncate font-medium flex-1">{f.name}</span>
@@ -667,7 +667,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                     </div>
 
                     {isUser && (
-                      <div className="w-8 h-8 rounded-lg bg-white/10 text-white border border-white/20 flex items-center justify-center font-bold text-xs shrink-0 mt-1">
+                      <div className="w-8 h-8 rounded-sm bg-white/10 text-white border border-white/20 flex items-center justify-center font-bold text-xs shrink-0 mt-1">
                         N
                       </div>
                     )}
@@ -679,23 +679,23 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
             {/* REAL-TIME THINKING & PROCESSING FEEDBACK INDICATOR */}
             {(sending || (messages.length > 0 && messages[messages.length - 1].role === 'user')) && (
               <div className="flex gap-3.5 max-w-4xl mx-auto items-start justify-start animate-fadeIn">
-                <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-[#D97736] border border-cyan-500/40 flex items-center justify-center font-bold shrink-0 mt-1 shadow-[0_0_15px_rgba(6,182,212,0.3)] animate-pulse">
+                <div className="w-8 h-8 rounded-sm bg-orange-500/20 text-[#D97736] border border-orange-500/40 flex items-center justify-center font-bold shrink-0 mt-1 shadow-[0_0_15px_rgba(6,182,212,0.3)] animate-pulse">
                   <Bot className="w-4 h-4 text-[#D97736]" />
                 </div>
                 <div className="space-y-2 max-w-[85%]">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md text-[11px] font-mono font-bold bg-cyan-950/40 border border-cyan-500/30 text-cyan-300">
-                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping inline-block" />
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm text-[11px] font-mono font-bold bg-orange-950/40 border border-orange-500/30 text-orange-300">
+                    <span className="w-2 h-2 rounded-full bg-orange-400 animate-ping inline-block" />
                     <span>CopperMind Agent Activo</span>
-                    <span className="text-[10px] text-cyan-500">• Mac Mini</span>
+                    <span className="text-[10px] text-orange-500">• Mac Mini</span>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-gradient-to-br from-[#1C1B1B] to-[#151515] border border-cyan-500/20 shadow-xl space-y-3 relative overflow-hidden">
+                  <div className="p-4 rounded-sm bg-gradient-to-br from-[#1C1B1B] to-[#151515] border border-orange-500/20 shadow-xl space-y-3 relative overflow-hidden">
                     {/* Glowing animated line on top border */}
-                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" />
+                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-orange-400 to-transparent animate-pulse" />
 
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-1.5 py-1">
-                        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce [animation-delay:-0.3s]" />
+                        <span className="w-2 h-2 rounded-full bg-orange-400 animate-bounce [animation-delay:-0.3s]" />
                         <span className="w-2 h-2 rounded-full bg-teal-400 animate-bounce [animation-delay:-0.15s]" />
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce" />
                       </div>
@@ -747,7 +747,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                 {attachedFiles.map((f, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#252424] border border-white/10 text-xs text-white"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-[#252424] border border-white/10 text-xs text-white"
                   >
                     <FileText className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
                     <span className="max-w-[150px] truncate font-medium">{f.name}</span>
@@ -763,7 +763,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
             )}
 
             {/* INPUT CONTROLS BAR */}
-            <div className="max-w-4xl mx-auto flex items-end gap-2 bg-[#201F1F] p-2 rounded-2xl border border-white/10 focus-within:border-[var(--accent-primary)]/50 transition-all">
+            <div className="max-w-4xl mx-auto flex items-end gap-2 bg-[#201F1F] p-2 rounded-sm border border-white/10 focus-within:border-[var(--accent-primary)]/50 transition-all">
               {/* File Attachment Button */}
               <input
                 ref={fileInputRef}
@@ -776,7 +776,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploadingFile}
-                className="p-2.5 rounded-xl hover:bg-white/10 text-neutral-400 hover:text-white transition-colors cursor-pointer disabled:opacity-50"
+                className="p-2.5 rounded-sm hover:bg-white/10 text-neutral-400 hover:text-white transition-colors cursor-pointer disabled:opacity-50"
                 title="Adjuntar archivo (PDF, CSV, Excel, Imagen)"
               >
                 <Paperclip className={`w-4 h-4 ${uploadingFile ? 'animate-bounce' : ''}`} />
@@ -784,7 +784,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
 
               {/* Audio Recording Button or Controls */}
               {isRecording ? (
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 animate-pulse">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-red-500/10 border border-red-500/30 text-red-400 animate-pulse">
                   <span className="w-2 h-2 rounded-full bg-red-500" />
                   <span className="text-xs font-mono font-bold">{recordingSeconds}s</span>
                   <button
@@ -800,7 +800,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
               ) : (
                 <button
                   onClick={startRecording}
-                  className="p-2.5 rounded-xl hover:bg-white/10 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                  className="p-2.5 rounded-sm hover:bg-white/10 text-neutral-400 hover:text-white transition-colors cursor-pointer"
                   title="Grabar nota de voz"
                 >
                   <Mic className="w-4 h-4" />
@@ -826,7 +826,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
               <button
                 onClick={() => handleSendMessage()}
                 disabled={sending || (!inputPrompt.trim() && attachedFiles.length === 0)}
-                className="p-2.5 rounded-xl bg-[var(--accent-primary)] hover:opacity-90 disabled:opacity-30 text-white font-bold transition-all shrink-0 cursor-pointer"
+                className="p-2.5 rounded-sm bg-[var(--accent-primary)] hover:opacity-90 disabled:opacity-30 text-white font-bold transition-all shrink-0 cursor-pointer"
               >
                 <Send className="w-4 h-4" />
               </button>
@@ -838,7 +838,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
       {/* ── CONFIGURATION & GATEWAY MODAL ───────────────────── */}
       {showConfigModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#1C1B1B] border border-white/10 rounded-2xl w-full max-w-lg p-6 space-y-5 shadow-2xl animate-fadeIn">
+          <div className="bg-[#1C1B1B] border border-white/10 rounded-sm w-full max-w-lg p-6 space-y-5 shadow-2xl animate-fadeIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2.5">
                 <Settings2 className="w-5 h-5 text-[var(--accent-primary)]" />
@@ -853,11 +853,11 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
             </div>
 
             {/* Gateway Mode Selector */}
-            <div className="grid grid-cols-2 gap-2 p-1 rounded-xl bg-[#131313] border border-white/10">
+            <div className="grid grid-cols-2 gap-2 p-1 rounded-sm bg-[#131313] border border-white/10">
               <button
                 type="button"
                 onClick={() => setGatewayMode('TELEGRAM')}
-                className={`py-2 px-3 rounded-lg text-xs font-bold transition-all ${
+                className={`py-2 px-3 rounded-sm text-xs font-bold transition-all ${
                   gatewayMode === 'TELEGRAM'
                     ? 'bg-[var(--accent-primary)] text-white shadow-sm'
                     : 'text-neutral-400 hover:text-white'
@@ -868,7 +868,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
               <button
                 type="button"
                 onClick={() => setGatewayMode('HTTP_TUNNEL')}
-                className={`py-2 px-3 rounded-lg text-xs font-bold transition-all ${
+                className={`py-2 px-3 rounded-sm text-xs font-bold transition-all ${
                   gatewayMode === 'HTTP_TUNNEL'
                     ? 'bg-[var(--accent-primary)] text-white shadow-sm'
                     : 'text-neutral-400 hover:text-white'
@@ -890,7 +890,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                       value={telegramBotToken}
                       onChange={(e) => setTelegramBotToken(e.target.value)}
                       placeholder="123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)] font-mono"
+                      className="w-full px-3.5 py-2.5 rounded-sm bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)] font-mono"
                     />
                     <p className="text-[11px] text-neutral-500 mt-1">
                       El token que te entregó @BotFather para el bot con el que escucha CopperMind.
@@ -906,7 +906,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                       value={telegramChatId}
                       onChange={(e) => setTelegramChatId(e.target.value)}
                       placeholder="-5370719843"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)] font-mono"
+                      className="w-full px-3.5 py-2.5 rounded-sm bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)] font-mono"
                     />
                     <p className="text-[11px] text-neutral-500 mt-1">
                       ID del grupo o chat donde CopperMind recibe tareas (Grupo actual: -5370719843).
@@ -914,7 +914,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                   </div>
 
                   {botInfo && (
-                    <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-xs text-emerald-400">
+                    <div className="p-3 rounded-sm bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-xs text-emerald-400">
                       <span>🤖 Bot Conectado: <strong>@{botInfo.username}</strong></span>
                       <span className="font-mono text-[11px]">ID: {botInfo.id}</span>
                     </div>
@@ -931,7 +931,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                       value={endpointUrl}
                       onChange={(e) => setEndpointUrl(e.target.value)}
                       placeholder="https://tu-tunel.trycloudflare.com o http://localhost:8000"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)]"
+                      className="w-full px-3.5 py-2.5 rounded-sm bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)]"
                     />
                   </div>
 
@@ -944,13 +944,13 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                       value={apiKey}
                       onChange={(e) => setApiKey(e.target.value)}
                       placeholder="hermes_outcrop_secret_2026"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)] font-mono"
+                      className="w-full px-3.5 py-2.5 rounded-sm bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)] font-mono"
                     />
                   </div>
                 </>
               )}
 
-              <div className="p-3.5 rounded-xl bg-[#131313] border border-white/10">
+              <div className="p-3.5 rounded-sm bg-[#131313] border border-white/10">
                 <div className="text-xs font-bold text-white">Webhook del CRM (Inbound Callbacks):</div>
                 <div className="text-[11px] font-mono text-[var(--accent-primary)] break-all mt-0.5">
                   https://homunculus-host-outcrop-silver-crm.wu48i0.easypanel.host/api/hermes/webhook
@@ -961,14 +961,14 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
             <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
               <button
                 onClick={() => setShowConfigModal(false)}
-                className="px-4 py-2 rounded-xl text-xs font-bold text-neutral-400 hover:text-white"
+                className="px-4 py-2 rounded-sm text-xs font-bold text-neutral-400 hover:text-white"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleSaveConfig}
                 disabled={testingPing}
-                className="px-5 py-2 rounded-xl bg-[var(--accent-primary)] hover:opacity-90 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
+                className="px-5 py-2 rounded-sm bg-[var(--accent-primary)] hover:opacity-90 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
               >
                 {testingPing ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : null}
                 <span>Guardar y Probar Conexión</span>

@@ -356,7 +356,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 font-['Urbanist']">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={onClose} />
 
-      <div className="relative w-full max-w-5xl bg-[#0d0f17] border border-white/15 rounded-2xl shadow-2xl z-10 max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+      <div className="relative w-full max-w-5xl bg-[#0d0f17] border border-white/15 rounded-sm shadow-2xl z-10 max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
         {/* Top Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0 bg-white/[0.02]">
           <h2 className="text-lg font-bold text-white tracking-tight">
@@ -373,7 +373,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
             {/* Left Column: Post Form */}
             <div className="p-6 space-y-5">
               {errorMsg && (
-                <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs rounded-xl px-4 py-2.5 font-bold">
+                <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs rounded-sm px-4 py-2.5 font-bold">
                   {errorMsg}
                 </div>
               )}
@@ -388,7 +388,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. Q3 High-Grade Silver Exploration Update"
-                  className="w-full bg-[#161822] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-[var(--primary-color)] outline-none transition-all"
+                  className="w-full bg-[#161822] border border-white/10 rounded-sm px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-[var(--primary-color)] outline-none transition-all"
                 />
               </div>
 
@@ -402,7 +402,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                     onClick={handleGenerateAi}
                     disabled={isGeneratingAi}
                     style={{ backgroundColor: 'var(--primary-color-alpha)', color: 'var(--primary-color)' }}
-                    className="flex items-center gap-1.5 px-3 py-1 text-xs font-black rounded-lg transition-all hover:brightness-125 disabled:opacity-50"
+                    className="flex items-center gap-1.5 px-3 py-1 text-xs font-black rounded-sm transition-all hover:brightness-125 disabled:opacity-50"
                   >
                     <Bot className="w-3.5 h-3.5" />
                     {isGeneratingAi ? 'Generating...' : 'Generate with AI'}
@@ -415,7 +415,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   <select
                     value={aiTone}
                     onChange={(e) => setAiTone(e.target.value)}
-                    className="bg-[#161822] border border-white/10 rounded-lg px-2 py-1 text-xs text-slate-200 outline-none focus:border-[var(--primary-color)]"
+                    className="bg-[#161822] border border-white/10 rounded-sm px-2 py-1 text-xs text-slate-200 outline-none focus:border-[var(--primary-color)]"
                   >
                     <option value="professional">Professional / IR</option>
                     <option value="casual">Casual / Dynamic</option>
@@ -428,7 +428,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   onChange={(e) => setContent(e.target.value)}
                   rows={5}
                   placeholder="Enter the main post content here..."
-                  className="w-full bg-[#161822] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-[var(--primary-color)] outline-none transition-all resize-none"
+                  className="w-full bg-[#161822] border border-white/10 rounded-sm px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-[var(--primary-color)] outline-none transition-all resize-none"
                 />
               </div>
 
@@ -450,7 +450,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                         type="button"
                         onClick={() => togglePlatform(plat.id)}
                         style={isSel ? { backgroundColor: 'var(--primary-color)', color: '#000000' } : {}}
-                        className={`px-3.5 py-2 rounded-xl border text-xs font-bold transition-all ${
+                        className={`px-3.5 py-2 rounded-sm border text-xs font-bold transition-all ${
                           isSel
                             ? 'border-transparent shadow-lg shadow-black/40'
                             : 'bg-white/5 border-white/10 text-slate-400 hover:border-white/20'
@@ -463,7 +463,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setPlatforms('instagram,x,linkedin')}
-                    className={`px-3.5 py-2 rounded-xl border text-xs font-bold transition-all ${
+                    className={`px-3.5 py-2 rounded-sm border text-xs font-bold transition-all ${
                       platforms.split(',').length === 3
                         ? 'bg-white/20 border-white/30 text-white'
                         : 'bg-white/5 border-white/10 text-slate-400 hover:border-white/20'
@@ -483,7 +483,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    className="w-full bg-[#161822] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[var(--primary-color)] outline-none"
+                    className="w-full bg-[#161822] border border-white/10 rounded-sm px-3 py-2 text-xs text-white focus:border-[var(--primary-color)] outline-none"
                   >
                     <option value="scheduled">Scheduled</option>
                     <option value="draft">Draft</option>
@@ -498,7 +498,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   <select
                     value={categoryId}
                     onChange={(e) => setCategoryId(e.target.value)}
-                    className="w-full bg-[#161822] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[var(--primary-color)] outline-none"
+                    className="w-full bg-[#161822] border border-white/10 rounded-sm px-3 py-2 text-xs text-white focus:border-[var(--primary-color)] outline-none"
                   >
                     <option value="">Uncategorized</option>
                     {categories.map((cat) => (
@@ -519,12 +519,12 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   type="datetime-local"
                   value={scheduledDate}
                   onChange={(e) => setScheduledDate(e.target.value)}
-                  className="w-full bg-[#161822] border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white focus:border-[var(--primary-color)] outline-none"
+                  className="w-full bg-[#161822] border border-white/10 rounded-sm px-3.5 py-2.5 text-xs text-white focus:border-[var(--primary-color)] outline-none"
                 />
               </div>
 
               {/* Recurring Post Settings */}
-              <div className="bg-white/[0.02] border border-white/10 rounded-xl p-3.5 space-y-3">
+              <div className="bg-white/[0.02] border border-white/10 rounded-sm p-3.5 space-y-3">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
@@ -545,7 +545,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                       <select
                         value={recurringFrequency}
                         onChange={(e) => setRecurringFrequency(e.target.value)}
-                        className="w-full bg-[#161822] border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none"
+                        className="w-full bg-[#161822] border border-white/10 rounded-sm px-2.5 py-1.5 text-xs text-white outline-none"
                       >
                         <option value="daily">Diario</option>
                         <option value="weekly">Semanal</option>
@@ -558,7 +558,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                       <select
                         value={recurringDay}
                         onChange={(e) => setRecurringDay(e.target.value)}
-                        className="w-full bg-[#161822] border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none"
+                        className="w-full bg-[#161822] border border-white/10 rounded-sm px-2.5 py-1.5 text-xs text-white outline-none"
                       >
                         <option value="">Cualquier día</option>
                         <option value="monday">Lunes</option>
@@ -582,7 +582,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   value={hashtags}
                   onChange={(e) => setHashtags(e.target.value)}
                   placeholder="#OutcropSilver #Plata #Mining #TSX"
-                  className="w-full bg-[#161822] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-[var(--primary-color)] outline-none"
+                  className="w-full bg-[#161822] border border-white/10 rounded-sm px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-[var(--primary-color)] outline-none"
                 />
               </div>
 
@@ -593,7 +593,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                 </label>
                 <div className="flex flex-wrap gap-2.5 mb-2">
                   {existingMedia.map((m) => (
-                    <div key={m.id} className="relative w-20 h-20 rounded-xl overflow-hidden border border-white/20 group">
+                    <div key={m.id} className="relative w-20 h-20 rounded-sm overflow-hidden border border-white/20 group">
                       {m.fileType === 'video' ? (
                         <video src={m.filePath} className="w-full h-full object-cover" />
                       ) : (
@@ -609,7 +609,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   ))}
 
                   {newPreviews.map((url, idx) => (
-                    <div key={idx} className="relative w-20 h-20 rounded-xl overflow-hidden border border-white/20 group">
+                    <div key={idx} className="relative w-20 h-20 rounded-sm overflow-hidden border border-white/20 group">
                       <img src={url} alt="Nuevo archivo" className="w-full h-full object-cover" />
                       <button
                         onClick={() => handleRemoveNewFile(idx)}
@@ -623,7 +623,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-20 h-20 flex flex-col items-center justify-center gap-1 border-2 border-dashed border-white/20 rounded-xl hover:border-white/40 transition-colors text-slate-400 hover:text-white"
+                    className="w-20 h-20 flex flex-col items-center justify-center gap-1 border-2 border-dashed border-white/20 rounded-sm hover:border-white/40 transition-colors text-slate-400 hover:text-white"
                   >
                     <Upload className="w-5 h-5" />
                     <span className="text-[9px] font-bold">Subir</span>
@@ -652,7 +652,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                       <p className="text-xs text-slate-500 italic">No hay comentarios aún.</p>
                     ) : (
                       comments.map((c, i) => (
-                        <div key={c.id || i} className="bg-white/5 rounded-xl px-3 py-2 text-xs">
+                        <div key={c.id || i} className="bg-white/5 rounded-sm px-3 py-2 text-xs">
                           <div className="flex items-center justify-between text-slate-400 text-[10px] mb-1">
                             <span className="font-bold text-white">{c.username || 'Admin'}</span>
                             <span>{c.createdAt ? new Date(c.createdAt).toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' }) : ''}</span>
@@ -669,13 +669,13 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                       value={newComment}
                       onChange={(e) => setNewComment(e.target.value)}
                       placeholder="Escribir comentario interno..."
-                      className="flex-1 bg-[#161822] border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-500 outline-none"
+                      className="flex-1 bg-[#161822] border border-white/10 rounded-sm px-3 py-1.5 text-xs text-white placeholder-slate-500 outline-none"
                     />
                     <button
                       onClick={handleAddComment}
                       disabled={isSubmittingComment || !newComment.trim()}
                       style={{ backgroundColor: 'var(--primary-color)', color: '#000000' }}
-                      className="px-3 py-1.5 rounded-xl text-xs font-black transition-all hover:brightness-110 disabled:opacity-50"
+                      className="px-3 py-1.5 rounded-sm text-xs font-black transition-all hover:brightness-110 disabled:opacity-50"
                     >
                       <Send className="w-3.5 h-3.5" />
                     </button>
@@ -697,7 +697,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                     <button
                       type="button"
                       onClick={handleCopyText}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold transition-all ${
                         isCopied
                           ? 'bg-emerald-500 text-white'
                           : 'bg-white/10 text-slate-300 hover:bg-white/20 hover:text-white'
@@ -711,7 +711,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                       type="button"
                       onClick={handleDownloadMedia}
                       disabled={existingMedia.length === 0}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold transition-all ${
                         existingMedia.length > 0
                           ? isDownloaded
                             ? 'bg-emerald-500 text-white'
@@ -726,7 +726,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                 </div>
 
                 {/* Social Card Container */}
-                <div className="bg-[#161822] border border-white/15 rounded-2xl overflow-hidden shadow-2xl">
+                <div className="bg-[#161822] border border-white/15 rounded-sm overflow-hidden shadow-2xl">
                   {/* Card Profile Header */}
                   <div className="p-3.5 flex items-center gap-3 border-b border-white/10">
                     <div
@@ -803,7 +803,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                 type="button"
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-red-400 hover:bg-red-500/10 rounded-xl transition-all disabled:opacity-50"
+                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-red-400 hover:bg-red-500/10 rounded-sm transition-all disabled:opacity-50"
               >
                 <Trash2 className="w-4 h-4" />
                 {isDeleting ? 'Eliminando...' : 'Eliminar Post'}
@@ -824,7 +824,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
               onClick={handleSave}
               disabled={isSaving}
               style={{ backgroundColor: 'var(--primary-color)', color: '#000000' }}
-              className="flex items-center gap-2 px-6 py-2 text-xs font-black rounded-xl hover:brightness-110 transition-all disabled:opacity-50 shadow-lg shadow-black/50"
+              className="flex items-center gap-2 px-6 py-2 text-xs font-black rounded-sm hover:brightness-110 transition-all disabled:opacity-50 shadow-lg shadow-black/50"
             >
               <Save className="w-4 h-4" />
               {isSaving ? 'Guardando...' : 'Guardar Publicación'}

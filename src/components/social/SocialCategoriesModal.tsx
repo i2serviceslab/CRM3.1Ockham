@@ -118,7 +118,7 @@ export const SocialCategoriesModal: React.FC<SocialCategoriesModalProps> = ({
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 font-['Urbanist']">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={onClose} />
 
-      <div className="relative w-full max-w-md bg-[#0d0f17] border border-white/15 rounded-2xl shadow-2xl overflow-hidden z-10 animate-in fade-in zoom-in duration-200">
+      <div className="relative w-full max-w-md bg-[#0d0f17] border border-white/15 rounded-sm shadow-2xl overflow-hidden z-10 animate-in fade-in zoom-in duration-200">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/[0.02]">
           <div className="flex items-center gap-2">
@@ -133,14 +133,14 @@ export const SocialCategoriesModal: React.FC<SocialCategoriesModalProps> = ({
         {/* Content */}
         <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
           {/* Create Form */}
-          <div className="bg-white/5 rounded-xl p-4 border border-white/10 space-y-3">
+          <div className="bg-white/5 rounded-sm p-4 border border-white/10 space-y-3">
             <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">New Category</h3>
             <input
               type="text"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="Name (e.g. Exploration, ESG...)"
-              className="w-full bg-[#161822] border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-[var(--primary-color)] outline-none transition-all"
+              className="w-full bg-[#161822] border border-white/10 rounded-sm px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-[var(--primary-color)] outline-none transition-all"
             />
             {/* Color Palette */}
             <div className="flex flex-wrap gap-2 pt-1">
@@ -161,7 +161,7 @@ export const SocialCategoriesModal: React.FC<SocialCategoriesModalProps> = ({
               onClick={handleCreate}
               disabled={!newName.trim()}
               style={{ backgroundColor: 'var(--primary-color)', color: '#000000' }}
-              className="w-full flex items-center justify-center gap-2 py-2 text-xs font-black rounded-xl hover:brightness-110 transition-all disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 py-2 text-xs font-black rounded-sm hover:brightness-110 transition-all disabled:opacity-50"
             >
               <Plus className="w-4 h-4" />
               Create Category
@@ -181,7 +181,7 @@ export const SocialCategoriesModal: React.FC<SocialCategoriesModalProps> = ({
               categories.map((cat) => (
                 <div
                   key={cat.id}
-                  className="group flex items-center justify-between bg-white/[0.03] border border-white/10 rounded-xl p-3 hover:bg-white/[0.06] transition-all"
+                  className="group flex items-center justify-between bg-white/[0.03] border border-white/10 rounded-sm p-3 hover:bg-white/[0.06] transition-all"
                 >
                   {editingId === cat.id ? (
                     <div className="flex-1 space-y-2">
@@ -189,7 +189,7 @@ export const SocialCategoriesModal: React.FC<SocialCategoriesModalProps> = ({
                         type="text"
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
-                        className="w-full bg-[#161822] border border-white/20 rounded-lg px-2.5 py-1 text-xs text-white outline-none focus:border-[var(--primary-color)]"
+                        className="w-full bg-[#161822] border border-white/20 rounded-sm px-2.5 py-1 text-xs text-white outline-none focus:border-[var(--primary-color)]"
                       />
                       <div className="flex flex-wrap gap-1.5">
                         {PRESET_COLORS.map((c) => (
@@ -234,13 +234,13 @@ export const SocialCategoriesModal: React.FC<SocialCategoriesModalProps> = ({
                             setEditName(cat.name);
                             setEditColor(cat.color);
                           }}
-                          className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                          className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-sm transition-all"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => handleDelete(cat.id)}
-                          className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                          className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-sm transition-all"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>

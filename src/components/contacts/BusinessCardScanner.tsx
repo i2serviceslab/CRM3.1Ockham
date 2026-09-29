@@ -126,14 +126,14 @@ export const BusinessCardScanner: React.FC<BusinessCardScannerProps> = ({ onSucc
 
         <button
           onClick={handleLoadDemoCard}
-          className="px-3.5 py-2 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold hover:bg-purple-500/20 transition-all"
+          className="px-3.5 py-2 rounded-sm bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold hover:bg-purple-500/20 transition-all"
         >
           Cargar Tarjeta de Ejemplo
         </button>
       </div>
 
       {successMsg && (
-        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-3">
+        <div className="p-4 rounded-sm bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-3">
           <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
           <span>{successMsg}</span>
         </div>
@@ -146,10 +146,10 @@ export const BusinessCardScanner: React.FC<BusinessCardScannerProps> = ({ onSucc
           <span className="text-xs font-bold uppercase tracking-wider text-blue-400 block">Cara Frontal (Frente)</span>
           {frontImage ? (
             <div className="relative group">
-              <img src={frontImage} alt="Front Card" className="w-full h-48 object-cover rounded-2xl border border-white/10" />
+              <img src={frontImage} alt="Front Card" className="w-full h-48 object-cover rounded-sm border border-white/10" />
               <button
                 onClick={() => setFrontImage(null)}
-                className="absolute top-2 right-2 px-2 py-1 bg-black/70 text-rose-400 text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-all"
+                className="absolute top-2 right-2 px-2 py-1 bg-black/70 text-rose-400 text-xs rounded-sm opacity-0 group-hover:opacity-100 transition-all"
               >
                 Cambiar
               </button>
@@ -169,10 +169,10 @@ export const BusinessCardScanner: React.FC<BusinessCardScannerProps> = ({ onSucc
           <span className="text-xs font-bold uppercase tracking-wider text-purple-400 block">Cara Trasera (Reverso)</span>
           {backImage ? (
             <div className="relative group">
-              <img src={backImage} alt="Back Card" className="w-full h-48 object-cover rounded-2xl border border-white/10" />
+              <img src={backImage} alt="Back Card" className="w-full h-48 object-cover rounded-sm border border-white/10" />
               <button
                 onClick={() => setBackImage(null)}
-                className="absolute top-2 right-2 px-2 py-1 bg-black/70 text-rose-400 text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-all"
+                className="absolute top-2 right-2 px-2 py-1 bg-black/70 text-rose-400 text-xs rounded-sm opacity-0 group-hover:opacity-100 transition-all"
               >
                 Cambiar
               </button>
@@ -189,13 +189,13 @@ export const BusinessCardScanner: React.FC<BusinessCardScannerProps> = ({ onSucc
       </div>
 
       {/* Target Contact Selector or Create New */}
-      <div className="p-6 rounded-2xl bg-[#191a2e] border border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="p-6 rounded-sm bg-[#191a2e] border border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="w-full md:w-1/2">
           <label className="block text-xs font-semibold text-slate-300 mb-1.5">Vincular a Contacto Existente (Opcional)</label>
           <select
             value={selectedContactId}
             onChange={(e) => setSelectedContactId(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-[#141523] border border-white/10 rounded-xl text-xs text-white focus:border-blue-500"
+            className="w-full px-3.5 py-2.5 bg-[#141523] border border-white/10 rounded-sm text-xs text-white focus:border-blue-500"
           >
             <option value="">Crear nuevo contacto con datos escaneados</option>
             {contacts.map((c) => (
@@ -209,7 +209,7 @@ export const BusinessCardScanner: React.FC<BusinessCardScannerProps> = ({ onSucc
         <button
           onClick={handleProcessScan}
           disabled={!frontImage || scanning}
-          className="w-full md:w-auto px-8 py-3 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 transition-all disabled:opacity-40"
+          className="w-full md:w-auto px-8 py-3 rounded-sm bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 transition-all disabled:opacity-40"
         >
           <Scan className="w-4 h-4" />
           <span>{scanning ? 'Procesando OCR 2 Caras...' : 'Ejecutar Escaneo Inteligente'}</span>
@@ -218,26 +218,26 @@ export const BusinessCardScanner: React.FC<BusinessCardScannerProps> = ({ onSucc
 
       {/* OCR Results Review Box */}
       {extractedData && (
-        <div className="p-6 rounded-3xl bg-[#1f2138] border border-purple-500/30 space-y-4">
+        <div className="p-6 rounded-sm bg-[#1f2138] border border-purple-500/30 space-y-4">
           <h3 className="text-sm font-bold text-white flex items-center gap-2">
             <UserCheck className="w-4 h-4 text-emerald-400" />
             <span>Datos Extramados por OCR (Confirmar o Crear Contacto)</span>
           </h3>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-            <div className="p-3 rounded-xl bg-[#141523]">
+            <div className="p-3 rounded-sm bg-[#141523]">
               <span className="text-[10px] text-slate-400 block">Nombre Detected</span>
               <span className="font-bold text-white">{extractedData.name}</span>
             </div>
-            <div className="p-3 rounded-xl bg-[#141523]">
+            <div className="p-3 rounded-sm bg-[#141523]">
               <span className="text-[10px] text-slate-400 block">Empresa</span>
               <span className="font-bold text-white">{extractedData.company}</span>
             </div>
-            <div className="p-3 rounded-xl bg-[#141523]">
+            <div className="p-3 rounded-sm bg-[#141523]">
               <span className="text-[10px] text-slate-400 block">Email</span>
               <span className="font-bold text-white">{extractedData.email}</span>
             </div>
-            <div className="p-3 rounded-xl bg-[#141523]">
+            <div className="p-3 rounded-sm bg-[#141523]">
               <span className="text-[10px] text-slate-400 block">Teléfono</span>
               <span className="font-bold text-white">{extractedData.phone}</span>
             </div>
@@ -245,7 +245,7 @@ export const BusinessCardScanner: React.FC<BusinessCardScannerProps> = ({ onSucc
 
           <button
             onClick={handleCreateContactFromOCR}
-            className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-emerald-600/20"
+            className="px-6 py-2.5 rounded-sm bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-emerald-600/20"
           >
             <span>Confirmar y Crear Contacto en Outcrop CRM</span>
             <ArrowRight className="w-4 h-4" />

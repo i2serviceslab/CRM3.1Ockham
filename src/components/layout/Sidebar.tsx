@@ -107,14 +107,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
             }}
           />
           <div
-            className="flex items-center gap-2.5 cursor-pointer p-1 rounded-lg hover:bg-white/[0.06] transition-all duration-150 w-full min-w-0"
+            className="flex items-center gap-2.5 cursor-pointer p-1 rounded-sm hover:bg-white/[0.06] transition-all duration-150 w-full min-w-0"
             onClick={() => document.getElementById('sidebar-logo-file-input')?.click()}
             title="Haz clic para cambiar el logo corporativo"
           >
             <img
               src={currentLogo}
               alt="Brand Logo"
-              className="h-8 w-auto object-contain brightness-0 invert transition-transform duration-200 hover:scale-105 shrink-0"
+              className="h-8 w-auto object-contain transition-transform duration-200 hover:scale-105 shrink-0"
             />
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-xs font-bold text-white uppercase tracking-wider leading-tight truncate">
@@ -137,7 +137,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all duration-200 ease-out cursor-pointer text-left ${
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-sm text-sm transition-all duration-200 ease-out cursor-pointer text-left ${
                   isActive
                     ? 'active-tab-glow font-semibold'
                     : 'text-neutral-300 hover:bg-white/[0.06] hover:text-white hover:translate-x-1 border-l-2 border-transparent font-medium'
@@ -174,7 +174,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {onLogout && (
           <button
             onClick={onLogout}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/20 active:scale-[0.97] text-neutral-300 text-xs font-medium transition-all duration-150 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-sm border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/20 active:scale-[0.97] text-neutral-300 text-xs font-medium transition-all duration-150 cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Cerrar Sesión Segura</span>

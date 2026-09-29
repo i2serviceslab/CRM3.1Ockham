@@ -434,7 +434,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
           {/* Pinned Rating & Grid Tab Navigation */}
           <div className="space-y-4 pt-3 shrink-0">
             {/* Rating Bar */}
-            <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3 rounded-2xl flex items-center justify-between text-xs">
+            <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3 rounded-sm flex items-center justify-between text-xs">
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Rating</span>
                 <div className="flex items-center gap-1">
@@ -459,7 +459,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
             {/* Sleek 5-Column Grid Segmented Control Bar */}
             <div
               style={{ backgroundColor: 'var(--bg-card-inner)' }}
-              className="p-1.5 rounded-2xl grid grid-cols-5 gap-1 shadow-inner border border-white/5 w-full"
+              className="p-1.5 rounded-sm grid grid-cols-5 gap-1 shadow-inner border border-white/5 w-full"
             >
               {[
                 { id: 'Summary', label: 'Summary', icon: FileText },
@@ -480,7 +480,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                         ? { backgroundColor: 'var(--primary-color)', color: '#000000' }
                         : {}
                     }
-                    className={`py-2 px-1 rounded-xl text-[11px] font-black transition-all flex flex-col sm:flex-row items-center justify-center gap-1 text-center w-full ${
+                    className={`py-2 px-1 rounded-sm text-[11px] font-black transition-all flex flex-col sm:flex-row items-center justify-center gap-1 text-center w-full ${
                       isActive
                         ? 'shadow-md font-extrabold'
                         : 'text-slate-400 hover:text-white hover:bg-white/5'
@@ -499,7 +499,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
             {/* TAB 1: SUMMARY (Comprehensive Corporate Intelligence Summary) */}
             {activeTab === 'Summary' && (
               <div className="space-y-4">
-                <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-2xl space-y-2">
+                <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-sm space-y-2">
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">
                     DYNAMIC ICEBREAKER
                   </span>
@@ -508,7 +508,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                   </p>
                 </div>
 
-                <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-2xl space-y-2">
+                <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-sm space-y-2">
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">
                     EXECUTIVE INTELLIGENCE SUMMARY (AI)
                   </span>
@@ -519,32 +519,32 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
 
                 {/* Comprehensive Fields Overview Grid */}
                 <div className="grid grid-cols-2 gap-3 text-xs font-medium">
-                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-2xl space-y-1">
+                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm space-y-1">
                     <span className="text-[10px] text-slate-400 font-bold uppercase block">Email</span>
                     <span className="font-bold text-white block truncate">{editEmail || 'Pending AI Search'}</span>
                   </div>
 
-                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-2xl space-y-1">
+                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm space-y-1">
                     <span className="text-[10px] text-slate-400 font-bold uppercase block">Direct Phone</span>
                     <span className="font-bold text-white block truncate">{editPhone || 'Pending AI Search'}</span>
                   </div>
 
-                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-2xl space-y-1">
+                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm space-y-1">
                     <span className="text-[10px] text-slate-400 font-bold uppercase block">Location / HQ</span>
                     <span className="font-bold text-white block truncate">{editLocation || editHeadquarters || 'Vancouver, BC, Canada'}</span>
                   </div>
 
-                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-2xl space-y-1">
+                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm space-y-1">
                     <span className="text-[10px] text-slate-400 font-bold uppercase block">Assets Under Management (AUM)</span>
                     <span style={{ color: 'var(--primary-color)' }} className="font-bold block truncate">{editAum || 'CAD $50M - $250M (Estimated)'}</span>
                   </div>
 
-                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-2xl space-y-1">
+                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm space-y-1">
                     <span className="text-[10px] text-slate-400 font-bold uppercase block">Fund / Entity Type</span>
                     <span className="font-bold text-white block truncate">{editFundType || 'Mining PE & Family Office'}</span>
                   </div>
 
-                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-2xl space-y-1">
+                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm space-y-1">
                     <span className="text-[10px] text-slate-400 font-bold uppercase block">Corporate Website</span>
                     <a href={editWebsiteUrl || '#'} target="_blank" rel="noreferrer" className="font-bold text-sky-400 block truncate hover:underline">
                       {editWebsiteUrl || 'Unspecified'}
@@ -552,7 +552,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-2xl space-y-2">
+                <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-sm space-y-2">
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">
                     INVESTMENT FOCUS & MINING BACKGROUND
                   </span>
@@ -584,7 +584,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
 
                 <div className="space-y-3">
                   {activitiesList.map((act) => (
-                    <div key={act.id} style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-2xl space-y-1">
+                    <div key={act.id} style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm space-y-1">
                       <div className="flex items-center justify-between">
                         <span style={{ color: 'var(--primary-color)' }} className="text-[10px] font-black uppercase tracking-wider">
                           {act.type}
@@ -616,7 +616,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
 
                 <div className="space-y-2">
                   {relationshipsList.map((rel) => (
-                    <div key={rel.id} style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3 rounded-2xl flex items-center justify-between">
+                    <div key={rel.id} style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3 rounded-sm flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <LinkIcon className="w-4 h-4 text-sky-400" />
                         <div>
@@ -637,7 +637,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
             {activeTab === 'Enrich & Search' && (
               <div className="space-y-5">
                 {/* Real OpenAI GPT-4o Deep Web Search Button */}
-                <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-2xl space-y-3">
+                <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-sm space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-xs font-black text-white flex items-center gap-2">
@@ -661,7 +661,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                   </div>
 
                   {deepSearchResults && (
-                    <div className="p-3 rounded-xl bg-black/40 text-xs space-y-2 border border-white/5 animate-fadeIn">
+                    <div className="p-3 rounded-sm bg-black/40 text-xs space-y-2 border border-white/5 animate-fadeIn">
                       <div className="flex items-center gap-2 text-emerald-400 font-bold">
                         <CheckCircle2 className="w-4 h-4" />
                         <span>{deepSearchResults.summary}</span>
@@ -896,10 +896,10 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                     <div
                       key={doc.id}
                       style={{ backgroundColor: 'var(--bg-card-inner)' }}
-                      className="p-3.5 rounded-2xl border border-white/10 flex items-center justify-between gap-3"
+                      className="p-3.5 rounded-sm border border-white/10 flex items-center justify-between gap-3"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-[#D97736] shrink-0">
+                        <div className="w-9 h-9 rounded-sm bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-[#D97736] shrink-0">
                           <FileText className="w-4 h-4" />
                         </div>
                         <div>
@@ -919,7 +919,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                               ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
                               : doc.status === 'Solicitado por Inversionista'
                               ? 'bg-amber-500/20 text-amber-400 border-amber-500/30'
-                              : 'bg-cyan-500/20 text-[#D97736] border-cyan-500/30'
+                              : 'bg-orange-500/20 text-[#D97736] border-orange-500/30'
                           }`}
                         >
                           {doc.status}
@@ -938,7 +938,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                             }).catch(() => {});
                             alert(`Envío de "${doc.title}" registrado en la cronología de ${contact.name}.`);
                           }}
-                          className="px-3 py-1.5 rounded-full bg-slate-900 text-[#D97736] border border-cyan-500/30 hover:bg-cyan-500 hover:text-black font-black text-[10px] uppercase transition-all cursor-pointer"
+                          className="px-3 py-1.5 rounded-full bg-slate-900 text-[#D97736] border border-orange-500/30 hover:bg-orange-500 hover:text-black font-black text-[10px] uppercase transition-all cursor-pointer"
                         >
                           Registrar Envío
                         </button>
@@ -955,7 +955,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
             <button
               onClick={handleDelete}
               disabled={isDeleting}
-              className="px-3.5 py-2 rounded-xl bg-rose-500/10 text-rose-400 font-semibold text-xs hover:bg-rose-500/20 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+              className="px-3.5 py-2 rounded-sm bg-rose-500/10 text-rose-400 font-semibold text-xs hover:bg-rose-500/20 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>{isDeleting ? 'Eliminando...' : 'Eliminar Contacto'}</span>

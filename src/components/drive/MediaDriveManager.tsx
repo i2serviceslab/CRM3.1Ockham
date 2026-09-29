@@ -393,7 +393,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
     <div className="space-y-6 font-['Plus_Jakarta_Sans'] w-full animate-fadeIn pb-12">
       {/* Toast Notification Alert */}
       {toastMessage && (
-        <div className="fixed top-5 right-5 z-50 p-4 rounded-2xl bg-emerald-500 text-black font-extrabold text-xs shadow-2xl flex items-center gap-3 border border-emerald-300 animate-bounce">
+        <div className="fixed top-5 right-5 z-50 p-4 rounded-sm bg-emerald-500 text-black font-extrabold text-xs shadow-2xl flex items-center gap-3 border border-emerald-300 animate-bounce">
           <CheckCircle2 className="w-5 h-5 stroke-[3]" />
           <span>{toastMessage}</span>
         </div>
@@ -403,13 +403,13 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-6">
         <div>
           <div className="flex items-center gap-3 flex-wrap">
-            <div className="p-2.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-[#D97736]">
+            <div className="p-2.5 rounded-sm bg-orange-500/10 border border-orange-500/20 text-[#D97736]">
               <FolderKanban className="w-7 h-7" />
             </div>
             <div>
               <h1 className="text-2xl font-extrabold text-white tracking-tight uppercase flex items-center gap-2">
                 <span>Repositorio & Drive de Medios IA</span>
-                <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-extrabold text-[10px] border border-cyan-500/30">
+                <span className="px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300 font-extrabold text-[10px] border border-orange-500/30">
                   HUMUNCULUS AI ENRICHED
                 </span>
               </h1>
@@ -426,7 +426,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             type="button"
             onClick={handleAiAutoOrganize}
             disabled={aiProcessing}
-            className="px-4 py-2.5 rounded-xl bg-[var(--accent-primary)] hover:bg-[var(--accent-primary-hover)] text-white font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg cursor-pointer disabled:opacity-50"
+            className="px-4 py-2.5 rounded-sm bg-[var(--accent-primary)] hover:bg-[var(--accent-primary-hover)] text-white font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg cursor-pointer disabled:opacity-50"
           >
             <Bot className={`w-4 h-4 ${aiProcessing ? 'animate-spin' : ''}`} />
             <span>{aiProcessing ? 'Organizando...' : 'Organizar con Humunculus IA'}</span>
@@ -435,7 +435,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
           <button
             type="button"
             onClick={() => setShowCloudImportModal(true)}
-            className="px-4 py-2.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-[#D97736] font-extrabold text-xs transition-colors flex items-center gap-2 cursor-pointer border border-cyan-500/30"
+            className="px-4 py-2.5 rounded-sm bg-orange-500/10 hover:bg-orange-500/20 text-[#D97736] font-extrabold text-xs transition-colors flex items-center gap-2 cursor-pointer border border-orange-500/30"
           >
             <ExternalLink className="w-4 h-4" />
             <span>Importar Nube / Drive</span>
@@ -444,7 +444,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
           <button
             type="button"
             onClick={() => setShowFolderModal(true)}
-            className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-extrabold text-xs transition-colors flex items-center gap-2 cursor-pointer border border-white/10"
+            className="px-4 py-2.5 rounded-sm bg-white/10 hover:bg-white/20 text-white font-extrabold text-xs transition-colors flex items-center gap-2 cursor-pointer border border-white/10"
           >
             <FolderPlus className="w-4 h-4 text-[#D97736]" />
             <span>Nueva Carpeta</span>
@@ -453,7 +453,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="px-4 py-2.5 rounded-xl bg-[var(--accent-primary)] hover:brightness-110 text-white font-extrabold text-xs transition-colors flex items-center gap-2 cursor-pointer shadow-lg"
+            className="px-4 py-2.5 rounded-sm bg-[var(--accent-primary)] hover:brightness-110 text-white font-extrabold text-xs transition-colors flex items-center gap-2 cursor-pointer shadow-lg"
           >
             <Upload className="w-4 h-4" />
             <span>Subir Archivo</span>
@@ -474,14 +474,14 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={`p-6 rounded-3xl border-2 border-dashed transition-all text-center flex flex-col items-center justify-center gap-3 cursor-pointer ${
+        className={`p-6 rounded-sm border-2 border-dashed transition-all text-center flex flex-col items-center justify-center gap-3 cursor-pointer ${
           isDragging
             ? 'border-[var(--accent-primary)] bg-[var(--accent-primary-subtle)]/20 scale-[1.01]'
             : 'border-white/10 bg-[#1F1E1E] hover:border-white/20'
         }`}
         onClick={() => fileInputRef.current?.click()}
       >
-        <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-[#D97736] shadow-inner">
+        <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#D97736] shadow-inner">
           <Upload className={`w-6 h-6 ${uploading ? 'animate-bounce' : ''}`} />
         </div>
         <div>
@@ -505,7 +505,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && fetchDriveData()}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#2A2A2A] border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-medium"
+            className="w-full pl-10 pr-4 py-2.5 rounded-sm bg-[#2A2A2A] border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-400 font-medium"
           />
         </div>
 
@@ -515,9 +515,9 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                 selectedCategory === cat
-                  ? 'bg-cyan-500 text-black shadow-md'
+                  ? 'bg-orange-500 text-black shadow-md'
                   : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'
               }`}
             >
@@ -527,11 +527,11 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
         </div>
 
         {/* View Toggle */}
-        <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10 shrink-0">
+        <div className="flex items-center gap-1 bg-white/5 p-1 rounded-sm border border-white/10 shrink-0">
           <button
             onClick={() => setViewMode('grid')}
-            className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-              viewMode === 'grid' ? 'bg-cyan-500 text-black' : 'text-slate-400 hover:text-white'
+            className={`p-1.5 rounded-sm transition-colors cursor-pointer ${
+              viewMode === 'grid' ? 'bg-orange-500 text-black' : 'text-slate-400 hover:text-white'
             }`}
             title="Vista Cuadrícula"
           >
@@ -539,8 +539,8 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
           </button>
           <button
             onClick={() => setViewMode('list')}
-            className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-              viewMode === 'list' ? 'bg-cyan-500 text-black' : 'text-slate-400 hover:text-white'
+            className={`p-1.5 rounded-sm transition-colors cursor-pointer ${
+              viewMode === 'list' ? 'bg-orange-500 text-black' : 'text-slate-400 hover:text-white'
             }`}
             title="Vista Lista"
           >
@@ -559,13 +559,13 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           <button
             onClick={() => setSelectedFolderId('ALL')}
-            className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
+            className={`p-4 rounded-sm border text-left transition-all cursor-pointer flex items-center gap-3 ${
               selectedFolderId === 'ALL'
-                ? 'bg-cyan-500/10 border-cyan-500/50 text-white shadow-lg'
+                ? 'bg-orange-500/10 border-orange-500/50 text-white shadow-lg'
                 : 'bg-[#2A2A2A] border-white/5 text-slate-300 hover:border-white/20'
             }`}
           >
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/20 text-[#D97736] flex items-center justify-center font-bold text-xs shrink-0">
+            <div className="w-10 h-10 rounded-sm bg-orange-500/20 text-[#D97736] flex items-center justify-center font-bold text-xs shrink-0">
               ALL
             </div>
             <div className="min-w-0">
@@ -578,16 +578,16 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             <div
               key={f.id}
               onClick={() => setSelectedFolderId(f.id)}
-              className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between gap-3 group relative ${
+              className={`p-4 rounded-sm border text-left transition-all cursor-pointer flex items-center justify-between gap-3 group relative ${
                 selectedFolderId === f.id
-                  ? 'bg-cyan-500/10 border-cyan-500/50 text-white shadow-lg'
+                  ? 'bg-orange-500/10 border-orange-500/50 text-white shadow-lg'
                   : 'bg-[#2A2A2A] border-white/5 text-slate-300 hover:border-white/20'
               }`}
             >
               <div className="flex items-center gap-3 min-w-0">
                 <div
                   style={{ backgroundColor: `${f.color || '#00E5FF'}20`, color: f.color || '#00E5FF' }}
-                  className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                  className="w-10 h-10 rounded-sm flex items-center justify-center shrink-0"
                 >
                   <Folder className="w-5 h-5" />
                 </div>
@@ -600,7 +600,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
               <button
                 type="button"
                 onClick={(e) => handleDeleteFolder(e, f.id, f.name)}
-                className="p-1.5 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-all cursor-pointer shrink-0"
+                className="p-1.5 rounded-sm opacity-0 group-hover:opacity-100 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-all cursor-pointer shrink-0"
                 title="Eliminar Carpeta"
               >
                 <Trash2 className="w-3.5 h-3.5" />
@@ -628,13 +628,13 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                 <div
                   key={file.id}
                   style={{ backgroundColor: 'var(--bg-card)' }}
-                  className="p-4 rounded-2xl border border-white/5 hover:border-white/20 transition-all flex flex-col justify-between gap-3 group relative shadow-lg"
+                  className="p-4 rounded-sm border border-white/5 hover:border-white/20 transition-all flex flex-col justify-between gap-3 group relative shadow-lg"
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <div className="p-2.5 rounded-xl bg-white/5 shrink-0">
+                    <div className="p-2.5 rounded-sm bg-white/5 shrink-0">
                       {getFileIcon(file.mimeType)}
                     </div>
-                    <span className="px-2 py-0.5 rounded bg-cyan-500/10 text-[#D97736] font-mono text-[10px] border border-cyan-500/20 truncate max-w-[120px]">
+                    <span className="px-2 py-0.5 rounded bg-orange-500/10 text-[#D97736] font-mono text-[10px] border border-orange-500/20 truncate max-w-[120px]">
                       {file.aiCategory || 'General'}
                     </span>
                   </div>
@@ -650,7 +650,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
 
                   {/* AI Summary Preview Badge */}
                   {file.aiSummary && (
-                    <div className="p-2 rounded-xl bg-cyan-500/5 border border-cyan-500/10 text-[10px] text-slate-300 line-clamp-2 italic">
+                    <div className="p-2 rounded-sm bg-orange-500/5 border border-orange-500/10 text-[10px] text-slate-300 line-clamp-2 italic">
                       "{file.aiSummary.replace(/[*#]/g, '')}"
                     </div>
                   )}
@@ -660,7 +660,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => handleAiSummarize(file)}
-                        className="p-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-[#D97736] transition-colors cursor-pointer"
+                        className="p-1.5 rounded-sm bg-orange-500/10 hover:bg-orange-500/20 text-[#D97736] transition-colors cursor-pointer"
                         title="Síntesis Ejecutiva Humunculus IA"
                       >
                         <Bot className="w-3.5 h-3.5" />
@@ -668,7 +668,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
 
                       <button
                         onClick={() => handleAiConvertOptimize(file.id)}
-                        className="p-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-sm bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 transition-colors cursor-pointer"
                         title="Optimizar Formato & Compresión"
                       >
                         <Zap className="w-3.5 h-3.5" />
@@ -679,7 +679,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                           setSelectedFileForModal(file);
                           setShowShareModal(true);
                         }}
-                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-sm bg-white/5 hover:bg-white/10 text-slate-300 transition-colors cursor-pointer"
                         title="Compartir Enlace Seguro"
                       >
                         <Share2 className="w-3.5 h-3.5" />
@@ -692,7 +692,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                           setSelectedFileForModal(file);
                           setShowPreviewModal(true);
                         }}
-                        className="p-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-[#D97736] transition-colors cursor-pointer"
+                        className="p-1.5 rounded-sm bg-orange-500/10 hover:bg-orange-500/20 text-[#D97736] transition-colors cursor-pointer"
                         title="Previsualización Integrada sin Descargar"
                       >
                         <Eye className="w-3.5 h-3.5" />
@@ -703,7 +703,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                           setSelectedFileForModal(file);
                           setShowVersionModal(true);
                         }}
-                        className="px-1.5 py-0.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 font-mono text-[10px] font-bold transition-colors cursor-pointer border border-emerald-500/20"
+                        className="px-1.5 py-0.5 rounded-sm bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 font-mono text-[10px] font-bold transition-colors cursor-pointer border border-emerald-500/20"
                         title="Historial de Versiones (Click para ver)"
                       >
                         v{file.version || 1}
@@ -713,7 +713,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                         href={file.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-sm bg-white/5 hover:bg-white/10 text-slate-300 transition-colors cursor-pointer"
                         title="Descargar Original"
                       >
                         <Download className="w-3.5 h-3.5" />
@@ -721,7 +721,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
 
                       <button
                         onClick={() => handleDeleteFile(file.id)}
-                        className="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-sm bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors cursor-pointer"
                         title="Eliminar"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -738,10 +738,10 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                 <div
                   key={file.id}
                   style={{ backgroundColor: 'var(--bg-card)' }}
-                  className="p-3 rounded-2xl border border-white/5 flex items-center justify-between gap-4 hover:border-white/20 transition-all"
+                  className="p-3 rounded-sm border border-white/5 flex items-center justify-between gap-4 hover:border-white/20 transition-all"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="p-2 rounded-xl bg-white/5 shrink-0">
+                    <div className="p-2 rounded-sm bg-white/5 shrink-0">
                       {getFileIcon(file.mimeType)}
                     </div>
                     <div className="min-w-0">
@@ -755,7 +755,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                   <div className="flex items-center gap-2 shrink-0">
                     <button
                       onClick={() => handleAiSummarize(file)}
-                      className="px-3 py-1 rounded-xl bg-cyan-500/10 text-[#D97736] text-xs font-bold flex items-center gap-1 hover:bg-cyan-500/20 cursor-pointer"
+                      className="px-3 py-1 rounded-sm bg-orange-500/10 text-[#D97736] text-xs font-bold flex items-center gap-1 hover:bg-orange-500/20 cursor-pointer"
                     >
                       <Bot className="w-3.5 h-3.5" />
                       <span>Resumen IA</span>
@@ -765,14 +765,14 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                       href={file.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 transition-colors cursor-pointer"
+                      className="p-2 rounded-sm bg-white/5 hover:bg-white/10 text-slate-300 transition-colors cursor-pointer"
                     >
                       <Download className="w-4 h-4" />
                     </a>
 
                     <button
                       onClick={() => handleDeleteFile(file.id)}
-                      className="p-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors cursor-pointer"
+                      className="p-2 rounded-sm bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors cursor-pointer"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -782,7 +782,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             </div>
           )
         ) : (
-          <div className="p-8 rounded-3xl bg-[#2A2A2A] border border-white/10 text-center space-y-3">
+          <div className="p-8 rounded-sm bg-[#2A2A2A] border border-white/10 text-center space-y-3">
             <FolderKanban className="w-10 h-10 text-slate-500 mx-auto" />
             <p className="text-xs text-slate-400">
               No hay archivos cargados en esta carpeta o categoría del Repositorio.
@@ -794,7 +794,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
       {/* CREATE FOLDER MODAL */}
       {showFolderModal && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
+          <div className="bg-[#1C1B1B] border border-white/10 rounded-sm p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-extrabold text-sm text-white uppercase tracking-wider flex items-center gap-2">
                 <FolderPlus className="w-4 h-4 text-[#D97736]" />
@@ -816,7 +816,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                   placeholder="Ej: Muestras de Perforación 2025"
                   value={newFolderName}
                   onChange={(e) => setNewFolderName(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl bg-[#2A2A2A] border border-white/10 text-xs text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full px-3 py-2.5 rounded-sm bg-[#2A2A2A] border border-white/10 text-xs text-white focus:outline-none focus:border-orange-400"
                   required
                 />
               </div>
@@ -842,13 +842,13 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                 <button
                   type="button"
                   onClick={() => setShowFolderModal(false)}
-                  className="px-4 py-2 rounded-xl bg-white/10 text-white text-xs font-bold cursor-pointer"
+                  className="px-4 py-2 rounded-sm bg-white/10 text-white text-xs font-bold cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-cyan-500 text-black font-extrabold text-xs uppercase cursor-pointer"
+                  className="px-5 py-2 rounded-sm bg-orange-500 text-black font-extrabold text-xs uppercase cursor-pointer"
                 >
                   Crear Carpeta
                 </button>
@@ -861,7 +861,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
       {/* SHARE MODAL */}
       {showShareModal && selectedFileForModal && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
+          <div className="bg-[#1C1B1B] border border-white/10 rounded-sm p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-extrabold text-sm text-white uppercase tracking-wider flex items-center gap-2">
                 <Share2 className="w-4 h-4 text-[#D97736]" />
@@ -880,7 +880,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                 Enlace seguro generado para <strong>{selectedFileForModal.name}</strong>:
               </p>
 
-              <div className="p-3 rounded-xl bg-[#2A2A2A] border border-white/10 flex items-center justify-between gap-2">
+              <div className="p-3 rounded-sm bg-[#2A2A2A] border border-white/10 flex items-center justify-between gap-2">
                 <span className="text-[11px] font-mono text-[#D97736] truncate">
                   {typeof window !== 'undefined' ? `${window.location.origin}${selectedFileForModal.url}` : selectedFileForModal.url}
                 </span>
@@ -890,7 +890,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                     setToastMessage('📋 Enlace copiado al portapapeles.');
                     setTimeout(() => setToastMessage(null), 3000);
                   }}
-                  className="p-2 rounded-lg bg-cyan-500 text-black font-bold text-xs shrink-0 cursor-pointer"
+                  className="p-2 rounded-sm bg-orange-500 text-black font-bold text-xs shrink-0 cursor-pointer"
                   title="Copiar Enlace"
                 >
                   <Copy className="w-4 h-4" />
@@ -901,7 +901,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             <div className="pt-2 flex justify-end">
               <button
                 onClick={() => setShowShareModal(false)}
-                className="px-5 py-2 rounded-xl bg-white/10 text-white text-xs font-bold cursor-pointer"
+                className="px-5 py-2 rounded-sm bg-white/10 text-white text-xs font-bold cursor-pointer"
               >
                 Cerrar
               </button>
@@ -913,7 +913,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
       {/* SUMMARY MODAL WITH AI TRANSLATION ES/EN */}
       {showSummaryModal && selectedFileForModal && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-lg space-y-4 shadow-2xl animate-scaleIn">
+          <div className="bg-[#1C1B1B] border border-white/10 rounded-sm p-6 w-full max-w-lg space-y-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-extrabold text-sm text-white uppercase tracking-wider flex items-center gap-2">
                 <Bot className="w-4 h-4 text-[#D97736]" />
@@ -930,11 +930,11 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-bold text-white uppercase">{selectedFileForModal.name}</h4>
-                <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
+                <div className="flex items-center gap-1 bg-white/5 p-1 rounded-sm border border-white/10">
                   <button
                     onClick={() => setSummaryLang('es')}
-                    className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
-                      summaryLang === 'es' ? 'bg-cyan-500 text-black' : 'text-slate-400'
+                    className={`px-2.5 py-0.5 rounded-sm text-[10px] font-bold transition-all cursor-pointer ${
+                      summaryLang === 'es' ? 'bg-orange-500 text-black' : 'text-slate-400'
                     }`}
                   >
                     Español
@@ -947,8 +947,8 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                         setSummaryLang('en');
                       }
                     }}
-                    className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
-                      summaryLang === 'en' ? 'bg-cyan-500 text-black' : 'text-slate-400'
+                    className={`px-2.5 py-0.5 rounded-sm text-[10px] font-bold transition-all cursor-pointer ${
+                      summaryLang === 'en' ? 'bg-orange-500 text-black' : 'text-slate-400'
                     }`}
                   >
                     English (Humunculus)
@@ -956,7 +956,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#2A2A2A] border border-cyan-500/20 text-xs text-slate-200 leading-relaxed font-medium whitespace-pre-wrap">
+              <div className="p-4 rounded-sm bg-[#2A2A2A] border border-orange-500/20 text-xs text-slate-200 leading-relaxed font-medium whitespace-pre-wrap">
                 {summaryLang === 'en'
                   ? selectedFileForModal.aiSummaryEn || 'Translating summary into English with Humunculus AI...'
                   : selectedFileForModal.aiSummary || 'Generando síntesis con IA Humunculus...'}
@@ -966,7 +966,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             <div className="pt-2 flex justify-end">
               <button
                 onClick={() => setShowSummaryModal(false)}
-                className="px-5 py-2 rounded-xl bg-cyan-500 text-black font-extrabold text-xs cursor-pointer"
+                className="px-5 py-2 rounded-sm bg-orange-500 text-black font-extrabold text-xs cursor-pointer"
               >
                 Aceptar
               </button>
@@ -978,7 +978,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
       {/* FULLSCREEN PREVIEW MODAL (PDF / IMAGES / DOCS) */}
       {showPreviewModal && selectedFileForModal && (
         <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-4xl h-[85vh] flex flex-col justify-between gap-4 shadow-2xl animate-scaleIn">
+          <div className="bg-[#1C1B1B] border border-white/10 rounded-sm p-6 w-full max-w-4xl h-[85vh] flex flex-col justify-between gap-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3 shrink-0">
               <div className="flex items-center gap-2">
                 <Eye className="w-5 h-5 text-[#D97736]" />
@@ -994,12 +994,12 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
               </button>
             </div>
 
-            <div className="flex-1 w-full bg-black/50 rounded-2xl overflow-hidden border border-white/5 flex items-center justify-center">
+            <div className="flex-1 w-full bg-black/50 rounded-sm overflow-hidden border border-white/5 flex items-center justify-center">
               {selectedFileForModal.mimeType.startsWith('image/') ? (
                 <img
                   src={selectedFileForModal.url}
                   alt={selectedFileForModal.name}
-                  className="max-w-full max-h-full object-contain rounded-lg"
+                  className="max-w-full max-h-full object-contain rounded-sm"
                 />
               ) : selectedFileForModal.mimeType.includes('pdf') ? (
                 <iframe
@@ -1017,7 +1017,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                     href={selectedFileForModal.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500 text-black font-extrabold text-xs"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-orange-500 text-black font-extrabold text-xs"
                   >
                     <span>Abrir en Nueva Pestaña</span>
                     <ExternalLink className="w-4 h-4" />
@@ -1033,7 +1033,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
               <a
                 href={selectedFileForModal.url}
                 download
-                className="px-5 py-2 rounded-xl bg-cyan-500 text-black font-extrabold text-xs flex items-center gap-2"
+                className="px-5 py-2 rounded-sm bg-orange-500 text-black font-extrabold text-xs flex items-center gap-2"
               >
                 <Download className="w-4 h-4" />
                 <span>Descargar Original</span>
@@ -1046,7 +1046,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
       {/* VERSION HISTORY MODAL */}
       {showVersionModal && selectedFileForModal && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
+          <div className="bg-[#1C1B1B] border border-white/10 rounded-sm p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-extrabold text-sm text-white uppercase tracking-wider flex items-center gap-2">
                 <Layers className="w-4 h-4 text-[#D97736]" />
@@ -1061,24 +1061,24 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             </div>
 
             <div className="space-y-2 max-h-60 overflow-y-auto">
-              <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-between">
+              <div className="p-3 rounded-sm bg-orange-500/10 border border-orange-500/30 flex items-center justify-between">
                 <div>
                   <span className="font-extrabold text-xs text-[#D97736] block">v{selectedFileForModal.version || 1} (Versión Actual)</span>
                   <span className="text-[10px] text-slate-400 font-mono">{(selectedFileForModal.size / 1024).toFixed(1)} KB</span>
                 </div>
-                <a href={selectedFileForModal.url} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg bg-cyan-500 text-black text-xs font-bold">
+                <a href={selectedFileForModal.url} target="_blank" rel="noreferrer" className="p-1.5 rounded-sm bg-orange-500 text-black text-xs font-bold">
                   Ver
                 </a>
               </div>
 
               {selectedFileForModal.previousVersionsJson &&
                 JSON.parse(selectedFileForModal.previousVersionsJson).map((prev: any, idx: number) => (
-                  <div key={idx} className="p-3 rounded-2xl bg-[#2A2A2A] border border-white/5 flex items-center justify-between">
+                  <div key={idx} className="p-3 rounded-sm bg-[#2A2A2A] border border-white/5 flex items-center justify-between">
                     <div>
                       <span className="font-bold text-xs text-white block">v{prev.version} (Archivo Histórico)</span>
                       <span className="text-[10px] text-slate-400 font-mono">{(prev.size / 1024).toFixed(1)} KB</span>
                     </div>
-                    <a href={prev.url} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg bg-white/10 text-white text-xs font-bold">
+                    <a href={prev.url} target="_blank" rel="noreferrer" className="p-1.5 rounded-sm bg-white/10 text-white text-xs font-bold">
                       Descargar
                     </a>
                   </div>
@@ -1088,7 +1088,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
             <div className="pt-2 flex justify-end">
               <button
                 onClick={() => setShowVersionModal(false)}
-                className="px-5 py-2 rounded-xl bg-white/10 text-white text-xs font-bold cursor-pointer"
+                className="px-5 py-2 rounded-sm bg-white/10 text-white text-xs font-bold cursor-pointer"
               >
                 Cerrar
               </button>
@@ -1100,7 +1100,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
       {/* CLOUD IMPORT MODAL */}
       {showCloudImportModal && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#1C1B1B] border border-white/10 rounded-3xl p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
+          <div className="bg-[#1C1B1B] border border-white/10 rounded-sm p-6 w-full max-w-md space-y-4 shadow-2xl animate-scaleIn">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-extrabold text-sm text-white uppercase tracking-wider flex items-center gap-2">
                 <ExternalLink className="w-4 h-4 text-[#D97736]" />
@@ -1122,7 +1122,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                   placeholder="https://drive.google.com/uc?export=download&id=..."
                   value={cloudUrlInput}
                   onChange={(e) => setCloudUrlInput(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl bg-[#2A2A2A] border border-white/10 text-xs text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full px-3 py-2.5 rounded-sm bg-[#2A2A2A] border border-white/10 text-xs text-white focus:outline-none focus:border-orange-400"
                   required
                 />
               </div>
@@ -1131,14 +1131,14 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
                 <button
                   type="button"
                   onClick={() => setShowCloudImportModal(false)}
-                  className="px-4 py-2 rounded-xl bg-white/10 text-white text-xs font-bold cursor-pointer"
+                  className="px-4 py-2 rounded-sm bg-white/10 text-white text-xs font-bold cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={uploading}
-                  className="px-5 py-2 rounded-xl bg-cyan-500 text-black font-extrabold text-xs uppercase cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2 rounded-sm bg-orange-500 text-black font-extrabold text-xs uppercase cursor-pointer disabled:opacity-50"
                 >
                   {uploading ? 'Importando...' : 'Importar Archivo'}
                 </button>

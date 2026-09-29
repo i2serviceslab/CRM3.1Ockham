@@ -18,7 +18,7 @@ export const ConcaveCard: React.FC<ConcaveCardProps> = ({
 }) => {
   return (
     <div
-      className={`relative rounded-md bg-[#1C1B1B] border border-white/10 p-6 shadow-none transition-all hover:bg-[#2A2A2A] flex flex-col justify-between ${className}`}
+      className={`relative rounded-sm bg-[#1C1B1B] border border-white/10 p-6 shadow-none transition-all hover:bg-[#2A2A2A] flex flex-col justify-between ${className}`}
     >
       {actionButton && (
         <div className="absolute top-4 right-4 z-20 flex items-center justify-end gap-2">

@@ -35,13 +35,13 @@ export const DailyScheduleWidget: React.FC<DailyScheduleWidgetProps> = ({ onOpen
   return (
     <div
       onClick={onOpenAgenda}
-      className="p-6 rounded-md bg-[#1C1B1B] border border-white/10 cursor-pointer group transition-all hover:bg-[#2A2A2A] flex flex-col justify-between select-none"
+      className="p-6 rounded-sm bg-[#1C1B1B] border border-white/10 cursor-pointer group transition-all hover:bg-[#2A2A2A] flex flex-col justify-between select-none"
     >
       <div className="space-y-4">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-md bg-white/5 border border-white/10 text-white flex items-center justify-center">
+            <div className="w-8 h-8 rounded-sm bg-white/5 border border-white/10 text-white flex items-center justify-center">
               <Calendar className="w-4 h-4 text-[var(--accent-primary)]" />
             </div>
             <span className="text-sm font-bold text-white uppercase tracking-wider">Live Calendar</span>
@@ -64,7 +64,7 @@ export const DailyScheduleWidget: React.FC<DailyScheduleWidgetProps> = ({ onOpen
 
         {/* Real Event or Fallback */}
         {nextEvent ? (
-          <div className="p-3 rounded-md bg-[#2A2A2A] border border-white/10 flex items-center justify-between">
+          <div className="p-3 rounded-sm bg-[#2A2A2A] border border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="text-xs font-mono font-bold text-white">
                 {new Date(nextEvent.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -84,7 +84,7 @@ export const DailyScheduleWidget: React.FC<DailyScheduleWidgetProps> = ({ onOpen
             </span>
           </div>
         ) : (
-          <div className="p-3.5 rounded-md bg-[#2A2A2A] border border-white/10 text-center text-xs font-medium text-[#A1A1A1]">
+          <div className="p-3.5 rounded-sm bg-[#2A2A2A] border border-white/10 text-center text-xs font-medium text-[#A1A1A1]">
             No meetings scheduled for today
           </div>
         )}
