@@ -44,8 +44,8 @@ const PRESET_LIBRARY: TickerData[] = [
   { symbol: 'URA', name: 'Global X Uranium ETF', price: 26.80, change: 0.75, changePercent: 2.88, isPositive: true, category: 'Energía & Recursos' },
 
   // ACCIONES MINERAS & ETFS
-  { symbol: 'OCG.V', name: 'Outcrop Silver (TSX.V)', price: 0.35, change: 0.02, changePercent: 6.06, volume: '245.3K', isPositive: true, category: 'Acciones Mineras' },
-  { symbol: 'OCGSF', name: 'Outcrop Silver (OTCQX)', price: 0.26, change: 0.01, changePercent: 4.00, volume: '112.1K', isPositive: true, category: 'Acciones Mineras' },
+  { symbol: 'OCG.V', name: 'Copper Giant Silver (TSX.V)', price: 0.35, change: 0.02, changePercent: 6.06, volume: '245.3K', isPositive: true, category: 'Acciones Mineras' },
+  { symbol: 'OCGSF', name: 'Copper Giant Silver (OTCQX)', price: 0.26, change: 0.01, changePercent: 4.00, volume: '112.1K', isPositive: true, category: 'Acciones Mineras' },
   { symbol: 'PAAS', name: 'Pan American Silver', price: 21.40, change: 0.85, changePercent: 4.14, isPositive: true, category: 'Acciones Mineras' },
   { symbol: 'AG', name: 'First Majestic Silver', price: 6.25, change: 0.30, changePercent: 5.04, isPositive: true, category: 'Acciones Mineras' },
   { symbol: 'WPM', name: 'Wheaton Precious Metals', price: 54.20, change: 1.10, changePercent: 2.07, isPositive: true, category: 'Acciones Mineras' },

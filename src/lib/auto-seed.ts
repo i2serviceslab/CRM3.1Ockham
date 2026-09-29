@@ -33,14 +33,14 @@ export async function ensurePersistentData() {
 
     // 2. Ensure WhatsApp Session is Connected
     const session = await prisma.whatsAppSession.findFirst({
-      where: { OR: [{ tenantId }, { instanceName: 'OutcropBot' }] },
+      where: { OR: [{ tenantId }, { instanceName: 'Copper GiantBot' }] },
     });
 
     if (!session) {
       await prisma.whatsAppSession.create({
         data: {
           tenantId,
-          instanceName: 'OutcropBot',
+          instanceName: 'Copper GiantBot',
           status: 'CONNECTED',
           phoneNumber: '+573124031892',
           qrCode: null,
@@ -76,7 +76,7 @@ export async function ensurePersistentData() {
         data: {
           tenantId,
           endpointUrl: 'http://localhost:8000',
-          apiKey: 'hermes_outcrop_secret_2026',
+          apiKey: 'hermes_coppergiant_secret_2026',
           telegramBotToken: '8925340221:AAHU0nrxvP2XqPewfZMK1GzmjjyFGPIUX8o',
           telegramChatId: '-5370719843',
           gatewayMode: 'TELEGRAM',

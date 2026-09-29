@@ -59,7 +59,7 @@ interface HermesAgentStudioProps {
 
 export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
   tenantId,
-  tenantName = 'Outcrop Silver Corp',
+  tenantName = 'Copper Giant Silver Corp',
 }) => {
   // Sessions & Messages State
   const [sessions, setSessions] = useState<HermesSession[]>([]);
@@ -84,7 +84,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
 
   // Gateway Connection State
   const [endpointUrl, setEndpointUrl] = useState('http://localhost:8000');
-  const [apiKey, setApiKey] = useState('hermes_outcrop_secret_2026');
+  const [apiKey, setApiKey] = useState('hermes_coppergiant_secret_2026');
   const [telegramBotToken, setTelegramBotToken] = useState('8925340221:AAHU0nrxvP2XqPewfZMK1GzmjjyFGPIUX8o');
   const [telegramChatId, setTelegramChatId] = useState('-5370719843');
   const [gatewayMode, setGatewayMode] = useState<'TELEGRAM' | 'HTTP_TUNNEL'>('TELEGRAM');
@@ -142,7 +142,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
         setBotInfo(data.botInfo || null);
         if (data.config) {
           setEndpointUrl(data.config.endpointUrl || 'http://localhost:8000');
-          setApiKey(data.config.apiKey || 'hermes_outcrop_secret_2026');
+          setApiKey(data.config.apiKey || 'hermes_coppergiant_secret_2026');
           setTelegramBotToken(data.config.telegramBotToken || '');
           setTelegramChatId(data.config.telegramChatId || '8724044473');
           setGatewayMode(data.config.gatewayMode || 'TELEGRAM');
@@ -943,7 +943,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                       type="text"
                       value={apiKey}
                       onChange={(e) => setApiKey(e.target.value)}
-                      placeholder="hermes_outcrop_secret_2026"
+                      placeholder="hermes_coppergiant_secret_2026"
                       className="w-full px-3.5 py-2.5 rounded-sm bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)] font-mono"
                     />
                   </div>
@@ -953,7 +953,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
               <div className="p-3.5 rounded-sm bg-[#131313] border border-white/10">
                 <div className="text-xs font-bold text-white">Webhook del CRM (Inbound Callbacks):</div>
                 <div className="text-[11px] font-mono text-[var(--accent-primary)] break-all mt-0.5">
-                  https://homunculus-host-outcrop-silver-crm.wu48i0.easypanel.host/api/hermes/webhook
+                  https://homunculus-host-coppergiant-silver-crm.wu48i0.easypanel.host/api/hermes/webhook
                 </div>
               </div>
             </div>

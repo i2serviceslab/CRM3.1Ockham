@@ -145,8 +145,8 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
   const [chatInput, setChatInput] = useState('');
   const [chatMessages, setChatMessages] = useState<Array<{ sender: string; text: string; isBot: boolean; time: string }>>([
     {
-      sender: 'Outcrop Silver Bot',
-      text: '👋 ¡Hola! Soy el Bot Ejecutivo de Outcrop Silver CRM. Escribe "Hola", "Resumen del CRM", "/scan" o "Agrega a un contacto" para probar mis respuestas en tiempo real.',
+      sender: 'Copper Giant Silver Bot',
+      text: '👋 ¡Hola! Soy el Bot Ejecutivo de Copper Giant Silver CRM. Escribe "Hola", "Resumen del CRM", "/scan" o "Agrega a un contacto" para probar mis respuestas en tiempo real.',
       isBot: true,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
@@ -179,7 +179,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
         setChatMessages((prev) => [
           ...prev,
           {
-            sender: 'Outcrop Silver Bot',
+            sender: 'Copper Giant Silver Bot',
             text: data.botResponse,
             isBot: true,
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),

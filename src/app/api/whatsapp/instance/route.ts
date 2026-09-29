@@ -26,7 +26,7 @@ async function getTenantId(req: NextRequest): Promise<string | null> {
   } catch {}
 
   const defaultTenant =
-    (await prisma.tenant.findFirst({ where: { slug: 'outcrop-silver' } })) ||
+    (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
     (await prisma.tenant.findFirst());
   return defaultTenant?.id || null;
 }

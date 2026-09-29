@@ -148,7 +148,7 @@ export async function POST(req: NextRequest) {
 
     // ── MESSAGES_UPSERT: process inbound messages ───────────────────────
     if (event === 'messages.upsert' || event === 'MESSAGES_UPSERT') {
-      const instanceName: string = body?.instance || body?.instanceName || 'OutcropBot';
+      const instanceName: string = body?.instance || body?.instanceName || 'Copper GiantBot';
       const msgData = body?.data;
 
       await prisma.timelineActivity.create({ data: { contactId: (await prisma.contact.findFirst())?.id || '', title: 'DEBUG_WEBHOOK_START', description: `Event: ${event}, msgData exists: ${!!msgData}` }}).catch(() => {});
@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
       (async () => {
         try {
           const defaultTenant =
-            (await prisma.tenant.findFirst({ where: { slug: 'outcrop-silver' } })) ||
+            (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
             (await prisma.tenant.findFirst());
           const tenantId = defaultTenant?.id || 'default-tenant';
 
@@ -211,5 +211,5 @@ export async function POST(req: NextRequest) {
 
 // Evolution API verifies the webhook with a GET request
 export async function GET() {
-  return NextResponse.json({ status: 'Evolution API Webhook Active', crm: 'Outcrop Silver CRM v20.2' });
+  return NextResponse.json({ status: 'Evolution API Webhook Active', crm: 'Copper Giant Silver CRM v20.2' });
 }

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Outcrop Silver CRM System',
+  title: 'Copper Giant Silver CRM System',
   description: 'Sistema CRM para la industria minera con taxonomía de inversionistas, vista 360°, escáner de tarjetas 2 caras, notas de voz, grafo de relaciones e integración con WhatsApp Baileys.',
 };
 

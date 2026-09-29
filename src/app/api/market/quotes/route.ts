@@ -85,8 +85,8 @@ const SYMBOL_META: Record<string, { label: string; name: string; unit?: string }
   'COPJ': { label: 'COPJ', name: 'Sprott Junior Copper Miners ETF' },
   'SI=F': { label: 'Ag', name: 'Silver Spot / Futures', unit: '$/Oz' },
   'GC=F': { label: 'Au', name: 'Gold Spot / Futures', unit: '$/Oz' },
-  'OCG.V': { label: 'TSXV: OCG', name: 'Outcrop Silver (TSX.V)' },
-  'OCGSF': { label: 'OTCQX: OCGSF', name: 'Outcrop Silver (OTCQX)' },
+  'OCG.V': { label: 'TSXV: OCG', name: 'Copper Giant Silver (TSX.V)' },
+  'OCGSF': { label: 'OTCQX: OCGSF', name: 'Copper Giant Silver (OTCQX)' },
 };
 
 function getCurrencySymbol(curr: string): string {

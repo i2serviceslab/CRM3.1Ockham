@@ -21,14 +21,14 @@ async function sendResendOtpEmail(email: string, otpCode: string): Promise<boole
       body: JSON.stringify({
         from: fromEmail,
         to: [email],
-        subject: `🔑 Código de Acceso Seguro: ${otpCode} — Outcrop Silver CRM`,
+        subject: `🔑 Código de Acceso Seguro: ${otpCode} — Copper Giant Silver CRM`,
         html: `
           <!DOCTYPE html>
           <html>
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Código de Acceso - Outcrop Silver CRM</title>
+            <title>Código de Acceso - Copper Giant Silver CRM</title>
           </head>
           <body style="margin: 0; padding: 0; background-color: #07080c; font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #ffffff; -webkit-font-smoothing: antialiased;">
             <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #07080c; padding: 40px 10px;">
@@ -52,7 +52,7 @@ async function sendResendOtpEmail(email: string, otpCode: string): Promise<boole
                     <tr>
                       <td style="padding: 0 36px 36px 36px;">
                         <p style="font-size: 15px; color: #e2e8f0; line-height: 1.6; margin-top: 0;">Hola,</p>
-                        <p style="font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 24px;">Has solicitado un PIN de verificación para iniciar sesión en el portal de <strong>Outcrop Silver Corp</strong>. Utiliza la siguiente clave única:</p>
+                        <p style="font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 24px;">Has solicitado un PIN de verificación para iniciar sesión en el portal de <strong>Copper Giant Silver Corp</strong>. Utiliza la siguiente clave única:</p>
                         
                         <!-- Glow PIN Display Box -->
                         <div style="text-align: center; margin: 28px 0; padding: 28px 20px; background: linear-gradient(135deg, #101422 0%, #161b2e 100%); border-radius: 20px; border: 1px solid rgba(0, 223, 223, 0.4); box-shadow: 0 0 30px rgba(0, 223, 223, 0.15);">
@@ -74,7 +74,7 @@ async function sendResendOtpEmail(email: string, otpCode: string): Promise<boole
                     <!-- Footer Section -->
                     <tr>
                       <td style="padding: 20px 36px; background-color: #07080c; border-top: 1px solid rgba(255, 255, 255, 0.08); text-align: center;">
-                        <p style="font-size: 11px; font-weight: 700; color: #475569; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Outcrop Silver Corp — Proyecto Santa Ana</p>
+                        <p style="font-size: 11px; font-weight: 700; color: #475569; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Copper Giant Silver Corp — Proyecto Santa Ana</p>
                         <p style="font-size: 10px; color: #334155; margin: 4px 0 0 0;">© ${new Date().getFullYear()} The Core CRM Engine. Todos los derechos reservados.</p>
                       </td>
                     </tr>
@@ -113,17 +113,17 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: false, error: 'Email is required' }, { status: 400 });
       }
 
-      // 1. Pre-registration check or auto-create Outcrop user for ANY email
+      // 1. Pre-registration check or auto-create Copper Giant user for ANY email
       const normalizedEmail = email.trim().toLowerCase();
       let user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
       if (!user) {
-        const outcropTenant = await prisma.tenant.findFirst({ where: { slug: 'outcrop-silver' } });
+        const coppergiantTenant = await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } });
         const uniquePhone = `+579${Math.floor(100000000 + Math.random() * 900000000)}`;
         const isAdminEmail =
           normalizedEmail.includes('admin') ||
           normalizedEmail.includes('carvajal') ||
           normalizedEmail.endsWith('@i2services.co') ||
-          normalizedEmail.endsWith('@outcropsilver.com');
+          normalizedEmail.endsWith('@coppergiantsilver.com');
 
         user = await prisma.user.create({
           data: {
@@ -131,7 +131,7 @@ export async function POST(request: Request) {
             phone: uniquePhone,
             name: normalizedEmail.split('@')[0].toUpperCase(),
             role: isAdminEmail ? 'SUPER_ADMIN' : 'AGENT',
-            tenantId: outcropTenant?.id || null,
+            tenantId: coppergiantTenant?.id || null,
           },
         });
       }

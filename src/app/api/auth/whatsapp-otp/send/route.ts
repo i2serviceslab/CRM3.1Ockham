@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 
     // Send OTP message via WhatsApp DB / Daemon Engine
     const otpMessageText =
-      `🔑 *Outcrop Silver CRM Security Verification Code*\n\n` +
+      `🔑 *Copper Giant Silver CRM Security Verification Code*\n\n` +
       `Your single-use login code is: *${otpCode}*\n\n` +
       `⏱️ *Valid for 5 minutes*. Please do not share this code with anyone.`;
 

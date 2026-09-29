@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
     // Fetch live .ics feed from Google / Outlook / Apple Calendar
     const res = await fetch(icalUrl, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (OutcropSilverCRM Calendar Sync)' },
+      headers: { 'User-Agent': 'Mozilla/5.0 (Copper GiantSilverCRM Calendar Sync)' },
     });
 
     if (!res.ok) {
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
           endTime: evt.endTime,
           location: evt.location,
           syncSource: 'ICAL_FEED',
-          meetingUrl: 'https://meet.jit.si/OutcropSilver-IR-Room',
+          meetingUrl: 'https://meet.jit.si/Copper GiantSilver-IR-Room',
         },
       });
       createdCount++;

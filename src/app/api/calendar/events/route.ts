@@ -139,9 +139,9 @@ export async function POST(request: Request) {
     const icsContent =
       `BEGIN:VCALENDAR\n` +
       `VERSION:2.0\n` +
-      `PRODID:-//Outcrop Silver CRM//Calendar Sync//EN\n` +
+      `PRODID:-//Copper Giant Silver CRM//Calendar Sync//EN\n` +
       `BEGIN:VEVENT\n` +
-      `UID:${event.id}@outcropsilver.com\n` +
+      `UID:${event.id}@coppergiantsilver.com\n` +
       `DTSTAMP:${formatToIsoCompact(new Date())}\n` +
       `DTSTART:${startIso}\n` +
       `DTEND:${endIso}\n` +

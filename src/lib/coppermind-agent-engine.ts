@@ -114,7 +114,7 @@ async function executeTool(name: string, args: any, tenantId?: string): Promise<
   try {
     if (name === 'create_contact') {
       const defaultTenant =
-        (await prisma.tenant.findFirst({ where: { slug: 'outcrop-silver' } })) ||
+        (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
         (await prisma.tenant.findFirst());
 
       const created = await prisma.contact.create({
@@ -201,7 +201,7 @@ async function executeTool(name: string, args: any, tenantId?: string): Promise<
             <h2>${args.subject}</h2>
             <p>${args.bodyHtml}</p>
             <hr style="margin-top: 30px; border: 0; border-top: 1px solid #eee;" />
-            <p style="font-size: 11px; color: #888;">Enviado por CopperMind Autonomous Agent — Outcrop Silver CRM</p>
+            <p style="font-size: 11px; color: #888;">Enviado por CopperMind Autonomous Agent — Copper Giant Silver CRM</p>
           </div>`,
         }),
       });
@@ -275,7 +275,7 @@ export async function runCopperMindAgent(
 
   const systemMessage = {
     role: 'system',
-    content: `Eres CopperMind, el Agente Autónomo con herramientas reales de Outcrop Silver CRM.
+    content: `Eres CopperMind, el Agente Autónomo con herramientas reales de Copper Giant Silver CRM.
 NO eres un chat simulado ni prefabricado. Eres un agente que ejecutas ACCIONES REALES llamando herramientas cuando el usuario lo pide:
 - Si te piden agregar/crear un contacto, LLAMA a la herramienta 'create_contact'.
 - Si te piden buscar contactos o ver qué hay en el CRM, LLAMA a 'search_crm_contacts'.

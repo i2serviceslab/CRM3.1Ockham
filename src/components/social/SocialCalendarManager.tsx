@@ -487,7 +487,7 @@ export const SocialCalendarManager: React.FC<SocialCalendarManagerProps> = ({ te
               </span>
             </h1>
             <p className="text-xs text-slate-400 font-medium">
-              Planificación, IA de Copies y Registro de Auditoría de Redes Sociales (Outcrop Silver Corp.)
+              Planificación, IA de Copies y Registro de Auditoría de Redes Sociales (Copper Giant Silver Corp.)
             </p>
           </div>
         </div>

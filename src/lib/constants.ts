@@ -1,4 +1,4 @@
-// Outcrop Silver Tag System & Follow-up Flow Constants
+// Copper Giant Silver Tag System & Follow-up Flow Constants
 
 export const OUTCROP_TAGS = {
   INVESTOR_TYPES: [
@@ -24,7 +24,7 @@ export const OUTCROP_TAGS = {
     "Mining insider",
     "Competitor",
     "Government/regulatory",
-    "Outcrop employee",
+    "Copper Giant employee",
     "Legal/financial advisor",
     "Other",
   ],
@@ -90,5 +90,5 @@ export const INVESTOR_TYPE_COLORS: Record<string, string> = {
   "Institutional PM": "bg-emerald-500/20 text-emerald-300 font-bold",
   "Institutional analyst": "bg-teal-500/20 text-teal-300",
   "Private equity PM": "bg-indigo-500/20 text-indigo-300",
-  "Outcrop employee": "bg-pink-500/20 text-pink-300",
+  "Copper Giant employee": "bg-pink-500/20 text-pink-300",
 };

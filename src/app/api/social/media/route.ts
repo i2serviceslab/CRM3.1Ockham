@@ -66,7 +66,7 @@ export async function POST(request: Request) {
     });
 
     const session = await getSession();
-    const username = session?.name || session?.email || 'Admin Outcrop';
+    const username = session?.name || session?.email || 'Admin Copper Giant';
 
     await prisma.socialAuditLog.create({
       data: {
@@ -107,7 +107,7 @@ export async function DELETE(request: Request) {
       await prisma.socialMedia.delete({ where: { id } });
 
       const session = await getSession();
-      const username = session?.name || session?.email || 'Admin Outcrop';
+      const username = session?.name || session?.email || 'Admin Copper Giant';
 
       await prisma.socialAuditLog.create({
         data: {

@@ -86,7 +86,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, title, company, email, phone, whatsapp, location, bio, investorType, stage, source, leadScore, tenantId: bodyTenantId, apiKey } = body;
 
-    const isDaemonAuthorized = apiKey === process.env.WHATSAPP_DAEMON_KEY || apiKey === 'outcrop_daemon_secret_2026';
+    const isDaemonAuthorized = apiKey === process.env.WHATSAPP_DAEMON_KEY || apiKey === 'coppergiant_daemon_secret_2026';
     const session = isDaemonAuthorized ? null : await getSession();
 
     if (!session && !isDaemonAuthorized) {

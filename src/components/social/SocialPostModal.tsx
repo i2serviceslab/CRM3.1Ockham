@@ -141,7 +141,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
         setIsRecurring(false);
         setRecurringFrequency('weekly');
         setRecurringDay('');
-        setHashtags('#OutcropSilver #Plata #TSX #Mining');
+        setHashtags('#Copper GiantSilver #Plata #TSX #Mining');
         setExistingMedia([]);
         setComments([]);
       }
@@ -311,7 +311,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
       const res = await fetch(`/api/social/posts/${post.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: newComment.trim(), username: 'Admin Outcrop' }),
+        body: JSON.stringify({ content: newComment.trim(), username: 'Admin Copper Giant' }),
       });
       if (res.ok) {
         const commentData = await res.json();
@@ -581,7 +581,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   type="text"
                   value={hashtags}
                   onChange={(e) => setHashtags(e.target.value)}
-                  placeholder="#OutcropSilver #Plata #Mining #TSX"
+                  placeholder="#Copper GiantSilver #Plata #Mining #TSX"
                   className="w-full bg-[#161822] border border-white/10 rounded-sm px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-[var(--primary-color)] outline-none"
                 />
               </div>
@@ -780,7 +780,7 @@ export const SocialPostModal: React.FC<SocialPostModalProps> = ({
                   {/* Card Caption Area */}
                   <div className="px-3.5 pb-4 space-y-1.5">
                     <p className="text-xs text-slate-200 whitespace-pre-wrap leading-relaxed">
-                      <span className="font-bold text-white mr-1.5">Outcrop Silver:</span>
+                      <span className="font-bold text-white mr-1.5">Copper Giant Silver:</span>
                       {content || 'Contenido del post...'}
                     </p>
                     {hashtags && (

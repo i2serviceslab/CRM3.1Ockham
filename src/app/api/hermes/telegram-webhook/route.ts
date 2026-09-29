@@ -71,6 +71,6 @@ export async function POST(request: Request) {
 export async function GET() {
   return NextResponse.json({
     status: 'Hermes Telegram Webhook Active',
-    gateway: 'Outcrop Silver CRM v14.2',
+    gateway: 'Copper Giant Silver CRM v14.2',
   });
 }

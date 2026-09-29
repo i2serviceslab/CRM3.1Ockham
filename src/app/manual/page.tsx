@@ -88,7 +88,7 @@ export default function ManualPage() {
             1. Introducción al CRM
           </h2>
           <p className="text-xs text-slate-300 leading-relaxed">
-            <strong>Outcrop Silver CRM v2.1</strong> es la plataforma centralizada para organizar, hacer seguimiento y cerrar acuerdos de inversión con Family Offices, Fondos Institucionales, inversionistas HNW y Brokers interesados en el proyecto de plata de alta ley Santa Ana.
+            <strong>Copper Giant Silver CRM v2.1</strong> es la plataforma centralizada para organizar, hacer seguimiento y cerrar acuerdos de inversión con Family Offices, Fondos Institucionales, inversionistas HNW y Brokers interesados en el proyecto de plata de alta ley Santa Ana.
           </p>
           <ul className="list-disc list-inside text-xs text-slate-300 space-y-1 pl-2">
             <li>Consultar el expediente 360° de cada contacto con notas de voz e informes técnicos.</li>
@@ -110,7 +110,7 @@ export default function ManualPage() {
           
           {/* Screenshot 7: Sidebar & Branding */}
           <div className="rounded-sm overflow-hidden border border-white/10 bg-slate-900/60 p-2">
-            <img src="/manual_images/07_sidebar_branding.png" alt="Barra Lateral e Identidad Outcrop Silver" className="w-full h-auto rounded-sm" />
+            <img src="/manual_images/07_sidebar_branding.png" alt="Barra Lateral e Identidad Copper Giant Silver" className="w-full h-auto rounded-sm" />
             <p className="text-[11px] text-center text-slate-400 mt-2 italic font-mono">
               Figura 1: Barra lateral de navegación con el widget Powered by i2 y accesos principales.
             </p>
@@ -272,7 +272,7 @@ export default function ManualPage() {
 
         {/* Footer */}
         <div className="pt-6 border-t border-white/10 text-center text-xs text-slate-500 font-mono">
-          Outcrop Silver CRM v2.1 — Proyecto Santa Ana | Powered by i2
+          Copper Giant Silver CRM v2.1 — Proyecto Santa Ana | Powered by i2
         </div>
 
       </div>

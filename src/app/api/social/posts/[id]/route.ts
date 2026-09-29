@@ -69,7 +69,7 @@ export async function PUT(
       : `Publicación actualizada: "${updated.title}" (${updated.status})`;
 
     const session = await getSession();
-    const username = session?.name || session?.email || 'Admin Outcrop';
+    const username = session?.name || session?.email || 'Admin Copper Giant';
 
     await prisma.socialAuditLog.create({
       data: {
@@ -102,7 +102,7 @@ export async function DELETE(
     await prisma.socialPost.delete({ where: { id } });
 
     const session = await getSession();
-    const username = session?.name || session?.email || 'Admin Outcrop';
+    const username = session?.name || session?.email || 'Admin Copper Giant';
 
     await prisma.socialAuditLog.create({
       data: {
@@ -134,7 +134,7 @@ export async function POST(
     }
 
     const session = await getSession();
-    const loggedInUsername = session?.name || session?.email || 'Admin Outcrop';
+    const loggedInUsername = session?.name || session?.email || 'Admin Copper Giant';
     const commentUsername = username || loggedInUsername;
 
     const comment = await prisma.socialComment.create({

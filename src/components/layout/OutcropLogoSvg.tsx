@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export const OutcropLogoSvg: React.FC<{ className?: string }> = ({ className = 'h-12 w-auto' }) => {
+export const Copper GiantLogoSvg: React.FC<{ className?: string }> = ({ className = 'h-12 w-auto' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +48,7 @@ export const OutcropLogoSvg: React.FC<{ className?: string }> = ({ className = '
       <polygon points="42,12 36,36 34,68" fill="url(#svg-silver-face-2)" />
       <polygon points="8,42 36,36 34,68" fill="url(#svg-silver-face-3)" />
 
-      {/* Outcrop Silver Vector Text (Pure White #ffffff) */}
+      {/* Copper Giant Silver Vector Text (Pure White #ffffff) */}
       <text
         x="82"
         y="36"

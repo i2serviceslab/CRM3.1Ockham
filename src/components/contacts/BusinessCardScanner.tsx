@@ -247,7 +247,7 @@ export const BusinessCardScanner: React.FC<BusinessCardScannerProps> = ({ onSucc
             onClick={handleCreateContactFromOCR}
             className="px-6 py-2.5 rounded-sm bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-emerald-600/20"
           >
-            <span>Confirmar y Crear Contacto en Outcrop CRM</span>
+            <span>Confirmar y Crear Contacto en Copper Giant CRM</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

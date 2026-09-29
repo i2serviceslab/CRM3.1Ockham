@@ -47,7 +47,7 @@ export async function POST(request: Request) {
             headquarters: 'Vancouver, Canada',
             investmentFocus: 'Proyectos de exploración de plata de alta ley, Santa Ana & LatAm',
             miningHistory: 'Inversionista activo en rondas de capital de riesgo minero en Canadá y Colombia.',
-            executiveSummary: `Perfil calificado para Outcrop Silver. ${nameQuery} cuenta con amplia trayectoria en decisiones estratégicas de financiamiento de metales preciosos en ${companyQuery}.`,
+            executiveSummary: `Perfil calificado para Copper Giant Silver. ${nameQuery} cuenta con amplia trayectoria en decisiones estratégicas de financiamiento de metales preciosos en ${companyQuery}.`,
             dynamicIcebreaker: `Hola ${nameQuery}, notamos tu trayectoria en ${companyQuery} y el interés en proyectos de plata de alta ley como Santa Ana.`,
           },
           provider: 'Native Deep Intelligence Engine',
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
           messages: [
             {
               role: 'system',
-              content: `Eres el motor de Búsqueda Profunda e Inteligencia Corporativa de Outcrop Silver (compañía de exploración minera de plata en Colombia).
+              content: `Eres el motor de Búsqueda Profunda e Inteligencia Corporativa de Copper Giant Silver (compañía de exploración minera de plata en Colombia).
 Dada la información de un contacto, realiza una inferencia profunda de inteligencia de negocios para relaciones de inversión (IR).
 DEBES responder ÚNICAMENTE en JSON con el objeto 'enrichment' conteniendo exactamente estas claves:
 "investorType", "estimatedAum", "keyInsights", "icebreaker", "suggestedStrategy".`,
@@ -117,7 +117,7 @@ Genera una ficha de inteligencia corporativa completa con datos verosímiles de 
       if (!apiKey) {
         return NextResponse.json({
           success: true,
-          icebreaker: `Contacto calificado en la red de Outcrop Silver para proyectos de exploración minera.`,
+          icebreaker: `Contacto calificado en la red de Copper Giant Silver para proyectos de exploración minera.`,
           context: `Análisis procesado mediante motor de reglas nativo.`,
           provider: 'Native Fallback Engine',
         });
@@ -134,7 +134,7 @@ Genera una ficha de inteligencia corporativa completa con datos verosímiles de 
           messages: [
             {
               role: 'system',
-              content: 'Eres un analista de relaciones con inversionistas para Outcrop Silver. Responde en JSON con las claves: "dynamicIcebreaker" y "strategicContext" generando una nota de briefing ejecutivo para la compañía o proyecto minero.',
+              content: 'Eres un analista de relaciones con inversionistas para Copper Giant Silver. Responde en JSON con las claves: "dynamicIcebreaker" y "strategicContext" generando una nota de briefing ejecutivo para la compañía o proyecto minero.',
             },
             {
               role: 'user',

@@ -42,7 +42,7 @@ export async function POST(request: Request) {
             aiCategory: suggestedCategory,
             folderId: targetFolderId,
             aiSummary: file.aiSummary || `Documento clasificado automáticamente por Humunculus IA como "${suggestedCategory}".`,
-            aiKeywords: `outcrop, silver, ${suggestedCategory.toLowerCase()}, santa ana`,
+            aiKeywords: `coppergiant, silver, ${suggestedCategory.toLowerCase()}, santa ana`,
           },
         });
         organizedCount++;

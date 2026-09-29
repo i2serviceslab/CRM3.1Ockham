@@ -18,8 +18,8 @@ export interface CustomThemeConfig {
 }
 
 export const DEFAULT_THEME_CONFIG: CustomThemeConfig = {
-  id: 'outcrop-silver',
-  name: 'Outcrop Silver Official',
+  id: 'coppergiant-silver',
+  name: 'Copper Giant Silver Official',
   primaryColor: '#FF002C',
   secondaryColor: '#a9aeb2',
   bgMain: '#0f172a',
@@ -38,8 +38,8 @@ export const DEFAULT_THEME_CONFIG: CustomThemeConfig = {
 
 export const THEME_PRESETS: CustomThemeConfig[] = [
   {
-    id: 'outcrop-silver',
-    name: 'Outcrop Silver Official (Cyan & Acero)',
+    id: 'coppergiant-silver',
+    name: 'Copper Giant Silver Official (Cyan & Acero)',
     primaryColor: '#FF002C',
     secondaryColor: '#a9aeb2',
     bgMain: '#0f172a',

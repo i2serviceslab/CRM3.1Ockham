@@ -176,7 +176,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
       icebreaker = `Revisando el perfil de ${contactName} en ${companyName.trim()}, enfocado en oportunidades de capital para el proyecto Santa Ana.`;
       context = `Inversionista de ${companyName.trim()}. Relevante para rondas de financiamiento y actualizaciones de prospección minera.`;
     } else {
-      icebreaker = `Contacto calificado en la red de Outcrop Silver para dar seguimiento en proyectos de metales preciosos.`;
+      icebreaker = `Contacto calificado en la red de Copper Giant Silver para dar seguimiento en proyectos de metales preciosos.`;
       context = `Inversionista registrado. Pendiente definir tesis de inversión y volumen de ticket.`;
     }
 
@@ -268,7 +268,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
             </div>
             <div>
               <h2 className="text-lg font-black text-white">New Investor Contact</h2>
-              <p className="text-xs text-slate-400 font-medium">Outcrop Silver Taxonomy & Smart Card Scanner</p>
+              <p className="text-xs text-slate-400 font-medium">Copper Giant Silver Taxonomy & Smart Card Scanner</p>
             </div>
           </div>
 
@@ -644,10 +644,10 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
               )}
             </div>
 
-            {/* Outcrop Tag Taxonomy Section */}
+            {/* Copper Giant Tag Taxonomy Section */}
             <div className="p-4 rounded-sm bg-[#0f1218] border border-white/5 space-y-3">
               <span className="text-xs font-black uppercase tracking-wider block" style={{ color: 'var(--primary-color)' }}>
-                Outcrop Silver Strict Taxonomy
+                Copper Giant Silver Strict Taxonomy
               </span>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

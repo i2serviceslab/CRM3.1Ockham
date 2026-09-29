@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     await prisma.socialAuditLog.create({
       data: {
         action: 'create_category',
-        username: 'Admin Outcrop',
+        username: 'Admin Copper Giant',
         entityType: 'category',
         entityId: category.id,
         details: `Categoría creada: "${category.name}" (${category.color})`,
@@ -81,7 +81,7 @@ export async function PUT(request: Request) {
     await prisma.socialAuditLog.create({
       data: {
         action: 'update_category',
-        username: 'Admin Outcrop',
+        username: 'Admin Copper Giant',
         entityType: 'category',
         entityId: category.id,
         details: `Categoría actualizada: "${category.name}"`,
@@ -110,7 +110,7 @@ export async function DELETE(request: Request) {
     await prisma.socialAuditLog.create({
       data: {
         action: 'delete_category',
-        username: 'Admin Outcrop',
+        username: 'Admin Copper Giant',
         entityType: 'category',
         entityId: id,
         details: `Categoría eliminada: "${deleted.name}"`,

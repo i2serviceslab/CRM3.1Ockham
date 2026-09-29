@@ -16,7 +16,7 @@ export async function GET(request: Request) {
         data: {
           tenantId: tenantId || null,
           endpointUrl: 'http://localhost:8000',
-          apiKey: 'hermes_outcrop_secret_2026',
+          apiKey: 'hermes_coppergiant_secret_2026',
           telegramBotToken: '8925340221:AAHU0nrxvP2XqPewfZMK1GzmjjyFGPIUX8o',
           telegramChatId: '-5370719843',
           gatewayMode: 'TELEGRAM',
@@ -119,7 +119,7 @@ export async function POST(request: Request) {
         data: {
           tenantId: tenantId || null,
           endpointUrl: endpointUrl || 'http://localhost:8000',
-          apiKey: apiKey || 'hermes_outcrop_secret_2026',
+          apiKey: apiKey || 'hermes_coppergiant_secret_2026',
           telegramBotToken: telegramBotToken || null,
           telegramChatId: telegramChatId || '8724044473',
           gatewayMode: gatewayMode || 'TELEGRAM',
@@ -130,7 +130,7 @@ export async function POST(request: Request) {
 
     // If a new bot token is saved, auto-register Telegram webhook for updates
     if (config.telegramBotToken) {
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://homunculus-host-outcrop-silver-crm.wu48i0.easypanel.host';
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://homunculus-host-coppergiant-silver-crm.wu48i0.easypanel.host';
       const webhookUrl = `${appUrl}/api/hermes/telegram-webhook`;
       await setTelegramWebhook(config.telegramBotToken, webhookUrl).catch(() => {});
     }

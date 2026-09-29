@@ -212,7 +212,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
                 doc.text('DECLARACION DE GOBERNANZA & CONFIDENCIALIDAD', 20, yPos + 20);
                 doc.setFont('helvetica', 'normal');
                 doc.setTextColor(255, 255, 255);
-                doc.text(`Documento oficial para uso exclusivo de la Junta Directiva de ${tenantName || 'Outcrop Silver Corp.'}.`, 20, yPos + 27);
+                doc.text(`Documento oficial para uso exclusivo de la Junta Directiva de ${tenantName || 'Copper Giant Silver Corp.'}.`, 20, yPos + 27);
 
                 doc.save(`Informe_Junta_Directiva_${(tenantName || 'Empresa').replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
               } catch (e) {

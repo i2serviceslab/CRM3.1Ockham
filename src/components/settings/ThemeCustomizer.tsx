@@ -397,7 +397,7 @@ export const ThemeCustomizer: React.FC<ThemeCustomizerProps> = ({
                 VISTA PREVIA EN VIVO DE TIPOGRAFÍA
               </span>
               <h3 className="text-2xl font-black text-white tracking-tight">
-                Outcrop Silver — Relaciones con Inversionistas
+                Copper Giant Silver — Relaciones con Inversionistas
               </h3>
               <p className="text-xs text-slate-300 font-medium leading-relaxed">
                 Este texto utiliza la fuente seleccionada en tiempo real. Todas las vistas, formularios y títulos responderán inmediatamente.

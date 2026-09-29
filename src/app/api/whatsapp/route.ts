@@ -157,7 +157,7 @@ function extractInboundMessage(m: any, instanceName: string, tenantId: string) {
 export async function GET() {
   try {
     const defaultTenant =
-      (await prisma.tenant.findFirst({ where: { slug: 'outcrop-silver' } })) ||
+      (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
       (await prisma.tenant.findFirst());
 
     const tenantId = defaultTenant?.id || 'default-tenant';
@@ -168,12 +168,12 @@ export async function GET() {
 
     if (!dbSession) {
       dbSession = await prisma.whatsAppSession.create({
-        data: { tenantId, status: 'CONNECTED', qrCode: null, phoneNumber: '+573124031892', instanceName: 'OutcropBot' },
+        data: { tenantId, status: 'CONNECTED', qrCode: null, phoneNumber: '+573124031892', instanceName: 'Copper GiantBot' },
       });
     }
 
     if (EvoApi.isConfigured()) {
-      const instanceName = dbSession.instanceName || 'OutcropBot';
+      const instanceName = dbSession.instanceName || 'Copper GiantBot';
       const evStatus = await EvoApi.getInstanceStatus(instanceName);
       const isConnected = evStatus.state === 'open';
       const isConnecting = evStatus.state === 'connecting';
@@ -246,7 +246,7 @@ export async function POST(request: Request) {
     // ── EVOLUTION API WEBHOOK EVENT DISPATCH ──
     const event = body?.event;
     if (event) {
-      const instanceName: string = body?.instance || body?.instanceName || 'OutcropBot';
+      const instanceName: string = body?.instance || body?.instanceName || 'Copper GiantBot';
 
       if (event === 'connection.update' || event === 'CONNECTION_UPDATE') {
         const state: string = body?.data?.state || body?.state || '';
@@ -276,7 +276,7 @@ export async function POST(request: Request) {
 
         const messages = Array.isArray(msgData) ? msgData : [msgData];
         const defaultTenant =
-          (await prisma.tenant.findFirst({ where: { slug: 'outcrop-silver' } })) ||
+          (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
           (await prisma.tenant.findFirst());
         const tenantId = defaultTenant?.id || 'default-tenant';
 
@@ -297,7 +297,7 @@ export async function POST(request: Request) {
     const { action, message, phoneNumber, fromNumber, id, name, role, mediaUrl } = body;
 
     const defaultTenant =
-      (await prisma.tenant.findFirst({ where: { slug: 'outcrop-silver' } })) ||
+      (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
       (await prisma.tenant.findFirst());
     const tenantId = defaultTenant?.id || 'default-tenant';
 
@@ -476,7 +476,7 @@ export async function POST(request: Request) {
           tenantId,
           fromNumber: phoneNumber,
           senderName: 'Sandbox User',
-          toNumber: 'Outcrop Silver CRM Bot',
+          toNumber: 'Copper Giant Silver CRM Bot',
           message,
           mediaUrl: mediaUrl || null,
           direction: 'INBOUND',
@@ -484,7 +484,7 @@ export async function POST(request: Request) {
       });
 
       if (EvoApi.isConfigured()) {
-        await EvoApi.sendText('OutcropBot', phoneNumber, message);
+        await EvoApi.sendText('Copper GiantBot', phoneNumber, message);
       }
 
       return NextResponse.json({ success: true, messageSent: outbound, isAuthorized: !!isAuthorized });

@@ -116,7 +116,7 @@ export async function POST(request: Request) {
 
     // Send WhatsApp Welcome / Invitation Message
     const welcomeMsg =
-      `👋 *Hello, ${user.name}! Welcome to Outcrop CRM.*\n\n` +
+      `👋 *Hello, ${user.name}! Welcome to Copper Giant CRM.*\n\n` +
       `Your account has been configured with role: *${user.role}*.\n\n` +
       `🔑 You can log in anytime using your phone number (*${user.phone}*) via WhatsApp OTP on the CRM platform.`;
 

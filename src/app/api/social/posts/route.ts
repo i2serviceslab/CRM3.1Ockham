@@ -115,7 +115,7 @@ export async function POST(request: Request) {
       include: { category: true, media: true, comments: true },
     });
 
-    const username = session?.name || session?.email || 'Admin Outcrop';
+    const username = session?.name || session?.email || 'Admin Copper Giant';
 
     // Record Audit Log
     await prisma.socialAuditLog.create({

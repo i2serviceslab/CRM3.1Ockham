@@ -131,7 +131,7 @@ export default function Home() {
   const [showAgendaModal, setShowAgendaModal] = useState(false);
   const [icalUrl, setIcalUrl] = useState('');
 
-  // Branding Customization state with Official Outcrop Web Palette default (#FF002C True Cyan & #a9aeb2 Metallic Silver)
+  // Branding Customization state with Official Copper Giant Web Palette default (#FF002C True Cyan & #a9aeb2 Metallic Silver)
   const [brandName, setBrandName] = useState('Copper Giant');
   const [brandLogo, setBrandLogo] = useState('/logo.webp');
   const [primaryColor, setPrimaryColor] = useState('#FF002C');
@@ -175,12 +175,12 @@ export default function Home() {
       if (data.success && data.tenants) {
         setTenants(data.tenants);
         if (!selectedTenant && data.tenants.length > 0) {
-          // Strictly default to Outcrop Silver Corp — never leak or pick arbitrary tenants
-          const outcrop = data.tenants.find((t: any) => t.slug === 'coppergiant') || data.tenants[0];
-          setSelectedTenant(outcrop);
-          setBrandName(outcrop.name);
+          // Strictly default to Copper Giant Silver Corp — never leak or pick arbitrary tenants
+          const coppergiant = data.tenants.find((t: any) => t.slug === 'coppergiant') || data.tenants[0];
+          setSelectedTenant(coppergiant);
+          setBrandName(coppergiant.name);
           try {
-            localStorage.setItem('crm_selected_tenant', JSON.stringify(outcrop));
+            localStorage.setItem('crm_selected_tenant', JSON.stringify(coppergiant));
           } catch (e) {}
         }
       }

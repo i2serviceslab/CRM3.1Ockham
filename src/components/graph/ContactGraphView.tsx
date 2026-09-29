@@ -540,7 +540,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-black text-white uppercase tracking-tight flex items-center gap-2">
               <Network style={{ color: 'var(--primary-color)' }} className="w-5 h-5" />
-              <span>Red de Relaciones Eslabón & Ecosistema IR Outcrop</span>
+              <span>Red de Relaciones Eslabón & Ecosistema IR Copper Giant</span>
             </h2>
             <span
               style={{ backgroundColor: 'var(--primary-color)', color: '#000000' }}

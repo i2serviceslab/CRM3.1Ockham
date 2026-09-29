@@ -12,7 +12,7 @@ function headers() {
 
 /** Derives a safe Evolution API instance name from a tenantId */
 export function instanceNameFor(tenantId: string): string {
-  if (!tenantId || tenantId === 'default-tenant') return 'OutcropBot';
+  if (!tenantId || tenantId === 'default-tenant') return 'Copper GiantBot';
   return `crm-${tenantId.replace(/[^a-zA-Z0-9]/g, '-').slice(0, 40)}`;
 }
 
@@ -134,7 +134,7 @@ export async function sendButtons(
       headers: headers(),
       body: JSON.stringify({
         number,
-        title: options.title || 'Outcrop Silver CRM',
+        title: options.title || 'Copper Giant Silver CRM',
         description: options.description,
         footer: options.footer || 'Asistente Ejecutivo',
         buttons: options.buttons.map((b) => ({
@@ -176,7 +176,7 @@ export async function sendVCard(
             fullName: contact.name,
             wuid: contactPhone,
             phoneNumber: `+${contactPhone}`,
-            organization: contact.company || 'Outcrop Silver',
+            organization: contact.company || 'Copper Giant Silver',
             email: contact.email || '',
           },
         ],

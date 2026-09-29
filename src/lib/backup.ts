@@ -84,7 +84,7 @@ export function createDatabaseBackup(customLabel?: string): BackupFile {
   const label = customLabel ? `_${customLabel.replace(/[^a-zA-Z0-9_-]/g, '')}` : '';
 
   if (dbPath) {
-    const filename = `outcrop_crm_backup_${timestamp}${label}.db`;
+    const filename = `coppergiant_crm_backup_${timestamp}${label}.db`;
     const targetPath = path.join(backupsDir, filename);
 
     fs.copyFileSync(dbPath, targetPath);
@@ -101,12 +101,12 @@ export function createDatabaseBackup(customLabel?: string): BackupFile {
     };
   } else {
     // Structured JSON Export Fallback for production/Postgres or missing dev.db
-    const filename = `outcrop_crm_backup_${timestamp}${label}.json`;
+    const filename = `coppergiant_crm_backup_${timestamp}${label}.json`;
     const targetPath = path.join(backupsDir, filename);
 
     const backupContent = {
       version: '2.1',
-      system: 'Outcrop Silver CRM',
+      system: 'Copper Giant Silver CRM',
       exportedAt: now.toISOString(),
       label: customLabel || 'manual',
       status: 'ACTIVE_SNAPSHOT',

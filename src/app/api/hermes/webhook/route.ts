@@ -7,11 +7,11 @@ export async function POST(request: Request) {
     const token = authHeader.replace(/^Bearer\s+/i, '').trim();
 
     // Check auth
-    if (token && token !== 'hermes_outcrop_secret_2026') {
+    if (token && token !== 'hermes_coppergiant_secret_2026') {
       const config = await prisma.hermesConfig.findFirst({
         where: { apiKey: token },
       });
-      if (!config && token !== 'hermes_outcrop_secret_2026') {
+      if (!config && token !== 'hermes_coppergiant_secret_2026') {
         return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
       }
     }

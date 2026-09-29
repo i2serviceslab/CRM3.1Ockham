@@ -97,7 +97,7 @@ export async function processMessage(msg: InboundMessage) {
       instanceName,
       remoteJid,
       tenantId,
-      `🔒 *Outcrop Silver CRM Security*\n\nHola. No estás autorizado para operar este bot ejecutivo. Por favor contacta al administrador.`
+      `🔒 *Copper Giant Silver CRM Security*\n\nHola. No estás autorizado para operar este bot ejecutivo. Por favor contacta al administrador.`
     );
     return;
   }
@@ -412,7 +412,7 @@ export async function processMessage(msg: InboundMessage) {
       instanceName,
       remoteJid,
       tenantId,
-      `📊 *Panel Ejecutivo Outcrop Silver CRM*\n\n` +
+      `📊 *Panel Ejecutivo Copper Giant Silver CRM*\n\n` +
       `• 👤 Total Inversores: *${totalContacts}*\n` +
       `• 💼 Negociaciones Activas: *${totalDeals}*\n` +
       `• 🛡️ Estado: *Bot Activo 24/7 en la Nube*`
@@ -519,7 +519,7 @@ async function handleNaturalConversation(
   }
 
   try {
-    const systemPrompt = `Eres el asistente ejecutivo de inteligencia artificial de Outcrop Silver CRM, hablando por WhatsApp con ${firstName}.
+    const systemPrompt = `Eres el asistente ejecutivo de inteligencia artificial de Copper Giant Silver CRM, hablando por WhatsApp con ${firstName}.
 Responde siempre en español, de forma muy natural, cordial, inteligente, fluida y concisa (1 a 3 oraciones máximo).
 Contexto del CRM en vivo:
 - Total Inversionistas: ${totalContacts}
@@ -695,7 +695,7 @@ async function handleInstantCardScan(
   await prisma.timelineActivity.create({ data: { contactId: (await prisma.contact.findFirst())?.id || '', title: 'DEBUG_HICS_1', description: `ocr.name: ${ocr.name}, path: ${frontPath}` }}).catch(() => {});
 
   const defaultTenant =
-    (await prisma.tenant.findFirst({ where: { slug: 'outcrop-silver' } })) ||
+    (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
     (await prisma.tenant.findFirst());
 
   const cleanPhone = ocr.phone ? ocr.phone.replace(/[^\d+]/g, '') : null;
@@ -914,7 +914,7 @@ async function createContactFromWizard(
   conversationStates.delete(stateKey);
 
   const defaultTenant =
-    (await prisma.tenant.findFirst({ where: { slug: 'outcrop-silver' } })) ||
+    (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
     (await prisma.tenant.findFirst());
 
   const newC = await prisma.contact.create({
