@@ -73,10 +73,6 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
     setSelectedMemberIds([]);
   };
 
-  const handleDeleteSyndicate = (id: string) => {
-    if (!confirm('¿Deseas eliminar este sindicato / grupo de coinversión?')) return;
-    setSyndicates(syndicates.filter((s) => s.id !== id));
-  };
 
   return (
     <div className="space-y-6 font-['Urbanist'] w-full animate-fadeIn">
