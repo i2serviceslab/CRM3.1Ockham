@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
 import * as cheerio from 'cheerio';
+import { YoutubeTranscript } from 'youtube-transcript';
+
 
 const apiKey = process.env.GEMINI_API_KEY || '';
 const genAI = new GoogleGenerativeAI(apiKey);
@@ -126,6 +128,31 @@ async function processAgenticLoop(sessionId: string, promptText: string, worker:
               },
               required: ["entity", "query"]
             }
+          },
+          {
+            name: "draft_social_post",
+            description: "Redacta y guarda un borrador de publicación en el Social Calendar del CRM para que el Community Manager lo apruebe.",
+            parameters: {
+              type: SchemaType.OBJECT,
+              properties: {
+                title: { type: SchemaType.STRING, description: "Título interno o idea principal del post." },
+                content: { type: SchemaType.STRING, description: "El contenido final redactado del post (incluyendo hashtags y emojis)." },
+                platforms: { type: SchemaType.STRING, description: "Plataformas sugeridas (ej. 'linkedin,twitter,instagram')." },
+                scheduledDate: { type: SchemaType.STRING, description: "Fecha y hora sugerida en formato ISO (ej. '2026-10-15T14:00:00Z')." }
+              },
+              required: ["title", "content", "platforms", "scheduledDate"]
+            }
+          },
+          {
+            name: "extract_youtube_transcript",
+            description: "Extrae los subtítulos/transcripción de un video de YouTube para analizar sus temas, encontrar cortes (clips) o generar contenido.",
+            parameters: {
+              type: SchemaType.OBJECT,
+              properties: {
+                url: { type: SchemaType.STRING, description: "La URL completa del video de YouTube." }
+              },
+              required: ["url"]
+            }
           }
         ]
       }],
@@ -133,6 +160,8 @@ async function processAgenticLoop(sessionId: string, promptText: string, worker:
       No eres un simple chatbot, tienes "ojos y manos" mediante herramientas (tools).
       Si el usuario te pasa un enlace o te pide revisar una web, SIEMPRE usa la herramienta 'scrape_website'.
       Si el usuario te pregunta por un contacto, un correo, posteos pasados o documentos, SIEMPRE usa la herramienta 'query_crm_memory' para buscar en la base de datos antes de responder.
+      Si el usuario te pide crear un post o redactar contenido para redes sociales, usa la herramienta 'draft_social_post' para guardarlo en el Social Calendar como borrador para el Community Manager.
+      Si el usuario te pide analizar un video de YouTube o sacar clips/cortes, usa la herramienta 'extract_youtube_transcript' para leer el contenido del video.
       Responde de forma ejecutiva, corporativa y estratégica.`
     });
 
@@ -173,6 +202,65 @@ ${extractedText}
 
 Con base en esta información, responde a mi solicitud original.`);
         finalContent = result.response.text();
+      } else if (call.name === "draft_social_post") {
+        const { title, content, platforms, scheduledDate } = call.args as any;
+        
+        await prisma.hermesMessage.update({
+          where: { id: processingMsgId },
+          data: { content: `✍️ [Plugin: Social Calendar] Guardando borrador: "${title}"...` }
+        });
+
+        let resultMsg = "";
+        try {
+          const post = await prisma.socialPost.create({
+            data: {
+              title,
+              content,
+              platforms: platforms || 'linkedin,x',
+              status: 'draft',
+              scheduledDate: new Date(scheduledDate || Date.now()),
+              isRecurring: false
+            }
+          });
+          resultMsg = `Borrador guardado exitosamente en el Social Calendar con ID: ${post.id}. El Community Manager podrá revisarlo.`;
+        } catch (err: any) {
+          resultMsg = `Error al guardar el borrador: ${err.message}`;
+        }
+
+        result = await chat.sendMessage(`Resultado de la creación del borrador (draft_social_post):
+
+${resultMsg}
+
+Informa al usuario que el borrador fue guardado exitosamente y está listo para revisión del equipo.`);
+        finalContent = result.response.text();
+
+      } else if (call.name === "extract_youtube_transcript") {
+        const { url } = call.args as any;
+        
+        await prisma.hermesMessage.update({
+          where: { id: processingMsgId },
+          data: { content: `🎥 [Plugin: YouTube] Extrayendo transcripción del video...` }
+        });
+
+        let transcriptText = "";
+        try {
+          const transcript = await YoutubeTranscript.fetchTranscript(url);
+          transcriptText = transcript.map(t => `[${(t.offset / 1000).toFixed(0)}s]: ${t.text}`).join('\n');
+          // Limitar a los primeros 25000 caracteres para no desbordar el token limit
+          if (transcriptText.length > 25000) {
+            transcriptText = transcriptText.substring(0, 25000) + '\n...[Transcripción truncada por longitud]';
+          }
+        } catch (err: any) {
+          transcriptText = `Error al extraer subtítulos (puede que el video no tenga subtítulos generados): ${err.message}`;
+        }
+
+        result = await chat.sendMessage(`Transcripción extraída del video de YouTube (extract_youtube_transcript):
+
+${transcriptText}
+
+Usa esta transcripción para cumplir con lo que el usuario te pidió (resumir, buscar cortes/clips, redactar posts, etc). Si te pidió buscar momentos importantes para clips, indica el segundo exacto [Xs].`);
+        finalContent = result.response.text();
+
       } else if (call.name === "query_crm_memory") {
         const memArgs = call.args as any;
         const { entity, query } = memArgs;
