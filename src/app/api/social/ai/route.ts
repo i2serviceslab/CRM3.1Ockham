@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const PROMPTS = {
-  professional: `You are the Investor Relations (IR) Director at Copper Giant Silver Corp. (TSX: OCG). Generate a highly professional, clear, and persuasive social media post highlighting the potential of the high-grade Santa Ana silver project in Colombia, historical silver grades (up to 4,000 g/t AgEq), photovoltaic silver demand, and value for institutional investors.`,
-  casual: `You are a senior mining and clean tech analyst. Write a dynamic, engaging social media post about the global silver deficit, why EV and solar technologies require pure silver, and how Copper Giant Silver stands out with exploration in Colombia.`,
-  inspirational: `Write an inspirational and strategic post about the future of renewable energy, global energy transition, and the critical role of ESG-produced precious metals like silver by Copper Giant Silver Corp. in Colombia.`,
-};
+const apiKey = process.env.GEMINI_API_KEY || '';
+const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
 
 export async function POST(request: Request) {
   try {
@@ -14,23 +12,24 @@ export async function POST(request: Request) {
 
     let generatedCopy = '';
 
-    if (tone === 'casual') {
-      generatedCopy = `⚡ Did you know every modern solar panel and EV depends on silver's unmatched conductivity? 🚗☀️\n\n` +
-        `At ${title || 'Copper Giant Silver'}, we are advancing one of Latin America's highest-grade silver projects in the historic Santa Ana district, Colombia.\n\n` +
-        `Industrial silver demand is breaking historic records. The future of clean energy requires high-purity metals!\n\n` +
-        `💬 Share your thoughts in the comments below. #Silver #CleanEnergy #Copper GiantSilver #Mining`;
-    } else if (tone === 'inspirational') {
-      generatedCopy = `🌟 *Empowering the future of clean energy from Colombia.*\n\n` +
-        `${title || 'Innovation & High-Grade Silver'}: The global energy transition demands critical metals produced with strict ESG standards.\n\n` +
-        `At Copper Giant Silver Corp., we combine precision exploration with an unwavering commitment to local communities at our flagship Santa Ana project.\n\n` +
-        `Together we drive sustainable growth. 🌎✨ #Sustainability #ESG #Copper GiantSilver #HighGradeSilver`;
+    if (genAI) {
+      try {
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        let systemPrompt = `You are the Expert Investor Relations (IR) Director at Copper Giant (TSX: CGNT). 
+You write highly engaging, strategic social media posts about Copper Giant, the Santa Ana high-grade silver project in Colombia, the global silver deficit, and clean tech (solar panels, EVs). 
+The tone should be: ${tone}.`;
+
+        const prompt = `${systemPrompt}\n\nUser request: ${userPrompt || title || 'Write a great update about our progress.'}\nWrite ONLY the social media post content. Do not include quotes or conversational filler.`;
+        
+        const result = await model.generateContent(prompt);
+        generatedCopy = result.response.text().trim();
+      } catch (e) {
+        console.error("Social AI Gemini Error:", e);
+        generatedCopy = `📊 *Copper Giant* | ${title || 'Exploration Update'}\n\nWe are pleased to share progress at our flagship high-grade primary silver project, Santa Ana, in Colombia.`;
+      }
     } else {
-      generatedCopy = `📊 *Copper Giant Silver (TSX: OCG)* | ${title || 'Exploration Update & Critical Metals'}\n\n` +
-        `We are pleased to share progress at our flagship high-grade primary silver project, Santa Ana, in Colombia with our investor community.\n\n` +
-        `• Historical epithermal grades up to 4,000 g/t AgEq.\n` +
-        `• Essential silver supply for solar photovoltaic and EV transition.\n` +
-        `• Rigorous commitment to environmental stewardship and community development.\n\n` +
-        `🔗 Explore the full executive presentation on our official investor portal.\n#Copper GiantSilver #Silver #InvestorRelations #Mining #TSX`;
+      // Fallback if no API key
+      generatedCopy = `📊 *Copper Giant* | ${title || 'Exploration Update'}\n\nWe are pleased to share progress at our flagship high-grade primary silver project, Santa Ana, in Colombia.`;
     }
 
     await prisma.socialAuditLog.create({
@@ -38,12 +37,12 @@ export async function POST(request: Request) {
         action: 'generate_ai_copy',
         username: 'Copper Giant Admin',
         entityType: 'post',
-        details: `AI Copy generated with tone "${tone}" for title: "${title || 'General'}"`,
+        details: `Generated content with tone ${tone}`,
       },
     });
 
-    return NextResponse.json({ copy: generatedCopy });
+    return NextResponse.json({ success: true, generatedCopy });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

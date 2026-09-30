@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+const apiKey = process.env.GEMINI_API_KEY || '';
+const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
 
 export async function POST(request: Request) {
   try {
@@ -10,12 +14,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Front card image is required' }, { status: 400 });
     }
 
-    // Standard pattern extractors for card text
-    // In browser client or server, OCR text is processed; here we provide standard extraction parsing & storage
     const extractedFrontText = body.extractedFrontText || 'Business Card Front Text';
     const extractedBackText = body.extractedBackText || 'Business Card Back Text';
 
-    // Heuristic entity extraction regex
     const emailMatch = (extractedFrontText + ' ' + extractedBackText).match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
     const phoneMatch = (extractedFrontText + ' ' + extractedBackText).match(/(\+?\d{1,4}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
     
@@ -26,28 +27,18 @@ export async function POST(request: Request) {
       rawBack: extractedBackText,
     };
 
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (apiKey) {
+    if (genAI) {
       try {
-        const res = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
-          body: JSON.stringify({
-            model: 'gpt-4o',
-            messages: [
-              { role: 'system', content: 'You are an OCR text parser. Extract contact details from business card text into JSON format: { "name": "", "title": "", "company": "", "email": "", "phone": "", "location": "", "website": "" }.' },
-              { role: 'user', content: `Front: ${extractedFrontText}\nBack: ${extractedBackText}` }
-            ],
-            response_format: { type: 'json_object' }
-          })
-        });
-        if (res.ok) {
-          const data = await res.json();
-          const gptParsed = JSON.parse(data.choices[0]?.message?.content || '{}');
-          parsedData = { ...parsedData, ...gptParsed };
-        }
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", generationConfig: { responseMimeType: "application/json" } });
+        const prompt = `You are an OCR text parser. Extract contact details from business card text into strict JSON format with these exact keys: "name", "title", "company", "email", "phone", "location", "website". 
+Return ONLY valid JSON.
+Front: ${extractedFrontText}
+Back: ${extractedBackText}`;
+        const result = await model.generateContent(prompt);
+        const gptParsed = JSON.parse(result.response.text() || '{}');
+        parsedData = { ...parsedData, ...gptParsed };
       } catch (e) {
-        // Fallback to regex parsedData if GPT fails
+        console.error("OCR Gemini Error:", e);
       }
     }
 
@@ -58,22 +49,12 @@ export async function POST(request: Request) {
         backImageUrl: backImageUrl || null,
         extractedTextFront: extractedFrontText,
         extractedTextBack: extractedBackText,
+        parsedData: JSON.stringify(parsedData),
         parsedDataJson: JSON.stringify(parsedData),
       },
     });
 
-    if (contactId) {
-      await prisma.timelineActivity.create({
-        data: {
-          contactId,
-          type: 'CARD_SCAN',
-          title: 'Tarjeta de Presentación Escaneada (2 Caras)',
-          description: `Datos escaneados: ${parsedData.email || 'Email detectado'}, ${parsedData.phone || 'Teléfono'}.`,
-        },
-      });
-    }
-
-    return NextResponse.json({ success: true, card, parsedData });
+    return NextResponse.json({ success: true, card });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
