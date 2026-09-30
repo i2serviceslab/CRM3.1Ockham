@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import * as cheerio from 'cheerio';
 
-// Initialize Gemini if key exists
 const apiKey = process.env.GEMINI_API_KEY || '';
 const genAI = new GoogleGenerativeAI(apiKey);
 
@@ -23,7 +23,6 @@ export async function POST(request: Request) {
 
     let targetSessionId = sessionId;
 
-    // 1. Create or verify session
     if (!targetSessionId) {
       const newSession = await prisma.hermesSession.create({
         data: {
@@ -36,7 +35,6 @@ export async function POST(request: Request) {
 
     const promptText = message || audioTranscript || (files.length > 0 ? `Archivos adjuntos: ${files.map((f: any) => f.name).join(', ')}` : '');
 
-    // 2. Save User Message in CRM Database
     const savedUserMsg = await prisma.hermesMessage.create({
       data: {
         sessionId: targetSessionId,
@@ -53,16 +51,15 @@ export async function POST(request: Request) {
       data: { updatedAt: new Date() },
     });
 
-    // 3. Process with Gemini in the background
     if (apiKey) {
-      processGeminiResponse(targetSessionId, promptText, worker).catch(console.error);
+      // Run Agentic loop in background
+      processAgenticLoop(targetSessionId, promptText, worker).catch(console.error);
     } else {
-      // Mock warning if no API key is set
       await prisma.hermesMessage.create({
         data: {
           sessionId: targetSessionId,
           role: 'assistant',
-          content: '⚠️ No se ha configurado la variable de entorno `GEMINI_API_KEY`. Por favor, añádela en EasyPanel para activar la IA.',
+          content: '⚠️ No se ha configurado la variable de entorno `GEMINI_API_KEY`.',
           workerName: worker,
           workerStatus: 'error'
         }
@@ -81,48 +78,107 @@ export async function POST(request: Request) {
   }
 }
 
-async function processGeminiResponse(sessionId: string, promptText: string, worker: string) {
+// THE AGENTIC LOOP (Micro-Harness)
+async function processAgenticLoop(sessionId: string, promptText: string, worker: string) {
+  let processingMsgId = '';
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    
-    // Create a temporary processing message
+    // Create "thinking" message
     const processingMsg = await prisma.hermesMessage.create({
       data: {
         sessionId,
         role: 'assistant',
-        content: 'Analizando información...',
+        content: 'Analizando y ejecutando herramientas...',
         workerName: worker,
         workerStatus: 'running'
       }
     });
+    processingMsgId = processingMsg.id;
 
-    let systemInstruction = "Eres Hermes, el agente de Inteligencia Privada de Copper Giant. Responde de forma concisa, corporativa y estratégica.";
-    if (worker === 'LEAD_SCORING') systemInstruction += " Tu tarea es calificar al lead y extraer información de contacto útil.";
-    if (worker === 'DATA_PARSER') systemInstruction += " Tu tarea es estructurar los datos desordenados en formato claro.";
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash",
+      tools: [{
+        functionDeclarations: [
+          {
+            name: "scrape_website",
+            description: "Extrae y lee el texto principal de una página web (URL). Úsalo cuando el usuario te pida revisar una web, resumir un link o buscar información en una URL específica.",
+            parameters: {
+              type: SchemaType.OBJECT,
+              properties: {
+                url: { type: SchemaType.STRING, description: "La URL completa a leer (ej. https://example.com)" }
+              },
+              required: ["url"]
+            }
+          }
+        ]
+      }],
+      systemInstruction: `Eres Hermes, el Agente Autónomo de Inteligencia Privada de Copper Giant. 
+      No eres un simple chatbot, tienes "ojos y manos" mediante herramientas (tools).
+      Si el usuario te pasa un enlace o te pide revisar una web, SIEMPRE usa la herramienta 'scrape_website'.
+      Responde de forma ejecutiva, corporativa y estratégica.`
+    });
 
-    const fullPrompt = `${systemInstruction}\n\nUsuario: ${promptText}\nHermes:`;
-    const result = await model.generateContent(fullPrompt);
-    const responseText = result.response.text();
+    const chat = model.startChat();
+    let result = await chat.sendMessage([{ text: promptText }]);
+    let response = result.response;
+    let finalContent = response.text();
 
-    // Update the message with the final response
+    // Check if the Agent decided to use a Tool (Plugin)
+    if (response.functionCalls && response.functionCalls.length > 0) {
+      const call = response.functionCalls[0];
+      
+      if (call.name === "scrape_website") {
+        const urlArgs = call.args as any;
+        const targetUrl = urlArgs.url;
+        
+        await prisma.hermesMessage.update({
+          where: { id: processingMsgId },
+          data: { content: `👁️ [Plugin: Scraping] Leyendo sitio web: ${targetUrl}...` }
+        });
+
+        // Execute Tool
+        let extractedText = "";
+        try {
+          const res = await fetch(targetUrl, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } });
+          const html = await res.text();
+          const $ = cheerio.load(html);
+          $('script, style, noscript, nav, footer').remove();
+          extractedText = $('body').text().replace(/\s+/g, ' ').trim();
+          if (extractedText.length > 15000) extractedText = extractedText.substring(0, 15000) + '...'; // Limit token size
+        } catch (err: any) {
+          extractedText = `Error al leer la web: ${err.message}`;
+        }
+
+        // Return Tool Result to the Agent
+        result = await chat.sendMessage([{
+          functionResponse: {
+            name: "scrape_website",
+            response: { content: extractedText }
+          }
+        }]);
+        
+        finalContent = result.response.text();
+      }
+    }
+
+    // Save final response
     await prisma.hermesMessage.update({
-      where: { id: processingMsg.id },
+      where: { id: processingMsgId },
       data: {
-        content: responseText,
+        content: finalContent,
         workerStatus: 'completed'
       }
     });
 
   } catch (err: any) {
-    console.error("Gemini AI Error:", err);
-    await prisma.hermesMessage.create({
-      data: {
-        sessionId,
-        role: 'assistant',
-        content: `Error al procesar con Gemini: ${err.message}`,
-        workerName: worker,
-        workerStatus: 'error'
-      }
-    });
+    console.error("Agentic Loop Error:", err);
+    if (processingMsgId) {
+      await prisma.hermesMessage.update({
+        where: { id: processingMsgId },
+        data: {
+          content: `Error crítico en el proceso Agéntico: ${err.message}`,
+          workerStatus: 'error'
+        }
+      });
+    }
   }
 }
