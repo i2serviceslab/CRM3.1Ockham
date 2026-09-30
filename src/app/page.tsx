@@ -9,6 +9,8 @@ import { MagicLogin } from '@/components/auth/MagicLogin';
 import { Contact360View } from '@/components/contacts/Contact360View';
 import { ContactModal } from '@/components/contacts/ContactModal';
 import { VoiceNoteRecorder } from '@/components/contacts/VoiceNoteRecorder';
+import { MeetingRecorder } from '@/components/meetings/MeetingRecorder';
+
 import { ContactGraphView } from '@/components/graph/ContactGraphView';
 import { KanbanPipeline } from '@/components/pipeline/KanbanPipeline';
 import { WorkflowsManager } from '@/components/workflows/WorkflowsManager';
@@ -930,8 +932,8 @@ export default function Home() {
             <RoadshowManager contacts={contacts} onOpen360={(c) => setSelectedContact360(c)} />
           )}
 
-          {activeTab === 'voice-notes' && (
-            <VoiceNoteRecorder contacts={contacts} onSuccess={fetchContacts} />
+          {activeTab === 'meetings' && (
+            <MeetingRecorder />
           )}
 
           {activeTab === 'whatsapp' && (
