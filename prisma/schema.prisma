@@ -15,6 +15,9 @@ datasource db {
 }
 
 model Tenant {
+  syndicates    Syndicate[]
+  roadshows     RoadshowEvent[]
+
   id           String   @id @default(uuid())
   name         String   // e.g. "Outcrop Silver Corp", "Andes Mining"
   slug         String   @unique // e.g. "outcrop-silver", "andes-mining"
@@ -54,6 +57,9 @@ model User {
 }
 
 model Contact {
+  syndicates      Syndicate[]
+  summitMeetings  SummitMeeting[]
+
   id            String   @id @default(uuid())
   tenantId      String?
   name          String
@@ -438,3 +444,55 @@ model HermesConfig {
   tenant           Tenant?  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 }
 
+
+// =====================================
+// SYNDICATES & POOLS MODULE
+// =====================================
+
+model Syndicate {
+  id          String    @id @default(uuid())
+  tenantId    String?
+  name        String
+  description String?
+  targetFocus String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  members     Contact[] // Implicit Many-to-Many relation
+
+  tenant      Tenant?   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+// =====================================
+// ROADSHOWS & SUMMITS MODULE
+// =====================================
+
+model RoadshowEvent {
+  id          String    @id @default(uuid())
+  tenantId    String?
+  name        String
+  city        String
+  country     String
+  dates       String
+  boothNumber String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  meetings    SummitMeeting[]
+
+  tenant      Tenant?   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+model SummitMeeting {
+  id          String    @id @default(uuid())
+  eventId     String
+  contactId   String
+  time        String
+  topic       String
+  status      String    @default("Programada") // Programada, Completada, Seguimiento Enviado
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  event       RoadshowEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  contact     Contact       @relation(fields: [contactId], references: [id], onDelete: Cascade)
+}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, Plus, User, CheckCircle2, Clock, Sparkles, ArrowRight, ExternalLink } from 'lucide-react';
 
 interface Contact {

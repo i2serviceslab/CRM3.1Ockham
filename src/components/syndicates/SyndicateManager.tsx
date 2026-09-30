@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users, Plus, Shield, Sparkles, Award, ArrowRight, UserCheck, Trash2 } from 'lucide-react';
 
 interface Syndicate {
@@ -18,30 +18,38 @@ interface SyndicateManagerProps {
 }
 
 export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, onOpen360 }) => {
-  const [syndicates, setSyndicates] = useState<Syndicate[]>([
-    {
-      id: 'syn-1',
-      name: 'Consorcio Exploración Santa Ana Q3',
-      description: 'Pool de Family Offices e Inversionistas Co-Líderes para la fase de perforación profunda.',
-      targetFocus: 'Plata de Alta Ley (Ag)',
-      members: contacts.slice(0, 3),
-      createdAt: '2026-07-10',
-    },
-    {
-      id: 'syn-2',
-      name: 'Pool Family Offices & Capital Privado LatAm',
-      description: 'Sindicato regional de inversionistas acreditados y firmas de corretaje institucional.',
-      targetFocus: 'Desarrollo Minero & Exploración',
-      members: contacts.slice(3, 6),
-      createdAt: '2026-08-01',
-    },
-  ]);
+  const [syndicates, setSyndicates] = useState<Syndicate[]>([]);
+
+  useEffect(() => {
+    fetchSyndicates();
+  }, []);
+
+  const fetchSyndicates = async () => {
+    try {
+      const res = await fetch('/api/syndicates');
+      const data = await res.json();
+      if (data.success) {
+        setSyndicates(data.syndicates);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [targetFocus, setTargetFocus] = useState('Plata de Alta Ley (Ag)');
   const [selectedMemberIds, setSelectedMemberIds] = useState<string[]>([]);
+
+  const handleDeleteSyndicate = async (id: string) => {
+    if(!confirm('¿Eliminar consorcio?')) return;
+    try {
+      await fetch(`/api/syndicates/${id}`, { method: 'DELETE' });
+      fetchSyndicates();
+    } catch(e) { console.error(e); }
+  };
+
 
   const handleCreateSyndicate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,7 +135,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
                     className="text-slate-500 hover:text-red-400 p-1 transition-colors cursor-pointer"
                     title="Eliminar sindicato"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-4 h-4" onClick={() => handleDeleteSyndicate(syn.id)} />
                   </button>
                 </div>
 
