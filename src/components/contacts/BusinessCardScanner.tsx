@@ -47,45 +47,29 @@ export const BusinessCardScanner: React.FC<BusinessCardScannerProps> = ({ onSucc
     setSuccessMsg(null);
 
     // Simulate OCR text processing & pattern extraction
-    setTimeout(async () => {
-      const parsed = {
-        name: 'Dr. Alejandro Morales',
-        title: 'VP Exploration & Resource Geology',
-        company: 'Sierra Nevada Silver Resources',
-        email: 'amorales@sierranevadasilver.com',
-        phone: '+1 604 892 0112',
-        location: 'Vancouver, BC Canada',
-        investorType: 'Mining insider',
-        stage: 'Interested - early',
-        source: 'Conference',
-      };
+    try {
+      const res = await fetch('/api/ocr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          frontImageUrl: frontImage,
+          backImageUrl: backImage,
+          contactId: selectedContactId || undefined,
+        }),
+      });
 
-      setExtractedData(parsed);
-
-      try {
-        const res = await fetch('/api/ocr', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            frontImageUrl: frontImage,
-            backImageUrl: backImage,
-            contactId: selectedContactId || undefined,
-            extractedFrontText: `Dr. Alejandro Morales VP Exploration Sierra Nevada Silver amorales@sierranevadasilver.com +1 604 892 0112`,
-            extractedBackText: `Latin America High-Grade Silver Specialist Vancouver BC Canada`,
-          }),
-        });
-
-        const data = await res.json();
-        if (data.success) {
-          setSuccessMsg('Tarjeta de presentación procesada y datos OCR asociados al CRM correctamente.');
-          onSuccess();
-        }
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setScanning(false);
+      const data = await res.json();
+      if (data.success) {
+        setExtractedData(data.parsedData);
+        setSuccessMsg('Tarjeta analizada con IA y lista para importar al CRM.');
+      } else {
+        alert('Error en OCR: ' + data.error);
       }
-    }, 1500);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setScanning(false);
+    }
   };
 
   const handleCreateContactFromOCR = async () => {
