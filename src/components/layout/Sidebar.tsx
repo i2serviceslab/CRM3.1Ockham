@@ -64,7 +64,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'syndicates' as ActiveTab, label: 'Syndicates & Pools', icon: Users, badge: 'Pools' },
     { id: 'roadshows' as ActiveTab, label: 'Roadshows & Summits', icon: Calendar, badge: 'Events' },
     { id: 'social-calendar' as ActiveTab, label: 'Social Calendar', icon: Calendar, badge: 'IR' },
-    { id: 'voice-notes' as ActiveTab, label: 'Voice Notes', icon: Mic },
+    { id: 'meetings' as ActiveTab, label: 'Meeting Intelligence', icon: Mic },
     { id: 'whatsapp' as ActiveTab, label: 'WhatsApp Baileys', icon: MessageSquare, badge: 'Bot' },
     { id: 'workflows' as ActiveTab, label: 'Workflows & Rules', icon: Workflow },
     { id: 'media-drive' as ActiveTab, label: 'Repositorio & Drive IA', icon: FolderKanban, badge: 'Humunculus' },
