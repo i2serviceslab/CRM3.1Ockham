@@ -25,7 +25,7 @@ export type ActiveTab =
   | 'syndicates'
   | 'roadshows'
   | 'social-calendar'
-  | 'voice-notes'
+  | 'meetings'
   | 'whatsapp'
   | 'workflows'
   | 'hermes-agent'
