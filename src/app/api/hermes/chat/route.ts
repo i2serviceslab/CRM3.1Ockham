@@ -149,13 +149,12 @@ async function processAgenticLoop(sessionId: string, promptText: string, worker:
           extractedText = `Error al leer la web: ${err.message}`;
         }
 
-        // Return Tool Result to the Agent
-        result = await chat.sendMessage([{
-          functionResponse: {
-            name: "scrape_website",
-            response: { content: extractedText }
-          }
-        }]);
+        // Return Tool Result to the Agent as a standard user message to avoid 'function' role 400 errors
+        result = await chat.sendMessage(`Resultado extraído de la web (scrape_website):
+
+${extractedText}
+
+Con base en esta información, responde a mi solicitud original.`);
         
         finalContent = result.response.text();
       }
