@@ -222,7 +222,26 @@ Con base en esta información, responde a mi solicitud original.`);
               isRecurring: false
             }
           });
-          resultMsg = `Borrador guardado exitosamente en el Social Calendar con ID: ${post.id}. El Community Manager podrá revisarlo.`;
+          
+          // Crear tarea para el equipo en el Kanban
+          await prisma.task.create({
+            data: {
+              title: `Revisar borrador de publicación: ${title}`,
+              description: `Forge ha creado un nuevo borrador de red social basado en instrucciones de IA.\nPlataformas: ${platforms}\nFecha sugerida: ${scheduledDate}\nPor favor ir al Social Calendar para revisarlo y publicarlo.`,
+              priority: 'High',
+              status: 'PENDING'
+            }
+          });
+
+          // Log de auditoría
+          await prisma.systemAuditLog.create({
+            data: {
+              action: 'DRAFT_POST',
+              description: `Forge (IA) generó un borrador para publicación: '${title}'. Tarea asignada al equipo.`
+            }
+          });
+
+          resultMsg = `Borrador guardado exitosamente en el Social Calendar con ID: ${post.id}. También creé una Tarea en el Pipeline de Seguimiento para que el equipo lo revise.`;
         } catch (err: any) {
           resultMsg = `Error al guardar el borrador: ${err.message}`;
         }
