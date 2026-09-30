@@ -108,7 +108,7 @@ function getCurrencySymbol(curr: string): string {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const rawSymbols = searchParams.get('symbols') || 'CGNT.V,LBCMF,29H0.F,HG=F,COPJ';
+  const rawSymbols = searchParams.get('symbols') || 'OCG.V,OCGSF,HG=F,SI=F,COPJ';
   const targetCurrency = (searchParams.get('baseCurrency') || '').toUpperCase();
   const symbolList = rawSymbols.split(',').map((s) => s.trim()).filter(Boolean);
 
@@ -168,13 +168,13 @@ export async function GET(request: Request) {
       } catch (err: any) {
         console.warn(`Failed to fetch real market quote for ${sym}:`, err?.message || err);
         const metaConfig = SYMBOL_META[sym] || { label: sym, name: sym };
-        const nativeCurrency = sym === 'CGNT.V' ? 'CAD' : sym === '29H0.F' ? 'EUR' : 'USD';
+        const nativeCurrency = sym === 'OCG.V' ? 'CAD' : 'USD';
         quote = {
           symbol: metaConfig.label || sym,
           name: metaConfig.name,
-          price: sym === 'CGNT.V' ? 1.28 : sym === 'LBCMF' ? 0.92 : sym === '29H0.F' ? 0.75 : sym === 'HG=F' ? 6.70 : sym === 'COPJ' ? 48.23 : 30.25,
-          change: 0.02,
-          changePercent: 1.59,
+          price: 0,
+          change: 0,
+          changePercent: 0,
           currency: nativeCurrency,
           currencySymbol: getCurrencySymbol(nativeCurrency),
           exchangeLabel: metaConfig.label || sym,

@@ -85,11 +85,11 @@ const PRESET_LIBRARY: TickerData[] = [
 ];
 
 const DEFAULT_TICKERS: TickerData[] = [
-  { symbol: 'TSXV: CGNT', name: 'Copper Giant Inc (TSX.V)', price: 1.28, change: 0.02, changePercent: 1.59, isPositive: true },
-  { symbol: 'OTC: LBCMF', name: 'Copper Giant (OTC)', price: 0.92, change: 0.01, changePercent: 0.70, isPositive: true },
-  { symbol: 'FSE: 29H0', name: 'Copper Giant (Frankfurt)', price: 0.75, change: -0.001, changePercent: -0.13, isPositive: false },
-  { symbol: 'Cu', name: 'Copper Spot', price: 6.70, change: 0.10, changePercent: 1.51, volume: '$/Lb', isPositive: true },
-  { symbol: 'COPJ', name: 'Sprott Junior Copper Miners ETF', price: 48.23, change: -0.58, changePercent: -1.20, isPositive: false },
+  { symbol: 'TSXV: OCG', name: 'Copper Giant (TSX.V)', price: 0.00, change: 0.00, changePercent: 0.00, isPositive: true },
+  { symbol: 'OTCQX: OCGSF', name: 'Copper Giant (OTCQX)', price: 0.00, change: 0.00, changePercent: 0.00, isPositive: true },
+  { symbol: 'Cu', name: 'Copper Spot', price: 0.00, change: 0.00, changePercent: 0.00, volume: '$/Lb', isPositive: true },
+  { symbol: 'Ag', name: 'Silver Spot', price: 0.00, change: 0.00, changePercent: 0.00, volume: '$/Oz', isPositive: true },
+  { symbol: 'COPJ', name: 'Sprott Junior Copper ETF', price: 0.00, change: 0.00, changePercent: 0.00, isPositive: true },
 ];
 
 export const FinancialTickerWidget: React.FC = () => {
@@ -136,15 +136,12 @@ export const FinancialTickerWidget: React.FC = () => {
     try {
       // Map UI symbols to Yahoo Finance API symbols
       const symbolMap: Record<string, string> = {
-        'TSXV: CGNT': 'CGNT.V',
-        'OTC: LBCMF': 'LBCMF',
-        'FSE: 29H0': '29H0.F',
+        'TSXV: OCG': 'OCG.V',
+        'OTCQX: OCGSF': 'OCGSF',
         'Cu': 'HG=F',
+        'Ag': 'SI=F',
+        'Au': 'GC=F',
         'COPJ': 'COPJ',
-        'XAG/USD': 'SI=F',
-        'XAU/USD': 'GC=F',
-        'OCG.V': 'OCG.V',
-        'OCGSF': 'OCGSF',
       };
 
       const querySymbols = currentList.map((t) => symbolMap[t.symbol] || t.symbol).join(',');
