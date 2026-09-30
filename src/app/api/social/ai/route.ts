@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
     if (genAI) {
       try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
         let systemPrompt = `You are the Expert Investor Relations (IR) Director at Copper Giant (TSX: CGNT). 
 You write highly engaging, strategic social media posts about Copper Giant, the Santa Ana high-grade silver project in Colombia, the global silver deficit, and clean tech (solar panels, EVs). 
 The tone should be: ${tone}.`;

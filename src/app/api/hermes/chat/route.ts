@@ -95,7 +95,7 @@ async function processAgenticLoop(sessionId: string, promptText: string, worker:
     processingMsgId = processingMsg.id;
 
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
+      model: "gemini-flash-latest",
       tools: [{
         functionDeclarations: [
           {

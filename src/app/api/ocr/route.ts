@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     if (genAI) {
       try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", generationConfig: { responseMimeType: "application/json" } });
+        const model = genAI.getGenerativeModel({ model: "gemini-flash-latest", generationConfig: { responseMimeType: "application/json" } });
         const prompt = `You are an OCR text parser. Extract contact details from business card text into strict JSON format with these exact keys: "name", "title", "company", "email", "phone", "location", "website". 
 Return ONLY valid JSON.
 Front: ${extractedFrontText}
