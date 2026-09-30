@@ -123,8 +123,9 @@ async function processAgenticLoop(sessionId: string, promptText: string, worker:
     let finalContent = response.text();
 
     // Check if the Agent decided to use a Tool (Plugin)
-    if (response.functionCalls && response.functionCalls.length > 0) {
-      const call = response.functionCalls[0];
+    const calls = response.functionCalls();
+    if (calls && calls.length > 0) {
+      const call = calls[0];
       
       if (call.name === "scrape_website") {
         const urlArgs = call.args as any;
