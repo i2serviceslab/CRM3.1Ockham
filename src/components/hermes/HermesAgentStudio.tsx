@@ -400,7 +400,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-sm font-bold text-white tracking-wide">CopperMind AI Studio</h2>
+              <h2 className="text-sm font-bold text-white tracking-wide">Forge AI Studio</h2>
               <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-white/5 border border-white/10 text-neutral-400">
                 Mac Mini Gateway
               </span>
@@ -520,7 +520,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                   <Sparkles className="w-7 h-7 text-[var(--accent-primary)]" />
                 </div>
                 <div className="max-w-md space-y-1">
-                  <h3 className="text-base font-bold text-white">¿En qué podemos colaborar con CopperMind?</h3>
+                  <h3 className="text-base font-bold text-white">¿En qué podemos colaborar con Forge?</h3>
                   <p className="text-xs text-neutral-400 leading-relaxed">
                     Escribe tu requerimiento, adjunta archivos PDF/CSV o envía una nota de voz para activar los workers de scraping e investigación en tu Mac Mini.
                   </p>
@@ -685,7 +685,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                 <div className="space-y-2 max-w-[85%]">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm text-[11px] font-mono font-bold bg-red-950/40 border border-red-500/30 text-red-300">
                     <span className="w-2 h-2 rounded-full bg-red-400 animate-ping inline-block" />
-                    <span>CopperMind Agent Activo</span>
+                    <span>Forge Agent Activo</span>
                     <span className="text-[10px] text-red-500">• Mac Mini</span>
                   </div>
 
@@ -700,7 +700,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce" />
                       </div>
                       <span className="text-xs font-semibold text-neutral-200">
-                        CopperMind está pensando y ejecutando la solicitud en tu Mac...
+                        Forge está pensando y ejecutando la solicitud en tu Mac...
                       </span>
                     </div>
 
@@ -722,7 +722,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
             <div className="flex items-center gap-2 overflow-x-auto pb-1 max-w-4xl mx-auto">
               <span className="text-[10px] font-mono uppercase text-neutral-500 font-bold">Worker:</span>
               {[
-                { id: 'GENERAL', label: '🧠 CopperMind General' },
+                { id: 'GENERAL', label: '🧠 Forge General' },
                 { id: 'SCRAPER', label: '🕷️ Web Scraping Worker' },
                 { id: 'DOC_ANALYSIS', label: '📄 Analizador de Documentos' },
                 { id: 'RESEARCH', label: '🔍 Deep Market Research' },
@@ -818,7 +818,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                   }
                 }}
                 rows={1}
-                placeholder={isRecording ? 'Grabando audio...' : 'Escribe tu solicitud para CopperMind o adjunta archivos...'}
+                placeholder={isRecording ? 'Grabando audio...' : 'Escribe tu solicitud para Forge o adjunta archivos...'}
                 className="flex-1 bg-transparent text-xs text-white placeholder-neutral-500 focus:outline-none resize-none py-2 px-2 max-h-32"
               />
 
@@ -842,7 +842,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2.5">
                 <Settings2 className="w-5 h-5 text-[var(--accent-primary)]" />
-                <h3 className="font-bold text-sm text-white">Configuración del Gateway CopperMind (Mac Mini)</h3>
+                <h3 className="font-bold text-sm text-white">Configuración del Gateway Forge (Mac Mini)</h3>
               </div>
               <button
                 onClick={() => setShowConfigModal(false)}
@@ -893,7 +893,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                       className="w-full px-3.5 py-2.5 rounded-sm bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)] font-mono"
                     />
                     <p className="text-[11px] text-neutral-500 mt-1">
-                      El token que te entregó @BotFather para el bot con el que escucha CopperMind.
+                      El token que te entregó @BotFather para el bot con el que escucha Forge.
                     </p>
                   </div>
 
@@ -909,7 +909,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                       className="w-full px-3.5 py-2.5 rounded-sm bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)] font-mono"
                     />
                     <p className="text-[11px] text-neutral-500 mt-1">
-                      ID del grupo o chat donde CopperMind recibe tareas (Grupo actual: -5370719843).
+                      ID del grupo o chat donde Forge recibe tareas (Grupo actual: -5370719843).
                     </p>
                   </div>
 
@@ -924,7 +924,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                 <>
                   <div>
                     <label className="block text-xs font-bold text-neutral-300 mb-1.5">
-                      URL del Endpoint / Túnel de CopperMind
+                      URL del Endpoint / Túnel de Forge
                     </label>
                     <input
                       type="text"

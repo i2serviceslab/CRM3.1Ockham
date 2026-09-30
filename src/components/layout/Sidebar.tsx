@@ -60,7 +60,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'contacts' as ActiveTab, label: '360° Contacts', icon: Users, badge: contactCount },
     { id: 'graph' as ActiveTab, label: 'Relationship Graph', icon: Network, highlight: true },
     { id: 'followup' as ActiveTab, label: 'Follow-up Pipeline', icon: Clock },
-    { id: 'hermes-agent' as ActiveTab, label: 'CopperMind AI', icon: Bot, badge: 'Workers', highlight: true },
+    { id: 'hermes-agent' as ActiveTab, label: 'Forge AI', icon: Bot, badge: 'Workers', highlight: true },
     { id: 'syndicates' as ActiveTab, label: 'Syndicates & Pools', icon: Users, badge: 'Pools' },
     { id: 'roadshows' as ActiveTab, label: 'Roadshows & Summits', icon: Calendar, badge: 'Events' },
     { id: 'social-calendar' as ActiveTab, label: 'Social Calendar', icon: Calendar, badge: 'IR' },
