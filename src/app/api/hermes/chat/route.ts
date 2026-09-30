@@ -23,6 +23,12 @@ export async function POST(request: Request) {
 
     let targetSessionId = sessionId;
 
+    // Ensure session actually exists in DB to prevent foreign key errors
+    if (targetSessionId) {
+      const exists = await prisma.hermesSession.findUnique({ where: { id: targetSessionId } });
+      if (!exists) targetSessionId = null;
+    }
+
     if (!targetSessionId) {
       const newSession = await prisma.hermesSession.create({
         data: {
