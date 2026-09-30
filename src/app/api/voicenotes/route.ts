@@ -1,5 +1,18 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+const apiKey = process.env.GEMINI_API_KEY || '';
+const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
+
+function base64ToGenerativePart(base64Data: string, mimeType: string) {
+  return {
+    inlineData: {
+      data: base64Data.split(',')[1] || base64Data,
+      mimeType
+    },
+  };
+}
 
 export async function POST(request: Request) {
   try {
@@ -10,53 +23,32 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Contact ID and audio data are required' }, { status: 400 });
     }
 
-    let finalTranscript = transcript || 'Audio grabado en el CRM.';
+    let finalTranscript = transcript || '';
     let summary = '';
     let sentiment = 'neutral';
-    const apiKey = process.env.OPENAI_API_KEY;
 
-    if (apiKey && audioDataUrl && audioDataUrl.startsWith('data:audio')) {
+    if (genAI && audioDataUrl && audioDataUrl.startsWith('data:audio')) {
       try {
-        const base64Data = audioDataUrl.split(',')[1];
-        if (base64Data) {
-          const audioBuffer = Buffer.from(base64Data, 'base64');
-          const blob = new Blob([audioBuffer], { type: 'audio/webm' });
-          const formData = new FormData();
-          formData.append('file', blob, 'audio.webm');
-          formData.append('model', 'whisper-1');
-
-          const whisperRes = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${apiKey}` },
-            body: formData,
-          });
-          if (whisperRes.ok) {
-            const whisperData = await whisperRes.json();
-            finalTranscript = whisperData.text || finalTranscript;
-
-            const gptRes = await fetch('https://api.openai.com/v1/chat/completions', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
-              body: JSON.stringify({
-                model: 'gpt-4o',
-                messages: [
-                  { role: 'system', content: 'You summarize transcripts and extract sentiment (positive, neutral, negative). Respond with JSON: { "summary": "", "sentiment": "" }' },
-                  { role: 'user', content: finalTranscript }
-                ],
-                response_format: { type: 'json_object' }
-              })
-            });
-            if (gptRes.ok) {
-              const gptData = await gptRes.json();
-              const gptParsed = JSON.parse(gptData.choices[0]?.message?.content || '{}');
-              summary = gptParsed.summary || '';
-              sentiment = gptParsed.sentiment || sentiment;
-            }
-          }
-        }
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", generationConfig: { responseMimeType: "application/json" } });
+        const mimeType = audioDataUrl.substring(5, audioDataUrl.indexOf(';'));
+        const audioPart = base64ToGenerativePart(audioDataUrl, mimeType);
+        
+        const prompt = `Actúa como un experto analizador de reuniones corporativas para un CRM. Escucha el siguiente audio y devuelve un JSON estricto con: "transcript" (la transcripción literal del audio), "summary" (un resumen ejecutivo de 2 líneas de los puntos clave) y "sentiment" (positivo, neutral o negativo).`;
+        
+        const result = await model.generateContent([prompt, audioPart]);
+        const responseText = result.response.text();
+        const parsed = JSON.parse(responseText);
+        
+        finalTranscript = parsed.transcript || finalTranscript;
+        summary = parsed.summary || '';
+        sentiment = (parsed.sentiment || 'neutral').toLowerCase();
       } catch (e) {
-        console.error('Whisper/GPT Error:', e);
+        console.error('Gemini Audio Error:', e);
       }
+    }
+
+    if (!finalTranscript) {
+       finalTranscript = 'Audio grabado en el CRM (sin transcripción).';
     }
 
     const voiceNote = await prisma.voiceNote.create({
@@ -64,21 +56,21 @@ export async function POST(request: Request) {
         contactId,
         audioDataUrl,
         durationSeconds: durationSeconds || 0,
-        transcript: finalTranscript,
+        transcript: `[RESUMEN IA]: ${summary}\n\n[TRANSCRIPCIÓN]: ${finalTranscript}`,
       },
     });
 
     // Synthesize updated AI Executive Briefing fields
-    const transcriptExcerpt = finalTranscript ? finalTranscript.slice(0, 120) : 'Actualización de voz registrada.';
+    const transcriptExcerpt = summary || finalTranscript.slice(0, 120);
     const newIcebreaker = `En nota de voz reciente: "${transcriptExcerpt}..."`;
-    const newStrategicContext = `Inteligencia de voz procesada: ${summary || finalTranscript || 'Audio grabado'}. Sentimiento: ${sentiment}.`;
+    const newStrategicContext = `Inteligencia de voz procesada: ${summary}. Sentimiento detectado: ${sentiment}.`;
 
     await prisma.contact.update({
       where: { id: contactId },
       data: {
         dynamicIcebreaker: newIcebreaker,
         strategicContext: newStrategicContext,
-        leadScore: { increment: sentiment === 'positive' ? 10 : 5 },
+        leadScore: { increment: sentiment === 'positivo' || sentiment === 'positive' ? 10 : 5 },
       },
     });
 
@@ -87,8 +79,8 @@ export async function POST(request: Request) {
       data: {
         contactId,
         type: 'VOICE_NOTE',
-        title: 'Nota de Voz Agregada',
-        description: transcript || `Duración: ${durationSeconds || 0} segundos`,
+        title: 'Nota de Voz Analizada (IA)',
+        description: `Sentimiento: ${sentiment}. Resumen: ${summary}`,
       },
     });
 

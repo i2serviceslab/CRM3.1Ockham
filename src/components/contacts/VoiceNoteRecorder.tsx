@@ -178,20 +178,12 @@ export const VoiceNoteRecorder: React.FC<VoiceNoteRecorderProps> = ({ contacts, 
               </div>
               <button
                 type="button"
-                onClick={() => {
-                  const sampleContact = contacts.find((c) => c.id === selectedContactId);
-                  const name = sampleContact?.name || 'El inversionista';
-                  const aiTakeaway =
-                    `🎙️ RESUMEN EJECUTIVO EXTRAÍDO POR IA:\n` +
-                    `• Sentimiento: Alto Interés Minero (Interés en Santa Ana - Leyes de Plata)\n` +
-                    `• Puntos Clave: ${name} solicitó el informe técnico NI 43-101 y mostró interés en co-invertir en la fase de exploración Q3.\n` +
-                    `• Tarea de Seguimiento: Despachar informe de ensayos geológicos y agendar videollamada.`;
-                  setTranscript(aiTakeaway);
-                }}
+                onClick={handleSaveVoiceNote}
                 className="px-3.5 py-1.5 rounded-full bg-red-500/20 text-[#FF002C] border border-red-500/40 font-black text-xs hover:bg-red-500 hover:text-black transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
+                disabled={saving}
               >
                 <Volume2 className="w-3.5 h-3.5" />
-                <span>⚡ Extraer Puntos Clave con IA</span>
+                <span>{saving ? '⚡ Analizando Audio...' : '⚡ Guardar y Extraer con IA'}</span>
               </button>
             </div>
 
