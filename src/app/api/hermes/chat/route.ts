@@ -137,9 +137,9 @@ async function processAgenticLoop(sessionId: string, promptText: string, worker:
                 title: { type: SchemaType.STRING, description: "Título interno o idea principal del post." },
                 content: { type: SchemaType.STRING, description: "El contenido final redactado del post (incluyendo hashtags y emojis)." },
                 platforms: { type: SchemaType.STRING, description: "Plataformas sugeridas (ej. 'linkedin,twitter,instagram')." },
-                scheduledDate: { type: SchemaType.STRING, description: "Fecha y hora sugerida en formato ISO (ej. '2026-10-15T14:00:00Z')." }
+                scheduledDate: { type: SchemaType.STRING, description: "Opcional. Fecha y hora en formato ISO. Si el usuario NO especifica una fecha, omite este campo." }
               },
-              required: ["title", "content", "platforms", "scheduledDate"]
+              required: ["title", "content", "platforms"]
             }
           },
           {
@@ -215,13 +215,22 @@ ${extractedText}`);
         const { title, content, platforms, scheduledDate } = call.args as any;
         await prisma.hermesMessage.update({ where: { id: processingMsgId }, data: { content: `✍️ [Plugin: Social Calendar] Guardando borrador: "${title}"...` } });
         
+        let finalDate = new Date();
+        finalDate.setDate(finalDate.getDate() + 1); // Mañana por defecto
+        if (scheduledDate) {
+          const parsed = new Date(scheduledDate);
+          if (!isNaN(parsed.getTime())) {
+            finalDate = parsed;
+          }
+        }
+
         let resultMsg = "";
         try {
           const post = await prisma.socialPost.create({
             data: {
               tenantId: tenantId || null,
               title, content, platforms: platforms || 'linkedin,x', status: 'draft',
-              scheduledDate: new Date(scheduledDate || Date.now()), isRecurring: false
+              scheduledDate: finalDate, isRecurring: false
             }
           });
           
