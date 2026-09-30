@@ -1027,7 +1027,7 @@ export default function Home() {
             }}
             onOpenVoiceRecorder={() => {
               setSelectedContact360(null);
-              setActiveTab('voice-notes');
+              setActiveTab('meetings');
             }}
           />
         </ErrorBoundary>
