@@ -124,8 +124,14 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
     return () => clearInterval(pollInterval);
   }, [currentSessionId]);
 
+  const prevMsgLength = useRef(messages.length);
   useEffect(() => {
-    scrollToBottom();
+    // Only auto-scroll when a brand new message appears or we are sending, 
+    // to prevent snapping to bottom during background polling
+    if (sending || messages.length > prevMsgLength.current) {
+      scrollToBottom();
+    }
+    prevMsgLength.current = messages.length;
   }, [messages, sending]);
 
   const scrollToBottom = () => {
