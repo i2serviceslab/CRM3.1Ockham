@@ -61,7 +61,7 @@ export async function POST(request: Request) {
 
     if (apiKey) {
       // Run Agentic loop in background
-      processAgenticLoop(targetSessionId, promptText, worker).catch(console.error);
+      processAgenticLoop(targetSessionId, promptText, worker, tenantId).catch(console.error);
     } else {
       await prisma.hermesMessage.create({
         data: {
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
 }
 
 // THE AGENTIC LOOP (Micro-Harness)
-async function processAgenticLoop(sessionId: string, promptText: string, worker: string) {
+async function processAgenticLoop(sessionId: string, promptText: string, worker: string, tenantId?: string) {
   let processingMsgId = '';
   try {
     const processingMsg = await prisma.hermesMessage.create({
@@ -219,6 +219,7 @@ ${extractedText}`);
         try {
           const post = await prisma.socialPost.create({
             data: {
+              tenantId: tenantId || null,
               title, content, platforms: platforms || 'linkedin,x', status: 'draft',
               scheduledDate: new Date(scheduledDate || Date.now()), isRecurring: false
             }
@@ -234,7 +235,7 @@ Fecha: ${scheduledDate}`,
             }
           });
           await prisma.systemAuditLog.create({
-            data: { action: 'DRAFT_POST', description: `Forge generó un borrador: '${title}'.` }
+            data: { tenantId: tenantId || null, action: 'DRAFT_POST', description: `Forge generó un borrador: '${title}'.` }
           });
           resultMsg = `Éxito. ID del post: ${post.id}.`;
         } catch (err: any) {
