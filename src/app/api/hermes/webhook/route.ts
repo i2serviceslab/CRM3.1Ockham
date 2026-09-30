@@ -33,7 +33,7 @@ export async function POST(request: Request) {
         data: {
           id: sessionId,
           tenantId: tenantId || null,
-          title: content ? content.slice(0, 30) + '...' : 'Sesión de Hermes',
+          title: content ? content.slice(0, 30) + '...' : 'Sesión de Forge',
         },
       });
     } else {

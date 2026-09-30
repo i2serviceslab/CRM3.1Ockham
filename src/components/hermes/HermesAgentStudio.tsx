@@ -225,7 +225,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
 
   const handleDeleteSession = async (sid: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!confirm('¿Eliminar esta conversación de Hermes?')) return;
+    if (!confirm('¿Eliminar esta conversación de Forge?')) return;
     try {
       await fetch(`/api/hermes/sessions/${sid}`, { method: 'DELETE' });
       setSessions(sessions.filter((s) => s.id !== sid));
@@ -371,7 +371,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
           await fetchSessionMessages(data.sessionId);
         }
       } else {
-        alert(data.error || 'Error al enviar mensaje a Hermes');
+        alert(data.error || 'Error al enviar mensaje a Forge');
       }
     } catch (e) {
       alert('Error de conexión con el servidor');
