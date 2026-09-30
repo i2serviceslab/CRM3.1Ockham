@@ -285,10 +285,11 @@ Fecha: ${scheduledDate}`,
               tenantId: tenantId || null,
               folderId: folder.id,
               name: `${title}.txt`,
+              originalName: `${title}.txt`,
               mimeType: 'text/plain',
-              sizeBytes: textContent.length,
+              size: textContent.length,
               url: 'local://ai-doctrine',
-              textContent: textContent
+              aiSummary: textContent
             }
           });
           resultMsg = `Conocimiento guardado exitosamente en la carpeta 'Doctrina Forge'.`;
@@ -333,9 +334,9 @@ Analiza esto y decide el siguiente paso.`);
                 resultsText = posts.length ? JSON.stringify(posts) : "No hay posts.";
             } else if (entity === 'files') {
                 const files = await prisma.mediaFile.findMany({
-                    where: { OR: [ { name: { contains: query, mode: 'insensitive' } }, { textContent: { contains: query, mode: 'insensitive' } } ] }, take: 10
+                    where: { OR: [ { name: { contains: query, mode: 'insensitive' } }, { aiSummary: { contains: query, mode: 'insensitive' } } ] }, take: 10
                 });
-                resultsText = files.length ? JSON.stringify(files.map(f => ({ nombre: f.name, contenido: f.textContent || 'Archivo multimedia (sin texto)' }))) : "No hay archivos o doctrinas.";
+                resultsText = files.length ? JSON.stringify(files.map(f => ({ nombre: f.name, contenido: f.aiSummary || 'Archivo multimedia (sin texto)' }))) : "No hay archivos o doctrinas.";
             }
         } catch (err: any) {
             resultsText = `Error: ${err.message}`;
