@@ -249,8 +249,7 @@ Fecha: ${scheduledDate}`,
         let transcriptText = "";
         try {
           const transcript = await YoutubeTranscript.fetchTranscript(url);
-          transcriptText = transcript.map((t: any) => `[${(t.offset / 1000).toFixed(0)}s]: ${t.text}`).join('
-');
+          transcriptText = transcript.map((t: any) => `[${(t.offset / 1000).toFixed(0)}s]: ${t.text}`).join('\n');
           if (transcriptText.length > 25000) transcriptText = transcriptText.substring(0, 25000) + '...';
         } catch (err: any) {
           transcriptText = `Error: ${err.message}`;
