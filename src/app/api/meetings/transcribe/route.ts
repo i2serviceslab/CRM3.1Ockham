@@ -24,7 +24,13 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
   try {
-    const mimeType = request.headers.get('Content-Type') || 'audio/webm';
+    let mimeType = request.headers.get('Content-Type') || 'audio/webm';
+    // Gemini API throws 404 if the mime type is unsupported for generateContent (like m4a)
+    if (mimeType.includes('m4a') || mimeType.includes('x-m4a')) {
+      mimeType = 'audio/mp4'; // Map to a supported container format
+    } else if (mimeType === 'application/octet-stream') {
+      mimeType = 'audio/mp3'; // Fallback guess
+    }
     const durationSeconds = request.headers.get('X-Duration-Seconds') || '0';
     const tenantId = request.headers.get('X-Tenant-Id') || null;
 
@@ -38,7 +44,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'GEMINI_API_KEY is missing' }, { status: 500 });
     }
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", generationConfig: { responseMimeType: "application/json" } });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
     const buffer = Buffer.from(arrayBuffer);
     
     const prompt = `Actúa como un secretario corporativo avanzado. Escucha esta reunión grupal.
@@ -90,7 +96,7 @@ Speaker 2: ...",
           result = await model.generateContent([prompt, audioPart]);
         } catch (e: any) {
           console.error("Flash failed, trying Pro:", e);
-          const proModel = genAI.getGenerativeModel({ model: "gemini-1.5-pro", generationConfig: { responseMimeType: "application/json" } });
+          const proModel = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
           result = await proModel.generateContent([prompt, audioPart]);
         }
       } finally {
@@ -107,8 +113,15 @@ Speaker 2: ...",
       result = await model.generateContent([prompt, audioPart]);
     }
     
-    const responseText = result.response.text();
-    const parsed = JSON.parse(responseText);
+    let responseText = result.response.text();
+    responseText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
+    let parsed;
+    try {
+      parsed = JSON.parse(responseText);
+    } catch (e) {
+      console.error("Failed to parse AI response as JSON:", responseText);
+      throw new Error("Gemini did not return valid JSON format.");
+    }
 
     // Save Action Items to Tasks
     if (parsed.actionItems && Array.isArray(parsed.actionItems)) {
