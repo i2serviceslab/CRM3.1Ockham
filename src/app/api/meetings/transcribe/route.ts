@@ -68,6 +68,17 @@ Speaker 2: ...",
           displayName: "Massive Meeting Recording",
         });
         
+        let fileState = await fileManager.getFile(uploadResponse.file.name);
+        while (fileState.state === "PROCESSING") {
+          console.log('File is processing, waiting 5 seconds...');
+          await new Promise((resolve) => setTimeout(resolve, 5000));
+          fileState = await fileManager.getFile(uploadResponse.file.name);
+        }
+        
+        if (fileState.state === "FAILED") {
+          throw new Error("Gemini failed to process the uploaded audio file.");
+        }
+        
         const audioPart = {
           fileData: {
             mimeType: uploadResponse.file.mimeType,
