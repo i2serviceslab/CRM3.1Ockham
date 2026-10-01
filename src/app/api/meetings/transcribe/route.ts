@@ -14,12 +14,18 @@ function base64ToGenerativePart(base64Data: string, mimeType: string) {
   };
 }
 
+// Aumentamos el límite de tamaño de la ruta para Next.js (necesario para audios grandes)
+export const maxDuration = 300; // 5 minutos de timeout
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { audioDataUrl, durationSeconds, tenantId } = body;
+    const formData = await request.formData();
+    const audioFile = formData.get('audio') as Blob;
+    const durationSeconds = formData.get('durationSeconds') as string;
+    const tenantId = formData.get('tenantId') as string | null;
 
-    if (!audioDataUrl) {
+    if (!audioFile) {
       return NextResponse.json({ success: false, error: 'Audio data is required' }, { status: 400 });
     }
 
@@ -28,8 +34,19 @@ export async function POST(request: Request) {
     }
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", generationConfig: { responseMimeType: "application/json" } });
-    const mimeType = audioDataUrl.substring(5, audioDataUrl.indexOf(';'));
-    const audioPart = base64ToGenerativePart(audioDataUrl, mimeType);
+    
+    // Convert Blob to Base64 for Gemini
+    const arrayBuffer = await audioFile.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const base64Data = buffer.toString('base64');
+    const mimeType = audioFile.type || 'audio/webm';
+    
+    const audioPart = {
+      inlineData: {
+        data: base64Data,
+        mimeType
+      }
+    };
     
     const prompt = `Actúa como un secretario corporativo avanzado. Escucha esta reunión grupal.
     Identifica a los diferentes interlocutores y llámalos por su nombre si se mencionan.

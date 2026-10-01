@@ -6,6 +6,7 @@ import { Mic, Square, Save, Users, Brain, ListTodo, FileText, CheckCircle2, Uplo
 export const MeetingRecorder: React.FC = () => {
   const [recording, setRecording] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [audioFile, setAudioFile] = useState<File | Blob | null>(null);
   const [recordingTime, setRecordingTime] = useState(0);
   const [processing, setProcessing] = useState(false);
   
@@ -23,15 +24,13 @@ export const MeetingRecorder: React.FC = () => {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAudioUrl(reader.result as string);
-        setMeetingData(null);
-        setSuccessMsg(null);
-        setErrorMsg(null);
-        setRecordingTime(0); // Will show 00:00 for uploaded files
-      };
-      reader.readAsDataURL(file);
+      setAudioFile(file);
+      const url = URL.createObjectURL(file);
+      setAudioUrl(url);
+      setMeetingData(null);
+      setSuccessMsg(null);
+      setErrorMsg(null);
+      setRecordingTime(0);
     }
   };
 
@@ -47,11 +46,8 @@ export const MeetingRecorder: React.FC = () => {
 
       mediaRecorderRef.current.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setAudioUrl(reader.result as string);
-        };
-        reader.readAsDataURL(blob);
+        setAudioFile(blob);
+        setAudioUrl(URL.createObjectURL(blob));
         stream.getTracks().forEach((track) => track.stop());
       };
 
@@ -100,10 +96,13 @@ export const MeetingRecorder: React.FC = () => {
     setErrorMsg(null);
 
     try {
+      const formData = new FormData();
+      formData.append('audio', audioFile as Blob);
+      formData.append('durationSeconds', recordingTime.toString());
+
       const res = await fetch('/api/meetings/transcribe', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ audioDataUrl: audioUrl, durationSeconds: recordingTime }),
+        body: formData,
       });
 
       const data = await res.json();
