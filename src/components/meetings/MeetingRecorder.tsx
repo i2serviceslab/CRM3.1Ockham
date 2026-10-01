@@ -96,13 +96,14 @@ export const MeetingRecorder: React.FC = () => {
     setErrorMsg(null);
 
     try {
-      const formData = new FormData();
-      formData.append('audio', audioFile as Blob);
-      formData.append('durationSeconds', recordingTime.toString());
-
+      // Send raw binary instead of FormData to bypass strict multipart parsers
       const res = await fetch('/api/meetings/transcribe', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': (audioFile as File).type || 'audio/webm',
+          'X-Duration-Seconds': recordingTime.toString(),
+        },
+        body: audioFile,
       });
 
       const data = await res.json();

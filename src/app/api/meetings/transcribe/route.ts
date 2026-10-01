@@ -20,13 +20,14 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
   try {
-    const formData = await request.formData();
-    const audioFile = formData.get('audio') as Blob;
-    const durationSeconds = formData.get('durationSeconds') as string;
-    const tenantId = formData.get('tenantId') as string | null;
+    const mimeType = request.headers.get('Content-Type') || 'audio/webm';
+    const durationSeconds = request.headers.get('X-Duration-Seconds') || '0';
+    const tenantId = request.headers.get('X-Tenant-Id') || null;
 
-    if (!audioFile) {
-      return NextResponse.json({ success: false, error: 'Audio data is required' }, { status: 400 });
+    const arrayBuffer = await request.arrayBuffer();
+    
+    if (!arrayBuffer || arrayBuffer.byteLength === 0) {
+      return NextResponse.json({ success: false, error: 'Audio payload is empty or too large.' }, { status: 400 });
     }
 
     if (!genAI) {
@@ -35,11 +36,9 @@ export async function POST(request: Request) {
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", generationConfig: { responseMimeType: "application/json" } });
     
-    // Convert Blob to Base64 for Gemini
-    const arrayBuffer = await audioFile.arrayBuffer();
+    // Convert ArrayBuffer to Base64 for Gemini
     const buffer = Buffer.from(arrayBuffer);
     const base64Data = buffer.toString('base64');
-    const mimeType = audioFile.type || 'audio/webm';
     
     const audioPart = {
       inlineData: {
