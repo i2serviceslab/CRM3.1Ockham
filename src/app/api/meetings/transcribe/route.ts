@@ -61,7 +61,7 @@ Speaker 2: ...",
     }
     MUY IMPORTANTE: Solo extrae "aiDoctrines" si en la reunión se discuten lineamientos, reglas de comunicación, estrategias de la empresa o parámetros que la IA debería memorizar para su funcionamiento futuro. Si no hay nada, devuelve un array vacío [].`;
     
-    let result;
+    let responseText = '';
     
     if (buffer.length > 100 * 1024) {
       const fileManager = new GoogleAIFileManager(process.env.GEMINI_API_KEY || '');
@@ -92,28 +92,60 @@ Speaker 2: ...",
           }
         };
         
-        try {
-          result = await model.generateContent([prompt, audioPart]);
-        } catch (e: any) {
-          console.error("Flash failed, trying Pro:", e);
-          const proModel = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
-          result = await proModel.generateContent([prompt, audioPart]);
+        // USE NATIVE FETCH TO BYPASS SDK BUG
+        const requestBody = {
+          contents: [{
+            parts: [
+              { text: prompt },
+              { fileData: { mimeType: uploadResponse.file.mimeType, fileUri: uploadResponse.file.uri } }
+            ]
+          }]
+        };
+        
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        });
+        
+        if (!res.ok) {
+          const errText = await res.text();
+          console.error("Fetch API Error:", errText);
+          throw new Error(`Google API Error: ${res.status} - ${errText}`);
         }
+        
+        const jsonRes = await res.json();
+        responseText = jsonRes.candidates[0].content.parts[0].text;
+
       } finally {
         if (fs.existsSync(tempFilePath)) fs.unlinkSync(tempFilePath);
       }
     } else {
       const base64Data = buffer.toString('base64');
-      const audioPart = {
-        inlineData: {
-          data: base64Data,
-          mimeType
-        }
+      const requestBody = {
+        contents: [{
+          parts: [
+            { text: prompt },
+            { inlineData: { mimeType: mimeType, data: base64Data } }
+          ]
+        }]
       };
-      result = await model.generateContent([prompt, audioPart]);
+      
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+      });
+      
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error("Fetch API Error:", errText);
+        throw new Error(`Google API Error: ${res.status} - ${errText}`);
+      }
+      
+      const jsonRes = await res.json();
+      responseText = jsonRes.candidates[0].content.parts[0].text;
     }
-    
-    let responseText = result.response.text();
     responseText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
     let parsed;
     try {
