@@ -75,7 +75,13 @@ Speaker 2: ...",
           }
         };
         
-        result = await model.generateContent([prompt, audioPart]);
+        try {
+          result = await model.generateContent([prompt, audioPart]);
+        } catch (e: any) {
+          console.error("Flash failed, trying Pro:", e);
+          const proModel = genAI.getGenerativeModel({ model: "gemini-1.5-pro", generationConfig: { responseMimeType: "application/json" } });
+          result = await proModel.generateContent([prompt, audioPart]);
+        }
       } finally {
         if (fs.existsSync(tempFilePath)) fs.unlinkSync(tempFilePath);
       }
