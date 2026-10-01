@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Mic, Square, Save, Users, Brain, ListTodo, FileText, CheckCircle2 } from 'lucide-react';
+import { Mic, Square, Save, Users, Brain, ListTodo, FileText, CheckCircle2, Upload } from 'lucide-react';
 
 export const MeetingRecorder: React.FC = () => {
   const [recording, setRecording] = useState(false);
@@ -17,6 +17,23 @@ export const MeetingRecorder: React.FC = () => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const timerRef = useRef<any>(null);
   const chunksRef = useRef<Blob[]>([]);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAudioUrl(reader.result as string);
+        setMeetingData(null);
+        setSuccessMsg(null);
+        setErrorMsg(null);
+        setRecordingTime(0); // Will show 00:00 for uploaded files
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const startRecording = async () => {
     try {
@@ -141,12 +158,30 @@ export const MeetingRecorder: React.FC = () => {
         </div>
 
         {!recording ? (
-          <button
-            onClick={startRecording}
-            className="w-20 h-20 rounded-full bg-[#FF002C] hover:bg-red-600 transition-all flex items-center justify-center shadow-[0_0_30px_rgba(255,0,44,0.3)] hover:shadow-[0_0_50px_rgba(255,0,44,0.5)]"
-          >
-            <Mic className="w-8 h-8 text-white" />
-          </button>
+          <div className="flex flex-col items-center gap-4">
+            <button
+              onClick={startRecording}
+              className="w-20 h-20 rounded-full bg-[#FF002C] hover:bg-red-600 transition-all flex items-center justify-center shadow-[0_0_30px_rgba(255,0,44,0.3)] hover:shadow-[0_0_50px_rgba(255,0,44,0.5)]"
+            >
+              <Mic className="w-8 h-8 text-white" />
+            </button>
+            <div className="flex items-center gap-3 mt-2">
+              <span className="text-xs text-slate-500 font-bold">OR</span>
+            </div>
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="px-4 py-2 rounded-full border border-white/20 text-slate-300 text-xs font-bold hover:bg-white/5 transition-all flex items-center gap-2"
+            >
+              <Upload className="w-4 h-4" /> Upload Audio File
+            </button>
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              className="hidden" 
+              accept="audio/*"
+              onChange={handleFileUpload} 
+            />
+          </div>
         ) : (
           <button
             onClick={stopRecording}
