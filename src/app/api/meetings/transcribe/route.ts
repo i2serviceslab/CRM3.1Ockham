@@ -63,6 +63,30 @@ export async function POST(request: Request) {
       }
     }
 
+    // Save Meeting Minute to Vault
+    let minutesFolder = await prisma.mediaFolder.findFirst({ where: { name: 'Actas de Reuniones', tenantId: tenantId || null } });
+    if (!minutesFolder) {
+      minutesFolder = await prisma.mediaFolder.create({
+        data: { name: 'Actas de Reuniones', description: 'Historial de grabaciones y resúmenes de reuniones', color: '#00E5FF', isSystem: true, tenantId: tenantId || null }
+      });
+    }
+
+    const meetingContent = JSON.stringify(parsed);
+    const meetingTitle = `Reunión_${new Date().toISOString().split('T')[0]}_${Math.floor(Math.random() * 1000)}`;
+
+    await prisma.mediaFile.create({
+      data: {
+        tenantId: tenantId || null,
+        folderId: minutesFolder.id,
+        name: `${meetingTitle}.json`,
+        originalName: `${meetingTitle}.json`,
+        mimeType: 'application/json',
+        size: meetingContent.length,
+        url: 'local://meeting-minutes',
+        aiSummary: meetingContent
+      }
+    });
+
     // Save Doctrines to Vault
     if (parsed.aiDoctrines && Array.isArray(parsed.aiDoctrines)) {
       let folder = await prisma.mediaFolder.findFirst({ where: { name: 'Doctrina Forge' } });
