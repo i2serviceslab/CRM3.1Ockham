@@ -57,7 +57,7 @@ Speaker 2: ...",
     
     let result;
     
-    if (buffer.length > 15 * 1024 * 1024) {
+    if (buffer.length > 100 * 1024) {
       const fileManager = new GoogleAIFileManager(process.env.GEMINI_API_KEY || '');
       const tempFilePath = path.join(os.tmpdir(), `meeting_${Date.now()}.webm`);
       fs.writeFileSync(tempFilePath, buffer);
