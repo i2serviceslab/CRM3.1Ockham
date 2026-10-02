@@ -157,7 +157,7 @@ ${transcriptText.slice(0, 300000)}` } // Safely cap at 300k chars just in case
     let minutesFolder = await prisma.mediaFolder.findFirst({ where: { name: 'Actas de Reuniones', tenantId: tenantId || null } });
     if (!minutesFolder) {
       minutesFolder = await prisma.mediaFolder.create({
-        data: { name: 'Actas de Reuniones', description: 'Historial de grabaciones', color: '#00E5FF', isSystem: true, tenantId: tenantId || null }
+        data: { name: 'Actas de Reuniones', color: '#00E5FF', tenantId: tenantId || null }
       });
     }
 
@@ -182,7 +182,7 @@ ${transcriptText.slice(0, 300000)}` } // Safely cap at 300k chars just in case
       let folder = await prisma.mediaFolder.findFirst({ where: { name: 'Doctrina Forge' } });
       if (!folder) {
         folder = await prisma.mediaFolder.create({
-          data: { name: 'Doctrina Forge', description: 'Base de conocimiento de la IA', color: '#FF002C', isSystem: true, tenantId: tenantId || null }
+          data: { name: 'Doctrina Forge', color: '#FF002C', tenantId: tenantId || null }
         });
       }
 
