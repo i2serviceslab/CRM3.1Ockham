@@ -23,7 +23,7 @@ RUN npm run build
 
 # Step 3: Production Runner
 FROM base AS runner
-RUN apk add --no-cache openssl
+RUN apk add --no-cache openssl ffmpeg
 WORKDIR /app
 
 ENV NODE_ENV=production
