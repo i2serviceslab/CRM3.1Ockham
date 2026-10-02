@@ -75,7 +75,13 @@ Speaker 2: ...",
     
     if (buffer.length > 100 * 1024) {
       const fileManager = new GoogleAIFileManager(process.env.GEMINI_API_KEY || '');
-      const tempFilePath = path.join(os.tmpdir(), `meeting_${Date.now()}.webm`);
+            let ext = '.webm';
+      if (mimeType.includes('mp4') || mimeType.includes('m4a')) ext = '.mp4';
+      else if (mimeType.includes('mp3')) ext = '.mp3';
+      else if (mimeType.includes('wav')) ext = '.wav';
+      else if (mimeType.includes('ogg')) ext = '.ogg';
+      
+      const tempFilePath = path.join(os.tmpdir(), `meeting_${Date.now()}${ext}`);
       fs.writeFileSync(tempFilePath, buffer);
       
       try {
