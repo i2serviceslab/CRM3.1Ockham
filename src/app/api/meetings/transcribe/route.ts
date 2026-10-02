@@ -169,7 +169,7 @@ ${transcriptText.slice(0, 300000)}` } // Safely cap at 300k chars just in case
         tenantId: tenantId || null,
         folderId: minutesFolder.id,
         name: `${meetingName}.json`,
-        originalName: `${meetingTitle}.json`,
+        originalName: `${meetingName}.json`,
         mimeType: 'application/json',
         size: meetingContent.length,
         url: 'local://meeting-minutes',
