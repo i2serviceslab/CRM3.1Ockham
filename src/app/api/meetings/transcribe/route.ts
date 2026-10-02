@@ -41,8 +41,7 @@ export async function POST(request: Request) {
 
     // TRANCODE AND COMPRESS USING FFMPEG
     // This normalizes ALL obscure formats (AMR, OPUS, WMA, broken M4A) into a clean MP3
-    // It also compresses it to 16kbps so 2.5 hours easily fits under Whisper's 25MB limit.
-    const fs = require('fs');
+    
     const path = require('path');
     const os = require('os');
     const { execSync } = require('child_process');
