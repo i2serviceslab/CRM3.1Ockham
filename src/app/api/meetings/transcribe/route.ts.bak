@@ -15,8 +15,6 @@ export async function POST(request: Request) {
     const body = JSON.parse(bodyText);
     const finalPath = body.finalPath;
     let mimeType = body.mimeType || 'audio/webm';
-    const meetingName = body.meetingName?.trim() || `Reunión_${new Date().toISOString().split('T')[0]}_${Math.floor(Math.random() * 1000)}`;
-    const extraContext = body.extraContext?.trim() || '';
     
     // Fallback file extension logic
     let ext = '.webm';
@@ -43,7 +41,8 @@ export async function POST(request: Request) {
 
     // TRANCODE AND COMPRESS USING FFMPEG
     // This normalizes ALL obscure formats (AMR, OPUS, WMA, broken M4A) into a clean MP3
-    
+    // It also compresses it to 16kbps so 2.5 hours easily fits under Whisper's 25MB limit.
+    const fs = require('fs');
     const path = require('path');
     const os = require('os');
     const { execSync } = require('child_process');
@@ -52,14 +51,8 @@ export async function POST(request: Request) {
     const tempOutput = path.join(os.tmpdir(), `output_${Date.now()}.mp3`);
     
     fs.writeFileSync(tempInput, buffer);
-    const segmentDir = path.join(os.tmpdir(), `segments_${Date.now()}`);
-    fs.mkdirSync(segmentDir, { recursive: true });
-
     try {
-      // 1. Convert to a single highly compressed MP3
       execSync(`ffmpeg -y -i "${tempInput}" -ar 16000 -ac 1 -b:a 16k "${tempOutput}"`, { stdio: 'pipe' });
-      // 2. Split into 15-minute chunks (900 seconds) to prevent OpenAI Whisper Timeouts
-      execSync(`ffmpeg -i "${tempOutput}" -f segment -segment_time 900 -c copy "${path.join(segmentDir, 'chunk_%03d.mp3')}"`, { stdio: 'pipe' });
     } catch (e: any) {
       if (fs.existsSync(tempInput)) fs.unlinkSync(tempInput);
       if (fs.existsSync(tempOutput)) fs.unlinkSync(tempOutput);
@@ -67,74 +60,76 @@ export async function POST(request: Request) {
       throw new Error(`FFmpeg Error (Recibidos ${receivedMegabytes} MB): ` + stderr.slice(-300));
     }
     
-    // Clean up original temp files
+    const mp3Buffer = fs.readFileSync(tempOutput);
+    const blob = new Blob([mp3Buffer], { type: 'audio/mp3' });
+    
+    // Clean up temp files
     if (fs.existsSync(tempInput)) fs.unlinkSync(tempInput);
     if (fs.existsSync(tempOutput)) fs.unlinkSync(tempOutput);
 
-    // Read all generated chunk files
-    const chunks = fs.readdirSync(segmentDir).filter((f: string) => f.endsWith('.mp3')).sort();
-    let transcriptText = "";
+    const formData = new FormData();
+    formData.append('file', blob, 'audio.mp3');
+    formData.append('model', 'whisper-1');
+    formData.append('response_format', 'text');
+    formData.append('language', 'es'); // Force Spanish or allow auto
 
-    // Process each chunk sequentially
-    for (const chunkFile of chunks) {
-      const chunkPath = path.join(segmentDir, chunkFile);
-      const mp3Buffer = fs.readFileSync(chunkPath);
-      const blob = new Blob([mp3Buffer], { type: 'audio/mp3' });
-      
-      const formData = new FormData();
-      formData.append('file', blob, chunkFile);
-      formData.append('model', 'whisper-1');
-      formData.append('response_format', 'text');
-      formData.append('language', 'es'); 
-
-      try {
-        const whisperRes = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${openAIKey}` },
-          body: formData,
-        });
-
-        if (!whisperRes.ok) {
-          const errText = await whisperRes.text();
-          throw new Error(`OpenAI Whisper Error: ${whisperRes.status} - ${errText}`);
-        }
-
-        const text = await whisperRes.text();
-        transcriptText += text + " ";
-      } finally {
-        fs.unlinkSync(chunkPath); // clean up segment after uploading
-      }
-    }
-    
-    if (fs.existsSync(segmentDir)) fs.rmdirSync(segmentDir); // clean dir
-
-    // 2. USE GPT-4o TO EXTRACT ACTION ITEMS AND DOCTRINES FROM TRANSCRIPT
-    // Bypassing Gemini completely to avoid undocumented 404 model errors
-    const gptRes = await fetch('https://api.openai.com/v1/chat/completions', {
+    const whisperRes = await fetch('https://api.openai.com/v1/audio/transcriptions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${openAIKey}` },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        messages: [
-          { role: 'system', content: 'Actúa como un secretario corporativo avanzado. Lee esta transcripción de una reunión grupal. Identifica a los diferentes interlocutores si es posible. Devuelve estrictamente un JSON con esta estructura exacta: { "transcript": "...", "summary": "Resumen ejecutivo de 3 líneas", "actionItems": ["Tarea 1"], "aiDoctrines": [ { "title": "Regla", "rule": "Descripción" } ] }' },
-          { role: 'user', content: `Transcripción:
-${transcriptText.slice(0, 300000)}` } // Safely cap at 300k chars just in case
-        ],
-        response_format: { type: 'json_object' }
-      })
+      headers: { Authorization: `Bearer ${openAIKey}` },
+      body: formData,
     });
 
-    if (!gptRes.ok) {
-      const errText = await gptRes.text();
-      throw new Error(`OpenAI GPT-4o Error: ${gptRes.status} - ${errText}`);
+    if (!whisperRes.ok) {
+      const errText = await whisperRes.text();
+      console.error("Whisper API Error:", errText);
+      throw new Error(`OpenAI Whisper Error: ${whisperRes.status} - ${errText}`);
     }
 
-    const gptData = await gptRes.json();
+    const transcriptText = await whisperRes.text();
+
+    // 2. USE GEMINI FLASH TO EXTRACT ACTION ITEMS AND DOCTRINES FROM TRANSCRIPT
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    
+    const prompt = `Actúa como un secretario corporativo avanzado. Lee esta transcripción de una reunión grupal.
+    Identifica a los diferentes interlocutores si es posible.
+    Devuelve estrictamente un JSON con esta estructura exacta:
+    {
+      "transcript": "Transcripción de la reunión",
+      "summary": "Resumen ejecutivo de 3 líneas",
+      "actionItems": ["Tarea 1", "Tarea 2"],
+      "aiDoctrines": [
+        { "title": "Nombre de la regla o parámetro", "rule": "Descripción de la regla que la IA debe aprender." }
+      ]
+    }
+    
+    Transcripción:
+    ${transcriptText}`;
+
+    const requestBody = {
+      contents: [{ parts: [{ text: prompt }] }]
+    };
+    
+    const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${process.env.GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!geminiRes.ok) {
+      const errText = await geminiRes.text();
+      throw new Error(`Google API Error: ${geminiRes.status} - ${errText}`);
+    }
+
+    const jsonRes = await geminiRes.json();
+    let responseText = jsonRes.candidates[0].content.parts[0].text;
+    responseText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
+    
     let parsed;
     try {
-      parsed = JSON.parse(gptData.choices[0]?.message?.content || '{}');
+      parsed = JSON.parse(responseText);
     } catch (e) {
-      throw new Error("GPT-4o did not return valid JSON format.");
+      throw new Error("Gemini did not return valid JSON format.");
     }
 
     // Replace transcript with the original full Whisper transcript for accuracy
@@ -159,16 +154,18 @@ ${transcriptText.slice(0, 300000)}` } // Safely cap at 300k chars just in case
     let minutesFolder = await prisma.mediaFolder.findFirst({ where: { name: 'Actas de Reuniones', tenantId: tenantId || null } });
     if (!minutesFolder) {
       minutesFolder = await prisma.mediaFolder.create({
-        data: { name: 'Actas de Reuniones', color: '#00E5FF', tenantId: tenantId || null }
+        data: { name: 'Actas de Reuniones', description: 'Historial de grabaciones', color: '#00E5FF', isSystem: true, tenantId: tenantId || null }
       });
     }
 
     const meetingContent = JSON.stringify(parsed);
+    const meetingTitle = `Reunión_${new Date().toISOString().split('T')[0]}_${Math.floor(Math.random() * 1000)}`;
+
     await prisma.mediaFile.create({
       data: {
         tenantId: tenantId || null,
         folderId: minutesFolder.id,
-        name: `${meetingName}.json`,
+        name: `${meetingTitle}.json`,
         originalName: `${meetingTitle}.json`,
         mimeType: 'application/json',
         size: meetingContent.length,
@@ -182,7 +179,7 @@ ${transcriptText.slice(0, 300000)}` } // Safely cap at 300k chars just in case
       let folder = await prisma.mediaFolder.findFirst({ where: { name: 'Doctrina Forge' } });
       if (!folder) {
         folder = await prisma.mediaFolder.create({
-          data: { name: 'Doctrina Forge', color: '#FF002C', tenantId: tenantId || null }
+          data: { name: 'Doctrina Forge', description: 'Base de conocimiento de la IA', color: '#FF002C', isSystem: true, tenantId: tenantId || null }
         });
       }
 

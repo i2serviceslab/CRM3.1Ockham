@@ -8,6 +8,8 @@ export const MeetingRecorder: React.FC = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [audioFile, setAudioFile] = useState<File | Blob | null>(null);
   const [recordingTime, setRecordingTime] = useState(0);
+  const [meetingName, setMeetingName] = useState('');
+  const [extraContext, setExtraContext] = useState('');
   const [processing, setProcessing] = useState(false);
   
   const [meetingData, setMeetingData] = useState<any | null>(null);
@@ -128,7 +130,7 @@ export const MeetingRecorder: React.FC = () => {
           'Content-Type': 'application/json',
           'X-Duration-Seconds': recordingTime.toString(),
         },
-        body: JSON.stringify({ finalPath, mimeType: (audioFile as File).type || 'audio/webm' }),
+        body: JSON.stringify({ finalPath, mimeType: (audioFile as File).type || 'audio/webm', meetingName, extraContext }),
       });
 
       const data = await res.json();
