@@ -24,6 +24,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Audio payload is empty' }, { status: 400 });
     }
     const buffer = Buffer.from(arrayBuffer);
+    
+    // DEBUG FILE SIZE
+    const receivedMegabytes = (buffer.byteLength / (1024 * 1024)).toFixed(2);
 
     // 1. PIVOT TO OPENAI WHISPER FOR BULLETPROOF TRANSCRIPTION
     const openAIKey = process.env.OPENAI_API_KEY;
@@ -49,7 +52,7 @@ export async function POST(request: Request) {
       if (fs.existsSync(tempInput)) fs.unlinkSync(tempInput);
       if (fs.existsSync(tempOutput)) fs.unlinkSync(tempOutput);
       const stderr = e.stderr ? e.stderr.toString() : e.message;
-      throw new Error("FFmpeg Error: " + stderr.slice(-300));
+      throw new Error(`FFmpeg Error (Recibidos ${receivedMegabytes} MB): ` + stderr.slice(-300));
     }
     
     const mp3Buffer = fs.readFileSync(tempOutput);
