@@ -22,7 +22,7 @@ export async function ensurePersistentData() {
         data: {
           name: 'Copper Giant',
           slug: 'coppergiant',
-          customDomain: 'homunculus-host-coppergiant-crm.wu48i0.easypanel.host',
+
           plan: 'ENTERPRISE',
           brandColor: '#E65100',
         },
