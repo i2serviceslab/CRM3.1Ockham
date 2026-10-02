@@ -284,18 +284,39 @@
     left: 0;
     top: 0;
     width: 100%;
-    color: black !important;
+    margin: 0;
+    padding: 0;
   }
+  
   /* Force dark theme elements to look good on white paper */
-  #printable-meeting-result .bg-[#1E293B] {
-    background-color: white !important;
-    border: 1px solid #ccc !important;
+  #printable-meeting-result * {
     color: black !important;
+    background-color: transparent !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
   }
-  #printable-meeting-result .text-gray-400 {
-    color: #555 !important;
+  
+  /* Remove scrolling and max heights so the full text renders */
+  #printable-meeting-result .overflow-y-auto,
+  #printable-meeting-result .max-h-\[400px\] {
+    overflow: visible !important;
+    max-height: none !important;
   }
-  #printable-meeting-result .text-white {
-    color: black !important;
+  
+  /* Page break rules for paragraphs to avoid cutting text in half */
+  #printable-meeting-result p, 
+  #printable-meeting-result li {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Force grid into a block stack so columns don't squish */
+  #printable-meeting-result.grid,
+  #printable-meeting-result .grid {
+    display: block !important;
+  }
+  
+  #printable-meeting-result > div {
+    margin-bottom: 2rem;
   }
 }
