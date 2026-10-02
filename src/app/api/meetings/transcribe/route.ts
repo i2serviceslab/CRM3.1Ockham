@@ -44,12 +44,12 @@ export async function POST(request: Request) {
     
     fs.writeFileSync(tempInput, buffer);
     try {
-      // Force 16000Hz, 1 channel (mono), 16kbps audio bitrate
-      execSync(`ffmpeg -y -i "${tempInput}" -ar 16000 -ac 1 -b:a 16k "${tempOutput}"`, { stdio: 'ignore' });
-    } catch (e) {
+      execSync(`ffmpeg -y -i "${tempInput}" -ar 16000 -ac 1 -b:a 16k "${tempOutput}"`, { stdio: 'pipe' });
+    } catch (e: any) {
       if (fs.existsSync(tempInput)) fs.unlinkSync(tempInput);
       if (fs.existsSync(tempOutput)) fs.unlinkSync(tempOutput);
-      throw new Error("FFmpeg failed to decode the audio file. It might be severely corrupted.");
+      const stderr = e.stderr ? e.stderr.toString() : e.message;
+      throw new Error("FFmpeg Error: " + stderr.slice(-300));
     }
     
     const mp3Buffer = fs.readFileSync(tempOutput);
