@@ -1,4 +1,10 @@
-'use client';
+import re
+
+with open('src/components/meetings/MeetingRecorder.tsx', 'r') as f:
+    code = f.read()
+
+# We'll just replace the whole file since we know the structure.
+new_code = """'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Mic, Square, Save, Users, Brain, ListTodo, FileText, CheckCircle2, Upload, Edit3, X, Plus } from 'lucide-react';
@@ -405,7 +411,7 @@ export const MeetingRecorder: React.FC = () => {
                     />
                   ) : (
                     <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                      {meetingData.transcript?.split('\n').map((line: string, i: number) => {
+                      {meetingData.transcript?.split('\\n').map((line: string, i: number) => {
                         if (!line.trim()) return null;
                         const isSpeaker = line.includes(':');
                         return (
@@ -565,3 +571,9 @@ export const MeetingRecorder: React.FC = () => {
     </div>
   );
 };
+"""
+
+with open('src/components/meetings/MeetingRecorder.tsx', 'w') as f:
+    f.write(new_code)
+
+print("MeetingRecorder rewritten entirely with Edit Mode!")

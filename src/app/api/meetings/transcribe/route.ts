@@ -165,7 +165,7 @@ ${transcriptText.slice(0, 300000)}` } // Safely cap at 300k chars just in case
     }
 
     const meetingContent = JSON.stringify(parsed);
-    await prisma.mediaFile.create({
+    const newMediaFile = await prisma.mediaFile.create({
       data: {
         tenantId: tenantId || null,
         folderId: minutesFolder.id,
@@ -203,7 +203,7 @@ ${transcriptText.slice(0, 300000)}` } // Safely cap at 300k chars just in case
       }
     }
 
-    return NextResponse.json({ success: true, result: parsed });
+    return NextResponse.json({ success: true, result: parsed, fileId: newMediaFile.id });
   } catch (error: any) {
     console.error('Meeting Processing Error:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
