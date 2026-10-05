@@ -278,6 +278,7 @@
     size: auto;
   }
   
+  /* Hide visibility of normal layout, preserving standard flow */
   body * {
     visibility: hidden;
   }
@@ -285,16 +286,25 @@
   #print-document, #print-document * {
     visibility: visible;
   }
-  
+
+  /* Force all ancestors of print document to be static so absolute positioning anchors to the body */
+  html, body, main, div {
+    position: static !important;
+    transform: none !important;
+  }
+
+  /* Anchor the print document perfectly to the top left of the physical paper */
   #print-document {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    margin: 0;
-    padding: 2cm 2cm 2cm 2cm;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    max-width: 21cm !important;
+    margin: 0 auto !important;
+    padding: 2cm !important;
     background-color: white !important;
     color: black !important;
+    box-sizing: border-box !important;
   }
   
   #print-document * {

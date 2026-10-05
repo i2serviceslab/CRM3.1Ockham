@@ -581,7 +581,7 @@ export const MeetingRecorder: React.FC = () => {
               <h1 className="text-4xl font-black text-black uppercase tracking-widest">Acta de Reunión</h1>
               <p className="text-gray-500 mt-2 font-mono text-sm tracking-widest">{new Date().toLocaleDateString()} | REPORTE GENERADO POR IA</p>
             </div>
-            <img src="/logo.svg" alt="Copper Giant" className="h-10 print:invert" />
+            <img src="/logo.svg" alt="Copper Giant" className="h-10 print:brightness-0" />
           </div>
 
           <div className="mb-10">
