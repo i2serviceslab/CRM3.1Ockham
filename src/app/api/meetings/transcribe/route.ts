@@ -86,6 +86,7 @@ export async function POST(request: Request) {
       formData.append('model', 'whisper-1');
       formData.append('response_format', 'text');
       formData.append('language', 'es'); 
+      formData.append('prompt', 'Esta es una transcripción profesional, directa y formal de una reunión de negocios en la vida real. Se han omitido estrictamente todas las muletillas, tartamudeos, risas, sonidos de duda y onomatopeyas (como ah, eh, um, mmm, este, osea). El texto debe ser fluido y limpio.');
 
       try {
         const whisperRes = await fetch('https://api.openai.com/v1/audio/transcriptions', {

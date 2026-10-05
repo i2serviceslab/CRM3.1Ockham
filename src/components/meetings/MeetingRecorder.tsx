@@ -222,10 +222,10 @@ export const MeetingRecorder: React.FC = () => {
         </p>
       </div>
 
-      {audioUrl && !meetingData && (
-        <div className="space-y-4 max-w-lg mx-auto mt-6 w-full">
-          <div>
-            <label className="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider">Nombre de la Reunión (Opcional)</label>
+      {/* Opciones Visibles Siempre */}
+      <div className="space-y-4 max-w-lg mx-auto mt-6 w-full">
+        <div>
+          <label className="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider">Nombre de la Reunión (Opcional)</label>
             <input
               type="text"
               placeholder="Ej. Junta Directiva Q3"
@@ -246,7 +246,6 @@ export const MeetingRecorder: React.FC = () => {
             />
           </div>
         </div>
-      )}
 
       {audioUrl && !meetingData && (
         <div className="flex flex-col items-center gap-4 mt-6">
