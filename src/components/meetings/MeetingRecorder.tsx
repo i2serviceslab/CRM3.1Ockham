@@ -420,7 +420,7 @@ export const MeetingRecorder: React.FC = () => {
                           const sentences = rawText.match(/[^.!?]+[.!?]+/g) || [rawText];
                           lines = [];
                           let current = '';
-                          sentences.forEach(s => {
+                          sentences.forEach((s: string) => {
                             current += s.trim() + ' ';
                             if (current.length > 350) {
                               lines.push(current.trim());
