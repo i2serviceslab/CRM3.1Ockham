@@ -14,6 +14,7 @@ const PUBLIC_ROUTES = [
   '/api/relationships',
   '/api/calendar',
   '/api/deals',
+  '/api/roadshows',
   '/api/debug-logs',
 ];
 
