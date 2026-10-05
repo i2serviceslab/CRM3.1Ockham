@@ -273,50 +273,42 @@
 
 
 @media print {
+  @page {
+    margin: 1.5cm;
+    size: auto;
+  }
+  
   body * {
     visibility: hidden;
   }
-  #printable-meeting-result, #printable-meeting-result * {
+  
+  #print-document, #print-document * {
     visibility: visible;
   }
-  #printable-meeting-result {
+  
+  #print-document {
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
     margin: 0;
     padding: 0;
+    background-color: white !important;
+    color: black !important;
   }
   
-  /* Force dark theme elements to look good on white paper */
-  #printable-meeting-result * {
-    color: black !important;
+  #print-document * {
     background-color: transparent !important;
-    border-color: #ccc !important;
+    color: black !important;
     box-shadow: none !important;
   }
-  
-  /* Remove scrolling and max heights so the full text renders */
-  #printable-meeting-result .overflow-y-auto,
-  #printable-meeting-result .max-h-\[400px\] {
-    overflow: visible !important;
-    max-height: none !important;
-  }
-  
-  /* Page break rules for paragraphs to avoid cutting text in half */
-  #printable-meeting-result p, 
-  #printable-meeting-result li {
-    page-break-inside: avoid;
-    break-inside: avoid;
+
+  h1, h2, h3, h4, h5 {
+    page-break-after: avoid;
   }
 
-  /* Force grid into a block stack so columns don't squish */
-  #printable-meeting-result.grid,
-  #printable-meeting-result .grid {
-    display: block !important;
-  }
-  
-  #printable-meeting-result > div {
-    margin-bottom: 2rem;
+  p, li, .transcript-line {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
