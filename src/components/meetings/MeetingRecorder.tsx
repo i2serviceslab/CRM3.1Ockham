@@ -413,22 +413,40 @@ export const MeetingRecorder: React.FC = () => {
                     />
                   ) : (
                     <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                      {meetingData.transcript?.split('\n').map((line: string, i: number) => {
-                        if (!line.trim()) return null;
-                        const isSpeaker = line.includes(':');
-                        return (
-                          <p key={i} className="text-xs text-slate-300 leading-relaxed">
-                            {isSpeaker ? (
-                              <>
-                                <strong className="text-slate-100 font-bold">{line.split(':')[0]}:</strong>
-                                {line.substring(line.indexOf(':') + 1)}
-                              </>
-                            ) : (
-                              line
-                            )}
-                          </p>
-                        );
-                      })}
+                      {(() => {
+                        const rawText = meetingData.transcript || '';
+                        let lines = rawText.split('\n');
+                        if (lines.length < 3 && rawText.length > 500) {
+                          const sentences = rawText.match(/[^.!?]+[.!?]+/g) || [rawText];
+                          lines = [];
+                          let current = '';
+                          sentences.forEach(s => {
+                            current += s.trim() + ' ';
+                            if (current.length > 350) {
+                              lines.push(current.trim());
+                              current = '';
+                            }
+                          });
+                          if (current) lines.push(current.trim());
+                        }
+
+                        return lines.map((line: string, i: number) => {
+                          if (!line.trim()) return null;
+                          const isSpeaker = line.includes(':') && line.indexOf(':') < 30;
+                          return (
+                            <p key={i} className="text-xs text-slate-300 leading-relaxed mb-3 text-justify pr-4">
+                              {isSpeaker ? (
+                                <>
+                                  <strong className="text-slate-100 font-bold">{line.split(':')[0]}:</strong>
+                                  {line.substring(line.indexOf(':') + 1)}
+                                </>
+                              ) : (
+                                line
+                              )}
+                            </p>
+                          );
+                        });
+                      })()}
                     </div>
                   )}
                 </div>
