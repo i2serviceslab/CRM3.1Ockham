@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Calendar, MapPin, Plus, User, CheckCircle2, Clock, Sparkles, ArrowRight, ExternalLink } from 'lucide-react';
+import { Calendar, MapPin, Plus, User, CheckCircle2, Clock, Sparkles, ArrowRight, ExternalLink, Trash2 } from 'lucide-react';
 
 interface Contact {
   id: string;
@@ -156,7 +156,12 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
               <div>
-                <h3 className="text-lg font-black text-white">{event.summitName}</h3>
+                <div className="flex items-center gap-3">
+                  <h3 className="text-lg font-black text-white">{event.summitName}</h3>
+                  <button onClick={(e) => handleDeleteEvent(event.id, e)} className="p-1.5 text-red-400 hover:bg-red-500/20 rounded-md transition-colors" title="Eliminar Evento">
+                    <Trash2 size={18} />
+                  </button>
+                </div>
                 <div className="flex items-center gap-3 text-xs text-slate-400 font-bold mt-1">
                   <span className="flex items-center gap-1 text-[#FF002C]">
                     <MapPin className="w-3.5 h-3.5" />
