@@ -232,7 +232,8 @@ export const MeetingRecorder: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+    <>
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 print:hidden">
       <div className="xl:col-span-2 space-y-6">
         <div>
           <h2 className="text-xl font-black text-white flex items-center gap-2 mb-2">
@@ -570,12 +571,17 @@ export const MeetingRecorder: React.FC = () => {
         </div>
       </div>
 
-      {/* DEDICATED PRINT LAYOUT */}
-      {meetingData && (
-        <div id="print-document" className="hidden print:block bg-white text-black font-sans w-full max-w-4xl mx-auto p-8">
-          <div className="border-b-4 border-black pb-4 mb-8">
-            <h1 className="text-4xl font-black text-black uppercase tracking-widest">Acta de Reunión</h1>
-            <p className="text-gray-500 mt-2 font-mono text-sm tracking-widest">{new Date().toLocaleDateString()} | REPORTE GENERADO POR IA</p>
+    </div>
+
+    {/* DEDICATED PRINT LAYOUT */}
+    {meetingData && (
+      <div id="print-document" className="hidden print:block bg-white text-black font-sans w-full max-w-4xl mx-auto">
+          <div className="border-b-4 border-black pb-6 mb-8 flex items-end justify-between">
+            <div>
+              <h1 className="text-4xl font-black text-black uppercase tracking-widest">Acta de Reunión</h1>
+              <p className="text-gray-500 mt-2 font-mono text-sm tracking-widest">{new Date().toLocaleDateString()} | REPORTE GENERADO POR IA</p>
+            </div>
+            <img src="/logo.svg" alt="Copper Giant" className="h-10 print:invert" />
           </div>
 
           <div className="mb-10">
@@ -637,11 +643,12 @@ export const MeetingRecorder: React.FC = () => {
             </div>
           </div>
           
-          <div className="mt-16 pt-8 border-t border-gray-300 text-center">
-            <p className="text-xs text-gray-400 uppercase tracking-widest font-bold">Generado automáticamente por Meeting Intelligence CRM</p>
+          <div className="mt-16 pt-8 border-t border-gray-300 flex justify-between items-center">
+            <p className="text-xs text-gray-400 uppercase tracking-widest font-bold">Meeting Intelligence beta v1.2</p>
+            <p className="text-xs text-gray-400 font-mono">Confidential & Proprietary</p>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
