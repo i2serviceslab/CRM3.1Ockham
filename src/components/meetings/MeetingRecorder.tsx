@@ -641,7 +641,7 @@ export const MeetingRecorder: React.FC = () => {
             <p className="text-xs text-gray-400 uppercase tracking-widest font-bold">Generado automáticamente por Meeting Intelligence CRM</p>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
