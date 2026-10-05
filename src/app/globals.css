@@ -301,11 +301,17 @@
     width: 100% !important;
     max-width: 21cm !important;
     margin: 0 auto !important;
-    padding: 2cm !important;
+    padding: 2.54cm !important; /* Standard 1-inch margins */
     background-color: white !important;
     color: black !important;
     box-sizing: border-box !important;
   }
+  
+  /* Ensure p text breaks gracefully */
+  #print-document p, #print-document li {
+    line-height: 1.6 !important;
+  }
+  
   
   #print-document * {
     background-color: transparent !important;
