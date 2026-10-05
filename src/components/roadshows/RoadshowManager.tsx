@@ -35,55 +35,59 @@ interface RoadshowManagerProps {
 }
 
 export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOpen360 }) => {
-  const [events, setEvents] = useState<RoadshowEvent[]>([
-    {
-      id: 'summit-1',
-      summitName: 'PDAC 2026 International Convention',
-      city: 'Toronto',
-      country: 'Canadá',
-      dates: '01 - 04 de Marzo, 2026',
-      boothNumber: 'Metro Toronto Convention Centre - Stand #2408',
-      meetings: [
-        {
-          id: 'm-1',
-          time: '09:30 AM',
-          contactName: 'Michael Sterling',
-          company: 'Sterling Family Office',
-          location: 'Booth #2408 Meeting Room A',
-          topic: 'Revisión de resultados de leyes de plata en Santa Ana',
-          status: 'Completada',
-        },
-        {
-          id: 'm-2',
-          time: '02:00 PM',
-          contactName: 'Elena Rostova',
-          company: 'Rostova Capital Mining Fund',
-          location: 'Fairmont Royal York Suite 412',
-          topic: 'Presentación del modelo de bloques y estimación de recursos',
-          status: 'Programada',
-        },
-      ],
-    },
-    {
-      id: 'summit-2',
-      summitName: 'Beaver Creek Precious Metals Summit',
-      city: 'Beaver Creek, Colorado',
-      country: 'EE. UU.',
-      dates: '15 - 18 de Septiembre, 2026',
-      boothNumber: 'Park Hyatt Beaver Creek - Table #14',
-      meetings: [
-        {
-          id: 'm-3',
-          time: '11:00 AM',
-          contactName: 'Patricia Gomez',
-          company: 'Gomez Global Mining Brokers',
-          location: 'Table #14',
-          topic: 'Estrategia de distribución institucional de colocación privada',
-          status: 'Seguimiento Enviado',
-        },
-      ],
-    },
-  ]);
+  const [events, setEvents] = useState<RoadshowEvent[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch('/api/roadshows');
+      const data = await res.json();
+      if (data.success && data.events) {
+        const formatted = data.events.map((e: any) => ({
+          id: e.id,
+          summitName: e.name,
+          city: e.city,
+          country: e.country,
+          dates: e.dates,
+          boothNumber: e.boothNumber,
+          meetings: e.meetings?.map((m: any) => ({
+            id: m.id,
+            time: m.time,
+            contactName: m.contact?.name || m.contactName,
+            company: m.contact?.company || m.company,
+            location: m.location,
+            topic: m.topic,
+            status: m.status,
+          })) || []
+        }));
+        setEvents(formatted);
+      }
+    } catch (error) {
+      console.error('Error fetching roadshows:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteEvent = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!confirm('¿Estás seguro de que deseas eliminar este evento?')) return;
+    try {
+      const res = await fetch(`/api/roadshows/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        fetchEvents();
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error);
+    }
+  };
+
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [summitName, setSummitName] = useState('');
