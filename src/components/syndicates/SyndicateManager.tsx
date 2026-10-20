@@ -92,7 +92,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-1 font-medium">
-            Agrupa Family Offices, fondos y brokers en consorcios de coinversión para visualizar su score e impacto consolidado en Santa Ana.
+            Agrupa Family Offices, fondos y brokers en consorcios de coinversión para visualizar su score e impacto consolidado en Mocoa.
           </p>
         </div>
 
@@ -221,7 +221,7 @@ export const SyndicateManager: React.FC<SyndicateManagerProps> = ({ contacts, on
                 <input
                   type="text"
                   required
-                  placeholder="Ej: Consorcio Plata Santa Ana Q3"
+                  placeholder="Ej: Consorcio Cobre Mocoa Q4"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full px-4 py-3 bg-slate-950 border border-white/10 rounded-sm text-xs text-white focus:outline-none focus:border-red-400"

@@ -550,7 +550,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-1 font-medium">
-            Análisis de influencia, mapa interactivo de referidos y puentes de conexión entre inversionistas del Proyecto Santa Ana.
+            Análisis de influencia, mapa interactivo de referidos y puentes de conexión entre inversionistas del Proyecto Mocoa.
           </p>
         </div>
 

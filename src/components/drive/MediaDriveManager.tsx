@@ -383,7 +383,7 @@ export const MediaDriveManager: React.FC<MediaDriveManagerProps> = ({ tenantId, 
   const categoriesList = [
     'ALL',
     'Presentaciones IR & Pitch Decks',
-    'Reportes Técnicos Santa Ana',
+    'Reportes Técnicos Mocoa',
     'Documentos Legales & Contratos',
     'Imágenes & Medios de Prensa',
     'General',

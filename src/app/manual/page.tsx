@@ -53,11 +53,11 @@ export default function ManualPage() {
         {/* Floating Actions Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6 no-print">
           <div>
-            <span className="text-xs font-black uppercase text-[#84cc16] tracking-widest bg-[#84cc16]/10 px-3 py-1 rounded-full border border-[#84cc16]/20">
-              Versión 2.1 — Producción con Capturas Ilustradas
+            <span className="text-xs font-black uppercase text-[#FF002C] tracking-widest bg-[#FF002C]/10 px-3 py-1 rounded-full border border-[#FF002C]/20">
+              Versión 3.1 — Producción Oficial Copper Giant
             </span>
             <h1 className="text-2xl md:text-3xl font-black text-white mt-2 font-['Outfit']">
-              OUTCROP SILVER CRM
+              COPPER GIANT CRM V3.1
             </h1>
             <p className="text-xs text-sky-400 font-bold mt-1">
               Manual Oficial de Usuario Ilustrado para el Equipo de Investor Relations (IR)
@@ -88,7 +88,7 @@ export default function ManualPage() {
             1. Introducción al CRM
           </h2>
           <p className="text-xs text-slate-300 leading-relaxed">
-            <strong>Copper Giant Silver CRM v2.1</strong> es la plataforma centralizada para organizar, hacer seguimiento y cerrar acuerdos de inversión con Family Offices, Fondos Institucionales, inversionistas HNW y Brokers interesados en el proyecto de plata de alta ley Santa Ana.
+            <strong>Copper Giant CRM v3.1</strong> es la plataforma centralizada para organizar, hacer seguimiento y cerrar acuerdos de inversión con Family Offices, Fondos Institucionales, inversionistas HNW y Brokers interesados en el pórfido de cobre y molibdeno Mocoa.
           </p>
           <ul className="list-disc list-inside text-xs text-slate-300 space-y-1 pl-2">
             <li>Consultar el expediente 360° de cada contacto con notas de voz e informes técnicos.</li>
@@ -190,7 +190,7 @@ export default function ManualPage() {
             6. Módulo 4: Calendario de Redes & IA Social Studio
           </h2>
           <p className="text-xs text-slate-300">
-            Te permite programar noticias sobre el proyecto Santa Ana y generar textos con Inteligencia Artificial seleccionando el tono adecuado (*Professional, Casual, Inspirational*):
+            Te permite programar noticias sobre el proyecto Mocoa y generar textos con Inteligencia Artificial seleccionando el tono adecuado (*Professional, Casual, Inspirational*):
           </p>
 
           {/* Screenshot 5: Social Media */}
@@ -272,7 +272,7 @@ export default function ManualPage() {
 
         {/* Footer */}
         <div className="pt-6 border-t border-white/10 text-center text-xs text-slate-500 font-mono">
-          Copper Giant Silver CRM v2.1 — Proyecto Santa Ana | Powered by i2
+          Copper Giant CRM v3.1 — Proyecto Mocoa | Powered by Ockham &amp; i2
         </div>
 
       </div>

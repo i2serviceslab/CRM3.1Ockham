@@ -1106,7 +1106,7 @@ export default function Home() {
                   <input
                     type="text"
                     id="evt-title-input"
-                    placeholder="Meeting Title (e.g. Santa Ana Investor Review)"
+                    placeholder="Meeting Title (e.g. Mocoa Project Investor Review)"
                     className="w-full px-3 py-2 rounded-sm bg-slate-950 border border-white/10 text-xs text-white"
                   />
                   <div className="flex gap-2">

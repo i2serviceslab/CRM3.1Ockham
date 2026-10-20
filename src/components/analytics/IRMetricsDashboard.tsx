@@ -162,17 +162,17 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
 
                 doc.setFont('helvetica', 'bold');
                 doc.setFontSize(18);
-                doc.setTextColor(0, 223, 223);
-                doc.text((tenantName || 'OUTCROP SILVER CORP').toUpperCase(), 15, 20);
+                doc.setTextColor(255, 0, 44);
+                doc.text((tenantName || 'COPPER GIANT RESOURCES CORP').toUpperCase(), 15, 20);
 
                 doc.setFontSize(10);
                 doc.setTextColor(169, 174, 178);
-                doc.text('INFORME EJECUTIVO PARA LA JUNTA DIRECTIVA (BOARD OF DIRECTORS) - IR Q3', 15, 30);
+                doc.text('INFORME EJECUTIVO PARA LA JUNTA DIRECTIVA (BOARD OF DIRECTORS) - IR Q4', 15, 30);
 
                 doc.setTextColor(30, 41, 59);
                 doc.setFontSize(10);
                 doc.text(`Fecha de Emision: ${new Date().toLocaleDateString('es-CO')}`, 15, 50);
-                doc.text(`Proyecto Objetivo: ${tenantName || 'Santa Ana High-Grade Silver Project'}`, 15, 57);
+                doc.text(`Proyecto Objetivo: ${tenantName || 'Mocoa Copper-Molybdenum Porphyry Project'}`, 15, 57);
 
                 doc.setFillColor(241, 245, 249);
                 doc.rect(15, 65, 180, 35, 'F');
@@ -374,7 +374,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
           {/* KPI 3: Ensayos Técnicos Entregados */}
           <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-4 rounded-[24px] border border-white/5 space-y-1 shadow-lg">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Reportes Santa Ana</span>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Reportes Mocoa</span>
               <FileText className="w-4 h-4 text-amber-400" />
             </div>
             <div className="text-2xl font-black text-white font-mono">{totalDocs || 0}</div>

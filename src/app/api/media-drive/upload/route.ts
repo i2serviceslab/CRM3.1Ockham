@@ -79,7 +79,7 @@ export async function POST(request: Request) {
     let aiCategory = 'General';
     if (mimeType.startsWith('image/')) aiCategory = 'Imágenes & Medios de Prensa';
     else if (mimeType.includes('pdf') || mimeType.includes('presentation')) aiCategory = 'Presentaciones IR & Pitch Decks';
-    else if (mimeType.includes('spreadsheet') || mimeType.includes('excel') || mimeType.includes('csv')) aiCategory = 'Reportes Técnicos Santa Ana';
+    else if (mimeType.includes('spreadsheet') || mimeType.includes('excel') || mimeType.includes('csv')) aiCategory = 'Reportes Técnicos Mocoa';
     else if (mimeType.includes('word') || mimeType.includes('document')) aiCategory = 'Documentos Legales & Contratos';
 
     const normalizedFolderId = folderId && folderId !== 'root' && folderId !== 'ALL' ? folderId : null;

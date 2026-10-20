@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const apiKey = process.env.GEMINI_API_KEY || '';
-const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
+const geminiKey = process.env.GEMINI_API_KEY || '';
+const genAI = geminiKey ? new GoogleGenerativeAI(geminiKey) : null;
 
 function base64ToGenerativePart(base64Data: string, mimeType: string) {
   return {
@@ -27,7 +27,60 @@ export async function POST(request: Request) {
     let summary = '';
     let sentiment = 'neutral';
 
-    if (genAI && audioDataUrl && audioDataUrl.startsWith('data:audio')) {
+    if (process.env.OPENAI_API_KEY && audioDataUrl && audioDataUrl.startsWith('data:audio')) {
+      try {
+        if (!finalTranscript) {
+          const base64Raw = audioDataUrl.split(',')[1] || audioDataUrl;
+          const buffer = Buffer.from(base64Raw, 'base64');
+          const blob = new Blob([buffer], { type: 'audio/webm' });
+          const formData = new FormData();
+          formData.append('file', blob, 'voicenote.webm');
+          formData.append('model', 'whisper-1');
+          formData.append('response_format', 'text');
+          formData.append('language', 'es');
+
+          const whisperRes = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
+            body: formData,
+          });
+          if (whisperRes.ok) {
+            finalTranscript = (await whisperRes.text()).trim();
+          }
+        }
+        if (finalTranscript) {
+          const gptRes = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              model: 'gpt-4o',
+              response_format: { type: 'json_object' },
+              messages: [
+                {
+                  role: 'system',
+                  content: 'Actúa como un experto analizador de reuniones corporativas para Copper Giant Resources CRM. Analiza la transcripción y devuelve un JSON estricto con: "summary" (resumen ejecutivo de 2 líneas de los puntos clave) y "sentiment" (positivo, neutral o negativo).',
+                },
+                { role: 'user', content: finalTranscript },
+              ],
+              temperature: 0.2,
+            }),
+          });
+          if (gptRes.ok) {
+            const gptData = await gptRes.json();
+            const parsed = JSON.parse(gptData.choices?.[0]?.message?.content || '{}');
+            summary = parsed.summary || '';
+            sentiment = (parsed.sentiment || 'neutral').toLowerCase();
+          }
+        }
+      } catch (e) {
+        console.error('OpenAI Audio Error:', e);
+      }
+    }
+
+    if (!summary && genAI && audioDataUrl && audioDataUrl.startsWith('data:audio')) {
       try {
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", generationConfig: { responseMimeType: "application/json" } });
         const mimeType = audioDataUrl.substring(5, audioDataUrl.indexOf(';'));

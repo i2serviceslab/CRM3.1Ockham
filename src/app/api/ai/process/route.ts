@@ -45,10 +45,10 @@ export async function POST(request: Request) {
             aum: 'CAD $50M - $250M',
             fundType: 'Mining Investment Fund & Family Office',
             headquarters: 'Vancouver, Canada',
-            investmentFocus: 'Proyectos de exploración de plata de alta ley, Santa Ana & LatAm',
+            investmentFocus: 'Proyectos de cobre, pórfidos Cu-Mo, Mocoa & LatAm',
             miningHistory: 'Inversionista activo en rondas de capital de riesgo minero en Canadá y Colombia.',
-            executiveSummary: `Perfil calificado para Copper Giant Silver. ${nameQuery} cuenta con amplia trayectoria en decisiones estratégicas de financiamiento de metales preciosos en ${companyQuery}.`,
-            dynamicIcebreaker: `Hola ${nameQuery}, notamos tu trayectoria en ${companyQuery} y el interés en proyectos de plata de alta ley como Santa Ana.`,
+            executiveSummary: `Perfil calificado para Copper Giant Resources. ${nameQuery} cuenta con amplia trayectoria en decisiones estratégicas de financiamiento de cobre y minerales críticos en ${companyQuery}.`,
+            dynamicIcebreaker: `Hola ${nameQuery}, notamos tu trayectoria en ${companyQuery} y el interés en proyectos de pórfidos de cobre a gran escala como Mocoa.`,
           },
           provider: 'Native Deep Intelligence Engine',
         });
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
           messages: [
             {
               role: 'system',
-              content: `Eres el motor de Búsqueda Profunda e Inteligencia Corporativa de Copper Giant Silver (compañía de exploración minera de plata en Colombia).
+              content: `Eres el motor de Búsqueda Profunda e Inteligencia Corporativa de Copper Giant Resources Corp. (TSXV: CGNT | OTCQX: CGNRF | FRA: 29H0, compañía de exploración minera que avanza el pórfido de cobre y molibdeno Mocoa en Colombia).
 Dada la información de un contacto, realiza una inferencia profunda de inteligencia de negocios para relaciones de inversión (IR).
 DEBES responder ÚNICAMENTE en JSON con el objeto 'enrichment' conteniendo exactamente estas claves:
 "investorType", "estimatedAum", "keyInsights", "icebreaker", "suggestedStrategy".`,
@@ -87,7 +87,7 @@ Genera una ficha de inteligencia corporativa completa con datos verosímiles de 
         return NextResponse.json({
           success: true,
           enrichment,
-          provider: 'OpenAI GPT-4o-mini Deep Intelligence',
+          provider: 'OpenAI GPT-4o Deep Intelligence',
         });
       } else {
         return NextResponse.json({
@@ -103,10 +103,10 @@ Genera una ficha de inteligencia corporativa completa con datos verosímiles de 
             aum: 'CAD $100M+',
             fundType: 'Institutional Mining PE',
             headquarters: 'Vancouver, Canada',
-            investmentFocus: 'Plata de alta ley & Metales Preciosos',
-            miningHistory: 'Inversionista estratégico con foco en depósitos epitermales en Colombia.',
+            investmentFocus: 'Cobre, Molibdeno & Minerales Críticos',
+            miningHistory: 'Inversionista estratégico con foco en pórfidos de cobre en los Andes.',
             executiveSummary: `Ficha enriquecida por motor de inteligencia para ${nameQuery} en ${companyQuery}.`,
-            dynamicIcebreaker: `Hola ${nameQuery}, un gusto conectar para conversar sobre los resultados de perforación en Santa Ana.`,
+            dynamicIcebreaker: `Hola ${nameQuery}, un gusto conectar para conversar sobre la expansión de recursos en nuestro proyecto Mocoa.`,
           },
           provider: 'Fallback Engine',
         });
@@ -117,7 +117,7 @@ Genera una ficha de inteligencia corporativa completa con datos verosímiles de 
       if (!apiKey) {
         return NextResponse.json({
           success: true,
-          icebreaker: `Contacto calificado en la red de Copper Giant Silver para proyectos de exploración minera.`,
+          icebreaker: `Contacto calificado en la red de Copper Giant Resources para proyectos de exploración minera.`,
           context: `Análisis procesado mediante motor de reglas nativo.`,
           provider: 'Native Fallback Engine',
         });
@@ -134,7 +134,7 @@ Genera una ficha de inteligencia corporativa completa con datos verosímiles de 
           messages: [
             {
               role: 'system',
-              content: 'Eres un analista de relaciones con inversionistas para Copper Giant Silver. Responde en JSON con las claves: "dynamicIcebreaker" y "strategicContext" generando una nota de briefing ejecutivo para la compañía o proyecto minero.',
+              content: 'Eres un analista de relaciones con inversionistas para Copper Giant Resources Corp. (Proyecto Mocoa). Responde en JSON con las claves: "dynamicIcebreaker" y "strategicContext" generando una nota de briefing ejecutivo para la compañía o proyecto minero.',
             },
             {
               role: 'user',

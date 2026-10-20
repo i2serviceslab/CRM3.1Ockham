@@ -17,10 +17,11 @@ export interface ExtractedCardInfo {
 
 export async function parseCardImage(imageBuffer: Buffer, pushName = ''): Promise<ExtractedCardInfo> {
   const cleanBase64 = imageBuffer.toString('base64');
+  const openaiKey = process.env.OPENAI_API_KEY;
   const apiKey =
     process.env.GEMINI_DRIVE_API_KEY ||
     process.env.GEMINI_API_KEY ||
-    'REDACTED_GCP_KEY';
+    '';
 
   const EMPTY: ExtractedCardInfo = {
     name: pushName || 'Contacto Tarjeta',
@@ -32,6 +33,55 @@ export async function parseCardImage(imageBuffer: Buffer, pushName = ''): Promis
     website: null,
     rawText: '',
   };
+
+  if (openaiKey) {
+    try {
+      const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${openaiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          temperature: 0,
+          response_format: { type: 'json_object' },
+          messages: [
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'text',
+                  text:
+                    'You are a high-precision OCR parser. Read the exact printed text on this business card image and return a JSON object with keys: "rawText" (the verbatim text copied from the card), "name", "company", "title", "email", "phone", "location", "website". Use ONLY text physically visible on the card; set missing fields to null.',
+                },
+                {
+                  type: 'image_url',
+                  image_url: { url: `data:image/jpeg;base64,${cleanBase64}` },
+                },
+              ],
+            },
+          ],
+        }),
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        const parsed = JSON.parse(data?.choices?.[0]?.message?.content || '{}');
+        return {
+          name: parsed.name || pushName || 'Contacto Tarjeta',
+          company: parsed.company || null,
+          title: parsed.title || null,
+          email: parsed.email || null,
+          phone: parsed.phone || null,
+          location: parsed.location || null,
+          website: parsed.website || null,
+          rawText: parsed.rawText || '',
+        };
+      }
+    } catch (e: any) {
+      console.warn('OpenAI OCR error:', e?.message);
+    }
+  }
 
   if (!apiKey) return EMPTY;
 

@@ -26,9 +26,9 @@ export async function POST(request: Request) {
         let suggestedCategory = 'Presentaciones IR & Pitch Decks';
         const nameLower = file.name.toLowerCase();
 
-        if (nameLower.includes('santa ana') || nameLower.includes('tecnico') || nameLower.includes('mining') || nameLower.includes('perforacion') || nameLower.includes('assay') || nameLower.includes('csv') || nameLower.includes('report')) {
-          suggestedCategory = 'Reportes Técnicos Santa Ana';
-        } else if (nameLower.includes('legal') || nameLower.includes('contrato') || nameLower.includes('term') || nameLower.includes('agreement') || nameLower.includes('agreement')) {
+        if (nameLower.includes('mocoa') || nameLower.includes('tecnico') || nameLower.includes('mining') || nameLower.includes('perforacion') || nameLower.includes('assay') || nameLower.includes('csv') || nameLower.includes('report') || nameLower.includes('43-101')) {
+          suggestedCategory = 'Reportes Técnicos Mocoa';
+        } else if (nameLower.includes('legal') || nameLower.includes('contrato') || nameLower.includes('term') || nameLower.includes('agreement')) {
           suggestedCategory = 'Documentos Legales & Contratos';
         } else if (file.mimeType.startsWith('image/') || nameLower.includes('foto') || nameLower.includes('press') || nameLower.includes('prensa')) {
           suggestedCategory = 'Imágenes & Medios de Prensa';
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
             aiCategory: suggestedCategory,
             folderId: targetFolderId,
             aiSummary: file.aiSummary || `Documento clasificado automáticamente por Humunculus IA como "${suggestedCategory}".`,
-            aiKeywords: `coppergiant, silver, ${suggestedCategory.toLowerCase()}, santa ana`,
+            aiKeywords: `coppergiant, copper, molybdenum, ${suggestedCategory.toLowerCase()}, mocoa`,
           },
         });
         organizedCount++;

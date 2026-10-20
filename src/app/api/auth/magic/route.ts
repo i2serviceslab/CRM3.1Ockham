@@ -3,47 +3,37 @@ import { prisma } from '@/lib/prisma';
 import { signSession } from '@/lib/session';
 
 async function sendResendOtpEmail(email: string, otpCode: string): Promise<boolean> {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.log('[MagicLogin] RESEND_API_KEY no configurado en .env — omitiendo envío de correo.');
+  const resendKey = process.env.RESEND_API_KEY;
+  const brevoKey = process.env.BREVO_API_KEY;
+  if (!resendKey && !brevoKey) {
+    console.log('[MagicLogin] RESEND_API_KEY / BREVO_API_KEY no configurado en .env — omitiendo envío de correo.');
     return false;
   }
 
-  const fromEmail = process.env.RESEND_FROM_EMAIL || 'The Core CRM <onboarding@resend.dev>';
-
-  try {
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [email],
-        subject: `🔑 Código de Acceso Seguro: ${otpCode} — Copper Giant Silver CRM`,
-        html: `
+  const fromEmail = process.env.RESEND_FROM_EMAIL || 'Copper Giant CRM <onboarding@resend.dev>';
+  const subject = `🔑 Código de Acceso Seguro: ${otpCode} — Copper Giant Resources CRM`;
+  const htmlContent = `
           <!DOCTYPE html>
           <html>
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Código de Acceso - Copper Giant Silver CRM</title>
+            <title>Código de Acceso - Copper Giant Resources CRM</title>
           </head>
           <body style="margin: 0; padding: 0; background-color: #07080c; font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #ffffff; -webkit-font-smoothing: antialiased;">
             <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #07080c; padding: 40px 10px;">
               <tr>
                 <td align="center">
                   <!-- Main Email Container Card -->
-                  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 520px; background: #0c0e17; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 28px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);">
+                  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 520px; background: #0c0e17; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 0px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);">
                     
                     <!-- Top Brand Banner Header -->
                     <tr>
-                      <td style="padding: 36px 36px 20px 36px; text-align: center; background: linear-gradient(180deg, rgba(0, 223, 223, 0.08) 0%, rgba(12, 14, 23, 0) 100%);">
-                        <div style="display: inline-block; padding: 8px 16px; background-color: rgba(0, 223, 223, 0.1); border: 1px solid rgba(0, 223, 223, 0.3); border-radius: 100px; margin-bottom: 16px;">
-                          <span style="color: #FF002C; font-size: 11px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;">OUTCROP SILVER CORP</span>
+                      <td style="padding: 36px 36px 20px 36px; text-align: center; background: linear-gradient(180deg, rgba(255, 0, 44, 0.08) 0%, rgba(12, 14, 23, 0) 100%);">
+                        <div style="display: inline-block; padding: 8px 16px; background-color: rgba(255, 0, 44, 0.1); border: 1px solid rgba(255, 0, 44, 0.35); border-radius: 0px; margin-bottom: 16px;">
+                          <span style="color: #FF002C; font-size: 11px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;">COPPER GIANT RESOURCES CORP</span>
                         </div>
-                        <h1 style="margin: 0; font-size: 26px; font-weight: 900; letter-spacing: -0.5px; color: #ffffff;">THE CORE CRM</h1>
+                        <h1 style="margin: 0; font-size: 26px; font-weight: 900; letter-spacing: -0.5px; color: #ffffff;">COPPER GIANT CRM</h1>
                         <p style="margin: 6px 0 0 0; font-size: 12px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Plataforma de Gestión de Inversionistas</p>
                       </td>
                     </tr>
@@ -52,15 +42,15 @@ async function sendResendOtpEmail(email: string, otpCode: string): Promise<boole
                     <tr>
                       <td style="padding: 0 36px 36px 36px;">
                         <p style="font-size: 15px; color: #e2e8f0; line-height: 1.6; margin-top: 0;">Hola,</p>
-                        <p style="font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 24px;">Has solicitado un PIN de verificación para iniciar sesión en el portal de <strong>Copper Giant Silver Corp</strong>. Utiliza la siguiente clave única:</p>
+                        <p style="font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 24px;">Has solicitado un PIN de verificación para iniciar sesión en el portal de <strong>Copper Giant Resources Corp.</strong> Utiliza la siguiente clave única:</p>
                         
                         <!-- Glow PIN Display Box -->
-                        <div style="text-align: center; margin: 28px 0; padding: 28px 20px; background: linear-gradient(135deg, #101422 0%, #161b2e 100%); border-radius: 20px; border: 1px solid rgba(0, 223, 223, 0.4); box-shadow: 0 0 30px rgba(0, 223, 223, 0.15);">
-                          <span style="font-size: 42px; font-weight: 900; letter-spacing: 12px; color: #FF002C; font-family: 'Courier New', Courier, monospace; text-shadow: 0 0 10px rgba(0, 223, 223, 0.5);">${otpCode}</span>
+                        <div style="text-align: center; margin: 28px 0; padding: 28px 20px; background: linear-gradient(135deg, #101422 0%, #161b2e 100%); border-radius: 0px; border: 1px solid rgba(255, 0, 44, 0.45); box-shadow: 0 0 30px rgba(255, 0, 44, 0.15);">
+                          <span style="font-size: 42px; font-weight: 900; letter-spacing: 12px; color: #FF002C; font-family: 'Courier New', Courier, monospace; text-shadow: 0 0 10px rgba(255, 0, 44, 0.5);">${otpCode}</span>
                         </div>
                         
                         <!-- Instructions & Security Notice -->
-                        <div style="background-color: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 16px; padding: 16px; margin-bottom: 24px; text-align: center;">
+                        <div style="background-color: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 0px; padding: 16px; margin-bottom: 24px; text-align: center;">
                           <p style="font-size: 12px; color: #cbd5e1; margin: 0; line-height: 1.5;">
                             ⏱️ Este código expira automáticamente en <strong>10 minutos</strong>.<br>
                             🔒 Validez de sesión: <strong>30 días continuos</strong> tras autenticarse.
@@ -74,8 +64,8 @@ async function sendResendOtpEmail(email: string, otpCode: string): Promise<boole
                     <!-- Footer Section -->
                     <tr>
                       <td style="padding: 20px 36px; background-color: #07080c; border-top: 1px solid rgba(255, 255, 255, 0.08); text-align: center;">
-                        <p style="font-size: 11px; font-weight: 700; color: #475569; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Copper Giant Silver Corp — Proyecto Santa Ana</p>
-                        <p style="font-size: 10px; color: #334155; margin: 4px 0 0 0;">© ${new Date().getFullYear()} The Core CRM Engine. Todos los derechos reservados.</p>
+                        <p style="font-size: 11px; font-weight: 700; color: #475569; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Copper Giant Resources Corp. — Proyecto Mocoa</p>
+                        <p style="font-size: 10px; color: #334155; margin: 4px 0 0 0;">© ${new Date().getFullYear()} Copper Giant CRM Engine. Todos los derechos reservados.</p>
                       </td>
                     </tr>
 
@@ -85,22 +75,62 @@ async function sendResendOtpEmail(email: string, otpCode: string): Promise<boole
             </table>
           </body>
           </html>
-        `,
-      }),
-    });
+        `;
 
-    const data = await res.json();
-    if (res.ok) {
-      console.log(`[MagicLogin] Email de verificación enviado a ${email} vía Resend (ID: ${data.id})`);
-      return true;
-    } else {
-      console.error('[MagicLogin] Error al enviar email vía Resend:', data);
-      return false;
+  if (resendKey) {
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: fromEmail,
+          to: [email],
+          subject,
+          html: htmlContent,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        console.log(`[MagicLogin] Email de verificación enviado a ${email} vía Resend (ID: ${data.id})`);
+        return true;
+      } else {
+        console.error('[MagicLogin] Error al enviar email vía Resend:', data);
+      }
+    } catch (error) {
+      console.error('[MagicLogin] Excepción en envío Resend:', error);
     }
-  } catch (error) {
-    console.error('[MagicLogin] Excepción en envío Resend:', error);
-    return false;
   }
+
+  if (brevoKey) {
+    try {
+      const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'api-key': brevoKey,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          sender: { name: 'Copper Giant CRM', email: process.env.BREVO_FROM_EMAIL || 'info@coppergiant.com' },
+          to: [{ email }],
+          subject,
+          htmlContent,
+        }),
+      });
+      if (res.ok) {
+        console.log(`[MagicLogin] Email de verificación enviado a ${email} vía Brevo`);
+        return true;
+      }
+    } catch (error) {
+      console.error('[MagicLogin] Excepción en envío Brevo:', error);
+    }
+  }
+
+  return false;
 }
 
 export async function POST(request: Request) {

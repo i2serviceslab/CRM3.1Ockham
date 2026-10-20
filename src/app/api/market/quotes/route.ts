@@ -78,15 +78,13 @@ function convertPrice(price: number, fromCurr: string, toCurr: string): number {
 
 // Known exchange / symbol mappings for clean display
 const SYMBOL_META: Record<string, { label: string; name: string; unit?: string }> = {
-  'CGNT.V': { label: 'TSXV: CGNT', name: 'Copper Giant (TSX.V)' },
-  'LBCMF': { label: 'OTC: LBCMF', name: 'Copper Giant (OTC)' },
-  '29H0.F': { label: 'FSE: 29H0', name: 'Copper Giant (Frankfurt)' },
+  'CGNT.V': { label: 'TSXV: CGNT', name: 'Copper Giant Resources (TSX.V)' },
+  'CGNRF': { label: 'OTCQX: CGNRF', name: 'Copper Giant Resources (OTCQX)' },
+  '29H0.F': { label: 'FRA: 29H0', name: 'Copper Giant Resources (Frankfurt)' },
   'HG=F': { label: 'Cu', name: 'Copper Spot / Futures', unit: '$/Lb' },
   'COPJ': { label: 'COPJ', name: 'Sprott Junior Copper Miners ETF' },
   'SI=F': { label: 'Ag', name: 'Silver Spot / Futures', unit: '$/Oz' },
   'GC=F': { label: 'Au', name: 'Gold Spot / Futures', unit: '$/Oz' },
-  'OCG.V': { label: 'TSXV: OCG', name: 'Copper Giant Silver (TSX.V)' },
-  'OCGSF': { label: 'OTCQX: OCGSF', name: 'Copper Giant Silver (OTCQX)' },
 };
 
 function getCurrencySymbol(curr: string): string {
@@ -108,7 +106,7 @@ function getCurrencySymbol(curr: string): string {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const rawSymbols = searchParams.get('symbols') || 'OCG.V,OCGSF,HG=F,SI=F,COPJ';
+  const rawSymbols = searchParams.get('symbols') || 'CGNT.V,CGNRF,29H0.F,HG=F,COPJ';
   const targetCurrency = (searchParams.get('baseCurrency') || '').toUpperCase();
   const symbolList = rawSymbols.split(',').map((s) => s.trim()).filter(Boolean);
 
@@ -168,7 +166,7 @@ export async function GET(request: Request) {
       } catch (err: any) {
         console.warn(`Failed to fetch real market quote for ${sym}:`, err?.message || err);
         const metaConfig = SYMBOL_META[sym] || { label: sym, name: sym };
-        const nativeCurrency = sym === 'OCG.V' ? 'CAD' : 'USD';
+        const nativeCurrency = sym === 'CGNT.V' ? 'CAD' : sym === '29H0.F' ? 'EUR' : 'USD';
         quote = {
           symbol: metaConfig.label || sym,
           name: metaConfig.name,

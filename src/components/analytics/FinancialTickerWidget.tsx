@@ -44,8 +44,9 @@ const PRESET_LIBRARY: TickerData[] = [
   { symbol: 'URA', name: 'Global X Uranium ETF', price: 26.80, change: 0.75, changePercent: 2.88, isPositive: true, category: 'Energía & Recursos' },
 
   // ACCIONES MINERAS & ETFS
-  { symbol: 'OCG.V', name: 'Copper Giant Silver (TSX.V)', price: 0.35, change: 0.02, changePercent: 6.06, volume: '245.3K', isPositive: true, category: 'Acciones Mineras' },
-  { symbol: 'OCGSF', name: 'Copper Giant Silver (OTCQX)', price: 0.26, change: 0.01, changePercent: 4.00, volume: '112.1K', isPositive: true, category: 'Acciones Mineras' },
+  { symbol: 'TSXV: CGNT', name: 'Copper Giant Resources (TSX.V)', price: 1.28, change: 0.02, changePercent: 1.59, volume: '245.3K', isPositive: true, category: 'Acciones Mineras' },
+  { symbol: 'OTCQX: CGNRF', name: 'Copper Giant Resources (OTCQX)', price: 0.83, change: 0.01, changePercent: 1.22, volume: '112.1K', isPositive: true, category: 'Acciones Mineras' },
+  { symbol: 'FRA: 29H0', name: 'Copper Giant Resources (Frankfurt)', price: 0.70, change: 0.01, changePercent: 1.45, isPositive: true, category: 'Acciones Mineras' },
   { symbol: 'PAAS', name: 'Pan American Silver', price: 21.40, change: 0.85, changePercent: 4.14, isPositive: true, category: 'Acciones Mineras' },
   { symbol: 'AG', name: 'First Majestic Silver', price: 6.25, change: 0.30, changePercent: 5.04, isPositive: true, category: 'Acciones Mineras' },
   { symbol: 'WPM', name: 'Wheaton Precious Metals', price: 54.20, change: 1.10, changePercent: 2.07, isPositive: true, category: 'Acciones Mineras' },
@@ -74,10 +75,7 @@ const PRESET_LIBRARY: TickerData[] = [
   { symbol: 'TSLA', name: 'Tesla Inc', price: 215.20, change: -5.40, changePercent: -2.45, isPositive: false, category: 'Tecnología' },
   { symbol: 'AMZN', name: 'Amazon.com Inc', price: 178.60, change: 2.10, changePercent: 1.19, isPositive: true, category: 'Tecnología' },
 
-  // CRITICAL REAL MARKET TICKERS (Screenshot Match)
-  { symbol: 'TSXV: CGNT', name: 'Copper Giant Inc (TSX.V)', price: 1.28, change: 0.02, changePercent: 1.59, isPositive: true, category: 'Acciones Mineras' },
-  { symbol: 'OTC: LBCMF', name: 'Copper Giant (OTC)', price: 0.92, change: 0.01, changePercent: 0.70, isPositive: true, category: 'Acciones Mineras' },
-  { symbol: 'FSE: 29H0', name: 'Copper Giant (Frankfurt)', price: 0.75, change: -0.001, changePercent: -0.13, isPositive: false, category: 'Acciones Mineras' },
+  // CRITICAL REAL MARKET TICKERS
   { symbol: 'Cu', name: 'Copper Spot', price: 6.70, change: 0.10, changePercent: 1.51, volume: '$/Lb', isPositive: true, category: 'Metales & Minerales' },
   { symbol: 'COPJ', name: 'Sprott Junior Copper Miners ETF', price: 48.23, change: -0.58, changePercent: -1.20, isPositive: false, category: 'Acciones Mineras' },
   { symbol: 'XAG/USD', name: 'Plata Spot', price: 30.25, change: 0.45, changePercent: 1.51, isPositive: true, category: 'Metales & Minerales' },
@@ -85,10 +83,10 @@ const PRESET_LIBRARY: TickerData[] = [
 ];
 
 const DEFAULT_TICKERS: TickerData[] = [
-  { symbol: 'TSXV: OCG', name: 'Copper Giant (TSX.V)', price: 0.00, change: 0.00, changePercent: 0.00, isPositive: true },
-  { symbol: 'OTCQX: OCGSF', name: 'Copper Giant (OTCQX)', price: 0.00, change: 0.00, changePercent: 0.00, isPositive: true },
+  { symbol: 'TSXV: CGNT', name: 'Copper Giant (TSX.V)', price: 1.28, change: 0.00, changePercent: 0.00, isPositive: true },
+  { symbol: 'OTCQX: CGNRF', name: 'Copper Giant (OTCQX)', price: 0.83, change: 0.00, changePercent: 0.00, isPositive: true },
+  { symbol: 'FRA: 29H0', name: 'Copper Giant (Frankfurt)', price: 0.70, change: 0.00, changePercent: 0.00, isPositive: true },
   { symbol: 'Cu', name: 'Copper Spot', price: 0.00, change: 0.00, changePercent: 0.00, volume: '$/Lb', isPositive: true },
-  { symbol: 'Ag', name: 'Silver Spot', price: 0.00, change: 0.00, changePercent: 0.00, volume: '$/Oz', isPositive: true },
   { symbol: 'COPJ', name: 'Sprott Junior Copper ETF', price: 0.00, change: 0.00, changePercent: 0.00, isPositive: true },
 ];
 
@@ -136,8 +134,10 @@ export const FinancialTickerWidget: React.FC = () => {
     try {
       // Map UI symbols to Yahoo Finance API symbols
       const symbolMap: Record<string, string> = {
-        'TSXV: OCG': 'OCG.V',
-        'OTCQX: OCGSF': 'OCGSF',
+        'TSXV: CGNT': 'CGNT.V',
+        'OTCQX: CGNRF': 'CGNRF',
+        'FRA: 29H0': '29H0.F',
+        'FSE: 29H0': '29H0.F',
         'Cu': 'HG=F',
         'Ag': 'SI=F',
         'Au': 'GC=F',
@@ -191,16 +191,28 @@ export const FinancialTickerWidget: React.FC = () => {
         setSelectedCurrency(savedCurr);
       }
 
+      const sanitizeLegacyTickers = (list: TickerData[]): TickerData[] => {
+        const hasLegacy = list.some((t) =>
+          ['TSXV: OCG', 'OCG.V', 'OTCQX: OCGSF', 'OCGSF', 'OTC: LBCMF', 'LBCMF'].includes(t.symbol)
+        );
+        if (hasLegacy) {
+          localStorage.setItem('crm_tenant_market_tickers', JSON.stringify(DEFAULT_TICKERS));
+          saveToCookie(DEFAULT_TICKERS);
+          return DEFAULT_TICKERS;
+        }
+        return list;
+      };
+
       const savedLocal = localStorage.getItem('crm_tenant_market_tickers');
       if (savedLocal) {
         const parsed = JSON.parse(savedLocal);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          activeList = parsed;
+          activeList = sanitizeLegacyTickers(parsed);
         }
       } else {
         const savedCookie = getFromCookie();
         if (savedCookie) {
-          activeList = savedCookie;
+          activeList = sanitizeLegacyTickers(savedCookie);
         }
       }
     } catch (e) {

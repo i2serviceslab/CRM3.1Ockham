@@ -6,6 +6,7 @@ import { YoutubeTranscript } from 'youtube-transcript';
 
 
 const apiKey = process.env.GEMINI_API_KEY || '';
+const openaiKey = process.env.OPENAI_API_KEY || '';
 const genAI = new GoogleGenerativeAI(apiKey);
 
 export async function POST(request: Request) {
@@ -59,7 +60,7 @@ export async function POST(request: Request) {
       data: { updatedAt: new Date() },
     });
 
-    if (apiKey) {
+    if (openaiKey || apiKey) {
       // Run Agentic loop in background
       processAgenticLoop(targetSessionId, promptText, worker, tenantId).catch(console.error);
     } else {
@@ -67,7 +68,7 @@ export async function POST(request: Request) {
         data: {
           sessionId: targetSessionId,
           role: 'assistant',
-          content: '⚠️ No se ha configurado la variable de entorno `GEMINI_API_KEY`.',
+          content: '⚠️ No se ha configurado `OPENAI_API_KEY` ni `GEMINI_API_KEY` en las variables de entorno.',
           workerName: worker,
           workerStatus: 'error'
         }
@@ -173,6 +174,53 @@ async function processAgenticLoop(sessionId: string, promptText: string, worker:
       where: { sessionId },
       orderBy: { createdAt: 'asc' }
     });
+
+    if (openaiKey && !apiKey) {
+      const [recentContacts, recentPosts, recentFiles] = await Promise.all([
+        prisma.contact.findMany({ take: 15, orderBy: { updatedAt: 'desc' }, select: { name: true, company: true, title: true, stage: true, email: true, leadScore: true } }),
+        prisma.socialPost.findMany({ take: 8, orderBy: { scheduledDate: 'desc' }, select: { title: true, status: true, platforms: true } }),
+        prisma.mediaFile.findMany({ take: 10, orderBy: { createdAt: 'desc' }, select: { name: true, aiCategory: true, aiSummary: true } }),
+      ]);
+
+      const openaiMessages = [
+        {
+          role: 'system',
+          content: `Eres Forge, el asistente de IA ejecutivo nativo del CRM de Copper Giant Resources Corp. (Proyecto Mocoa Cu-Mo, TSXV: CGNT | OTCQX: CGNRF | FRA: 29H0).
+Responde de forma ejecutiva, corporativa, precisa y estratégica.
+Memoria CRM en vivo:
+- Contactos recientes: ${JSON.stringify(recentContacts)}
+- Publicaciones recientes: ${JSON.stringify(recentPosts)}
+- Archivos Drive / Doctrinas: ${JSON.stringify(recentFiles)}`,
+        },
+        ...previousMessages.slice(0, -1).map((m) => ({
+          role: m.role === 'user' ? 'user' : 'assistant',
+          content: m.content,
+        })),
+      ];
+
+      const oaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${openaiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: openaiMessages,
+          temperature: 0.4,
+        }),
+      });
+
+      if (oaiRes.ok) {
+        const oaiData = await oaiRes.json();
+        const oaiReply = oaiData?.choices?.[0]?.message?.content || 'Operación completada.';
+        await prisma.hermesMessage.update({
+          where: { id: processingMsgId },
+          data: { content: oaiReply, workerStatus: 'completed' },
+        });
+        return;
+      }
+    }
 
     const history = previousMessages.slice(0, -2).map(msg => ({
       role: msg.role === 'user' ? 'user' : 'model',

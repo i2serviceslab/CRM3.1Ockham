@@ -97,7 +97,7 @@ export async function processMessage(msg: InboundMessage) {
       instanceName,
       remoteJid,
       tenantId,
-      `🔒 *Copper Giant Silver CRM Security*\n\nHola. No estás autorizado para operar este bot ejecutivo. Por favor contacta al administrador.`
+      `🔒 *Copper Giant Resources CRM Security*\n\nHola. No estás autorizado para operar este bot ejecutivo. Por favor contacta al administrador.`
     );
     return;
   }
@@ -412,7 +412,7 @@ export async function processMessage(msg: InboundMessage) {
       instanceName,
       remoteJid,
       tenantId,
-      `📊 *Panel Ejecutivo Copper Giant Silver CRM*\n\n` +
+      `📊 *Panel Ejecutivo Copper Giant Resources CRM*\n\n` +
       `• 👤 Total Inversores: *${totalContacts}*\n` +
       `• 💼 Negociaciones Activas: *${totalDeals}*\n` +
       `• 🛡️ Estado: *Bot Activo 24/7 en la Nube*`
@@ -492,10 +492,11 @@ async function handleNaturalConversation(
   userMessage: string,
   firstName: string
 ) {
+  const openaiKey = process.env.OPENAI_API_KEY;
   const apiKey =
     process.env.GEMINI_DRIVE_API_KEY ||
     process.env.GEMINI_API_KEY ||
-    'REDACTED_GCP_KEY';
+    '';
 
   const [recentContacts, totalContacts, totalDeals] = await Promise.all([
     prisma.contact.findMany({
@@ -508,7 +509,7 @@ async function handleNaturalConversation(
     prisma.deal.count({ where: tenantId ? { tenantId } : {} }),
   ]);
 
-  if (!apiKey) {
+  if (!openaiKey && !apiKey) {
     await reply(
       instanceName,
       remoteJid,
@@ -518,8 +519,7 @@ async function handleNaturalConversation(
     return;
   }
 
-  try {
-    const systemPrompt = `Eres el asistente ejecutivo de inteligencia artificial de Copper Giant Silver CRM, hablando por WhatsApp con ${firstName}.
+  const systemPrompt = `Eres el asistente ejecutivo de inteligencia artificial de Copper Giant Resources CRM (Proyecto Mocoa Cu-Mo, TSXV: CGNT | OTCQX: CGNRF), hablando por WhatsApp con ${firstName}.
 Responde siempre en español, de forma muy natural, cordial, inteligente, fluida y concisa (1 a 3 oraciones máximo).
 Contexto del CRM en vivo:
 - Total Inversionistas: ${totalContacts}
@@ -530,6 +530,37 @@ Si te saludan o agradecen, responde cordialmente como un copiloto ejecutivo.
 Si preguntan por opciones o qué puedes hacer, diles brevemente que pueden enviarte fotos de tarjetas, notas de voz, o pedir resúmenes.
 NO uses formatos rígidos ni repitas siempre el mismo texto.`;
 
+  if (openaiKey) {
+    try {
+      const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${openaiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: `Mensaje de ${firstName}: "${userMessage}"` },
+          ],
+          temperature: 0.5,
+        }),
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        const aiReply = data?.choices?.[0]?.message?.content?.trim();
+        if (aiReply) {
+          await reply(instanceName, remoteJid, tenantId, aiReply);
+          return;
+        }
+      }
+    } catch (e: any) {
+      console.error('OpenAI natural conversation error:', e?.message);
+    }
+  }
+
+  try {
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {

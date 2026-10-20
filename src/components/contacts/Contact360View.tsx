@@ -504,7 +504,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                     DYNAMIC ICEBREAKER
                   </span>
                   <p className="text-xs font-bold text-slate-200 italic leading-relaxed">
-                    "{editIcebreaker || `Strategic decision leader at ${editCompany || 'mining sector'} with high interest in Santa Ana.`}"
+                    "{editIcebreaker || `Strategic decision leader at ${editCompany || 'mining sector'} with high interest in Mocoa.`}"
                   </p>
                 </div>
 
@@ -856,9 +856,9 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
               <div className="space-y-4 animate-fadeIn">
                 <div className="flex items-center justify-between border-b border-white/5 pb-2">
                   <span className="text-[10px] font-black text-[#FF002C] uppercase tracking-widest block">
-                    📄 RASTREABILIDAD DE REPORTES TÉCNICOS & ENSAYOS SANTA ANA
+                    📄 RASTREABILIDAD DE REPORTES TÉCNICOS & ENSAYOS MOCOA
                   </span>
-                  <span className="text-[10px] text-slate-400 font-bold">Proyecto Santa Ana - Leyes de Plata</span>
+                  <span className="text-[10px] text-slate-400 font-bold">Proyecto Mocoa - Pórfido Cu-Mo</span>
                 </div>
 
                 {/* Catalog of Key Technical Reports */}
@@ -866,30 +866,30 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                   {[
                     {
                       id: 'doc-1',
-                      title: 'Santa Ana High-Grade Silver NI 43-101 Technical Report',
+                      title: 'Mocoa Porphyry Cu-Mo NI 43-101 Technical Report (1.60 Bt Inferred & 290 Mt Indicated)',
                       type: 'Reporte Técnico NI 43-101',
-                      date: '2026-06-15',
+                      date: '2026-09-24',
                       status: 'Enviado',
                     },
                     {
                       id: 'doc-2',
-                      title: 'Ensayos de Perforación Q2 (Filón La Poza & San Antonio - g/t Ag)',
+                      title: 'Resultados de Perforación MD-043 a MD-047 (Leyes de % CuEq)',
                       type: 'Assay Drill Results',
-                      date: '2026-07-20',
+                      date: '2026-08-20',
                       status: 'Solicitado por Inversionista',
                     },
                     {
                       id: 'doc-3',
-                      title: 'Presentación Corporativa & Teaser Financiero Q3 2026',
+                      title: 'Presentación Corporativa & Teaser Financiero Q4 2026',
                       type: 'Corporate Deck',
-                      date: '2026-08-01',
+                      date: '2026-09-15',
                       status: 'Enviado',
                     },
                     {
                       id: 'doc-4',
-                      title: 'Informe Metalúrgico & Recuperación de Plata Santa Ana',
-                      type: 'Metallurgy Report',
-                      date: '2026-08-10',
+                      title: 'Estudio Preliminar & Modelo de Bloques Subterráneo / Pit Shell Mocoa',
+                      type: 'Technical Study',
+                      date: '2026-10-01',
                       status: 'Revisión Pendiente',
                     },
                   ].map((doc) => (

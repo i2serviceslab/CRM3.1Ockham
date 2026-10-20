@@ -48,7 +48,7 @@ export const CopperGiantLogoSvg: React.FC<{ className?: string }> = ({ className
       <polygon points="42,12 36,36 34,68" fill="url(#svg-silver-face-2)" />
       <polygon points="8,42 36,36 34,68" fill="url(#svg-silver-face-3)" />
 
-      {/* Copper Giant Silver Vector Text (Pure White #ffffff) */}
+      {/* Copper Giant Vector Text (Pure White #ffffff) */}
       <text
         x="82"
         y="36"
@@ -58,7 +58,7 @@ export const CopperGiantLogoSvg: React.FC<{ className?: string }> = ({ className
         letterSpacing="4"
         fill="#ffffff"
       >
-        OUTCROP
+        COPPER
       </text>
       <text
         x="82"
@@ -67,10 +67,10 @@ export const CopperGiantLogoSvg: React.FC<{ className?: string }> = ({ className
         fontWeight="600"
         fontSize="19"
         letterSpacing="7"
-        fill="#ffffff"
+        fill="#FF002C"
         opacity="0.95"
       >
-        SILVER
+        GIANT
       </text>
     </svg>
   );

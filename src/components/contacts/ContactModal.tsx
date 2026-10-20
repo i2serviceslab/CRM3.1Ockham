@@ -173,10 +173,10 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
       icebreaker = `En conversación reciente: "${transcriptText.trim().slice(0, 110)}..."`;
       context = `Inteligencia extraída de nota de voz: ${transcriptText.trim()}. Perfil de relacionamiento en ${companyName || 'sector de inversión'}.`;
     } else if (companyName.trim()) {
-      icebreaker = `Revisando el perfil de ${contactName} en ${companyName.trim()}, enfocado en oportunidades de capital para el proyecto Santa Ana.`;
-      context = `Inversionista de ${companyName.trim()}. Relevante para rondas de financiamiento y actualizaciones de prospección minera.`;
+      icebreaker = `Revisando el perfil de ${contactName} en ${companyName.trim()}, enfocado en oportunidades de capital para el proyecto Mocoa.`;
+      context = `Inversionista de ${companyName.trim()}. Relevante para rondas de financiamiento y actualizaciones de prospección minera en Mocoa.`;
     } else {
-      icebreaker = `Contacto calificado en la red de Copper Giant Silver para dar seguimiento en proyectos de metales preciosos.`;
+      icebreaker = `Contacto calificado en la red de Copper Giant Resources para dar seguimiento en proyectos de cobre y metales críticos.`;
       context = `Inversionista registrado. Pendiente definir tesis de inversión y volumen de ticket.`;
     }
 
