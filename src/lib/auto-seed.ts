@@ -18,18 +18,25 @@ export async function ensurePersistentData() {
     });
 
     if (!tenant) {
-      tenant = await prisma.tenant.create({
-        data: {
-          name: 'Copper Giant',
-          slug: 'coppergiant',
-
-          plan: 'ENTERPRISE',
-          brandColor: '#E65100',
-        },
-      });
+      try {
+        tenant = await prisma.tenant.upsert({
+          where: { slug: 'coppergiant' },
+          update: {},
+          create: {
+            name: 'Copper Giant',
+            slug: 'coppergiant',
+            primaryColor: '#E65100',
+            status: 'ACTIVE',
+          },
+        });
+      } catch (e) {
+        tenant = await prisma.tenant.findFirst({
+          where: { slug: 'coppergiant' },
+        });
+      }
     }
 
-    const tenantId = tenant.id;
+    const tenantId = tenant?.id || '';
 
     // 2. Ensure WhatsApp Session is Connected
     const session = await prisma.whatsAppSession.findFirst({
@@ -37,15 +44,19 @@ export async function ensurePersistentData() {
     });
 
     if (!session) {
-      await prisma.whatsAppSession.create({
-        data: {
-          tenantId,
-          instanceName: 'Copper GiantBot',
-          status: 'CONNECTED',
-          phoneNumber: '+573124031892',
-          qrCode: null,
-        },
-      });
+      try {
+        await prisma.whatsAppSession.create({
+          data: {
+            tenantId,
+            instanceName: 'Copper GiantBot',
+            status: 'CONNECTED',
+            phoneNumber: '+573124031892',
+            qrCode: null,
+          },
+        });
+      } catch (e) {
+        // Ignored if created by another worker
+      }
     }
 
     // 3. Ensure Full WhatsApp Whitelist
