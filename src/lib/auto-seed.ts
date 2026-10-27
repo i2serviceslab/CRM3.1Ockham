@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 
 let isSeeding = false;
+let isInitialized = false;
 
 /**
  * Self-healing automatic data persistence synchronizer
@@ -8,7 +9,7 @@ let isSeeding = false;
  * are never lost across EasyPanel container rebuilds.
  */
 export async function ensurePersistentData() {
-  if (isSeeding) return;
+  if (isInitialized || isSeeding) return;
   isSeeding = true;
 
   try {
@@ -192,6 +193,7 @@ export async function ensurePersistentData() {
         });
       }
     }
+    isInitialized = true;
   } catch (err: any) {
     console.error('[Auto-Seed] Error ensuring persistent data:', err?.message);
   } finally {
