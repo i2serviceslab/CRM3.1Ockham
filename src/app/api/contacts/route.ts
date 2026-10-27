@@ -84,7 +84,25 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, title, company, email, phone, whatsapp, location, bio, investorType, stage, source, leadScore, tenantId: bodyTenantId, apiKey } = body;
+    const { 
+      name, 
+      title, 
+      company, 
+      email, 
+      phone, 
+      whatsapp, 
+      location, 
+      bio, 
+      investorType, 
+      stage, 
+      source, 
+      leadScore, 
+      dynamicIcebreaker,
+      strategicContext,
+      businessCard,
+      tenantId: bodyTenantId, 
+      apiKey 
+    } = body;
 
     const isDaemonAuthorized = apiKey === process.env.WHATSAPP_DAEMON_KEY || apiKey === 'coppergiant_daemon_secret_2026';
     const session = isDaemonAuthorized ? null : await getSession();
@@ -112,7 +130,9 @@ export async function POST(request: Request) {
         bio: bio || null,
         investorType: investorType || 'Retail investor',
         stage: stage || 'Interested - early',
-        source: source || 'Networking',
+        source: source || (businessCard ? 'Card Scan' : 'Networking'),
+        dynamicIcebreaker: dynamicIcebreaker || null,
+        strategicContext: strategicContext || null,
         leadScore: leadScore ? parseInt(leadScore, 10) : 10,
         timelineActivities: {
           create: {
@@ -123,6 +143,23 @@ export async function POST(request: Request) {
         },
       },
     });
+
+    if (businessCard && (businessCard.frontImageUrl || businessCard.imageUrl)) {
+      try {
+        const frontUrl = businessCard.frontImageUrl || businessCard.imageUrl;
+        await prisma.businessCard.create({
+          data: {
+            contactId: contact.id,
+            frontImageUrl: frontUrl.length > 2000 ? frontUrl.slice(0, 2000) : frontUrl,
+            backImageUrl: businessCard.backImageUrl && businessCard.backImageUrl.length > 2000 ? businessCard.backImageUrl.slice(0, 2000) : (businessCard.backImageUrl || null),
+            parsedData: JSON.stringify({ name, title, company, email, phone, location }),
+            parsedDataJson: JSON.stringify({ name, title, company, email, phone, location }),
+          },
+        });
+      } catch (cardErr) {
+        console.warn('Could not associate businessCard with new contact:', cardErr);
+      }
+    }
 
     return NextResponse.json({ success: true, contact });
   } catch (error: any) {

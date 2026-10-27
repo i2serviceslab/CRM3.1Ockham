@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { OUTCROP_TAGS } from '@/lib/constants';
-import { X, CreditCard, User, Mail, Phone, Building, Tag, UserCheck, Upload, Mic, Square, Trash2, Camera, ArrowRight, Check, MapPin, Globe } from 'lucide-react';
+import { X, CreditCard, User, Mail, Phone, Building, Tag, UserCheck, Upload, Mic, Square, Trash2, Camera, ArrowRight, Check, MapPin, Globe, CheckCircle2, Sparkles } from 'lucide-react';
 
 interface ContactModalProps {
   onClose: () => void;
@@ -126,8 +126,9 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setFrontImage(reader.result as string);
-        processOcr(reader.result as string);
+        const base64 = reader.result as string;
+        setFrontImage(base64);
+        processOcr(base64, backImage || undefined);
       };
       reader.readAsDataURL(file);
     }
@@ -137,29 +138,45 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => setBackImage(reader.result as string);
+      reader.onload = () => {
+        const base64 = reader.result as string;
+        setBackImage(base64);
+        if (frontImage) {
+          processOcr(frontImage, base64);
+        } else {
+          processOcr(base64, undefined);
+        }
+      };
       reader.readAsDataURL(file);
     }
   };
 
-  const processOcr = async (imageData: string) => {
+  const processOcr = async (frontData: string, backData?: string) => {
     setOcrProcessing(true);
     try {
       const res = await fetch('/api/ocr', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: imageData }),
+        body: JSON.stringify({ 
+          frontImageUrl: frontData,
+          backImageUrl: backData || undefined
+        }),
       });
       const data = await res.json();
-      if (data.success && data.fields) {
-        if (data.fields.name) setName(data.fields.name);
-        if (data.fields.email) setEmail(data.fields.email);
-        if (data.fields.phone) setPhone(data.fields.phone);
-        if (data.fields.company) setCompany(data.fields.company);
-        if (data.fields.title) setTitle(data.fields.title);
+      const fields = data.fields || data.parsedData;
+      if (data.success && fields) {
+        if (fields.name) setName(fields.name);
+        if (fields.email) setEmail(fields.email);
+        if (fields.phone) {
+          setPhone(fields.phone);
+          setWhatsapp(fields.phone);
+        }
+        if (fields.company) setCompany(fields.company);
+        if (fields.title) setTitle(fields.title);
+        if (fields.location) setLocation(fields.location);
       }
     } catch (e) {
-      console.error(e);
+      console.error('Error procesando OCR:', e);
     } finally {
       setOcrProcessing(false);
     }
@@ -332,47 +349,144 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-2">
                   <label
                     style={{ borderColor: 'var(--primary-color)' }}
-                    className="border-2 border-dashed rounded-sm p-8 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-white/5 transition-all bg-[#0f1218] text-center min-h-[180px]"
+                    className="border-2 border-dashed rounded-sm p-6 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-white/5 transition-all bg-[#0f1218] text-center min-h-[170px]"
                   >
                     {frontImage ? (
-                      <img src={frontImage} alt="Front" className="w-full h-36 object-cover rounded-sm" />
+                      <div className="relative w-full">
+                        <img src={frontImage} alt="Front" className="w-full h-36 object-cover rounded-sm border border-white/10" />
+                        <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-black/80 text-[10px] font-black text-emerald-400 rounded">
+                          FRENTE CARGADO
+                        </span>
+                      </div>
                     ) : (
                       <>
                         <Camera style={{ color: 'var(--primary-color)' }} className="w-8 h-8" />
-                        <span className="text-xs font-black text-slate-200 tracking-widest uppercase">FRONT</span>
+                        <span className="text-xs font-black text-slate-200 tracking-widest uppercase">CARA FRONTAL</span>
+                        <span className="text-[10px] text-slate-400">Tomar foto o subir archivo</span>
                       </>
                     )}
-                    <input type="file" accept="image/*" onChange={handleFrontUpload} className="hidden" />
+                    <input type="file" accept="image/*" capture="environment" onChange={handleFrontUpload} className="hidden" />
                   </label>
 
-                  <label className="border-2 border-dashed border-white/15 rounded-sm p-8 flex flex-col items-center justify-center gap-3 cursor-pointer hover:border-white/30 transition-all bg-[#0f1218] text-center min-h-[180px]">
+                  <label className="border-2 border-dashed border-white/15 rounded-sm p-6 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-white/30 transition-all bg-[#0f1218] text-center min-h-[170px]">
                     {backImage ? (
-                      <img src={backImage} alt="Back" className="w-full h-36 object-cover rounded-sm" />
+                      <div className="relative w-full">
+                        <img src={backImage} alt="Back" className="w-full h-36 object-cover rounded-sm border border-white/10" />
+                        <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-black/80 text-[10px] font-black text-purple-400 rounded">
+                          REVERSO CARGADO
+                        </span>
+                      </div>
                     ) : (
                       <>
                         <Camera className="w-8 h-8 text-slate-500" />
-                        <span className="text-xs font-black text-slate-400 tracking-widest uppercase">BACK (OPTIONAL)</span>
+                        <span className="text-xs font-black text-slate-400 tracking-widest uppercase">REVERSO (OPCIONAL)</span>
+                        <span className="text-[10px] text-slate-500">Útil si tiene teléfono/email al dorso</span>
                       </>
                     )}
-                    <input type="file" accept="image/*" onChange={handleBackUpload} className="hidden" />
+                    <input type="file" accept="image/*" capture="environment" onChange={handleBackUpload} className="hidden" />
                   </label>
                 </div>
 
                 {ocrProcessing && (
-                  <div className="text-center text-xs font-black text-amber-400 animate-pulse">
-                    Processing OCR business card data...
+                  <div className="p-4 rounded-sm bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-black flex items-center justify-center gap-2 animate-pulse">
+                    <Sparkles className="w-4 h-4 text-amber-400" />
+                    <span>Leyendo datos de la tarjeta con IA (Gemini Vision)...</span>
+                  </div>
+                )}
+
+                {/* Live Extraction Preview */}
+                {(name || company || email || phone) && !ocrProcessing && (
+                  <div className="p-5 rounded-sm bg-[#141523] border border-emerald-500/30 space-y-3">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                      <span className="text-[11px] font-black uppercase text-emerald-400 flex items-center gap-1.5 tracking-wider">
+                        <CheckCircle2 className="w-4 h-4" />
+                        Datos extraídos de la tarjeta
+                      </span>
+                      <span className="text-[10px] text-slate-400">Verifica o ajusta cualquier campo</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-400 block mb-1">Nombre Completo:</label>
+                        <input
+                          type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="w-full hs-input-hero text-xs py-2 px-3 font-semibold text-white"
+                          placeholder="Nombre del contacto"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-400 block mb-1">Empresa / Organización:</label>
+                        <input
+                          type="text"
+                          value={company}
+                          onChange={(e) => setCompany(e.target.value)}
+                          className="w-full hs-input-hero text-xs py-2 px-3 font-semibold text-white"
+                          placeholder="Nombre de la empresa"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-400 block mb-1">Cargo / Título:</label>
+                        <input
+                          type="text"
+                          value={title}
+                          onChange={(e) => setTitle(e.target.value)}
+                          className="w-full hs-input-hero text-xs py-2 px-3 font-semibold text-white"
+                          placeholder="CEO, Director, etc."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-400 block mb-1">Email:</label>
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full hs-input-hero text-xs py-2 px-3 font-semibold text-white"
+                          placeholder="correo@ejemplo.com"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-400 block mb-1">Teléfono / WhatsApp:</label>
+                        <input
+                          type="tel"
+                          value={phone}
+                          onChange={(e) => {
+                            setPhone(e.target.value);
+                            setWhatsapp(e.target.value);
+                          }}
+                          className="w-full hs-input-hero text-xs py-2 px-3 font-semibold text-white"
+                          placeholder="+1 ..."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-400 block mb-1">Ubicación / Ciudad:</label>
+                        <input
+                          type="text"
+                          value={location}
+                          onChange={(e) => setLocation(e.target.value)}
+                          className="w-full hs-input-hero text-xs py-2 px-3 font-semibold text-white"
+                          placeholder="Ciudad, País"
+                        />
+                      </div>
+                    </div>
                   </div>
                 )}
 
                 <div className="pt-2">
                   <button
                     onClick={() => setStep(2)}
-                    className="w-full hs-pill-btn hs-btn-lime py-4 text-xs font-black tracking-widest uppercase flex items-center justify-center gap-2"
+                    className="w-full hs-pill-btn hs-btn-lime py-4 text-xs font-black tracking-widest uppercase flex items-center justify-center gap-2 cursor-pointer hover:opacity-90 transition-opacity"
                   >
-                    <span>CONTINUE</span>
+                    <span>CONTINUAR A NOTAS Y CONTEXTO</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
