@@ -63,19 +63,10 @@ export async function GET(request: Request) {
 
     const contacts = await prisma.contact.findMany({
       where,
-      include: {
-        timelineActivities: { orderBy: { createdAt: 'desc' }, take: 10 },
-        deals: true,
-        documents: true,
-        interactions: true,
-        quotes: true,
-        sourceRelationships: { include: { targetContact: true } },
-        targetRelationships: { include: { sourceContact: true } },
-      },
       orderBy: { updatedAt: 'desc' },
     });
 
-    return NextResponse.json({ success: true, contacts });
+    return NextResponse.json({ success: true, contacts, count: contacts.length });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
