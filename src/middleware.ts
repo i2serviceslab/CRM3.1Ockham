@@ -13,6 +13,7 @@ const PUBLIC_ROUTES = [
   '/api/ocr',
   '/api/admin/tenants',
   '/api/relationships',
+  '/api/graph',
   '/api/calendar',
   '/api/deals',
   '/api/roadshows',

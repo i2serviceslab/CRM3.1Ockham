@@ -38,6 +38,18 @@ const getInvestorTypeColor = (type?: string): { border: string; bg: string; text
   return { border: '#FF002C', bg: '#FF002C22', text: '#FF002C' }; // True Cyan default
 };
 
+// Color Mapping by Relationship Type for Multi-Layer Graph Clarity
+const getEdgeColor = (type?: string, isSelected?: boolean): string => {
+  if (isSelected) return 'rgba(0, 223, 223, 1.0)';
+  const t = (type || '').toLowerCase();
+  if (t.includes('colega') || t.includes('empresa')) return 'rgba(0, 223, 223, 0.85)'; // Cyan
+  if (t.includes('organización') || t.includes('organizacion')) return 'rgba(56, 189, 248, 0.85)'; // Sky blue
+  if (t.includes('evento') || t.includes('summit') || t.includes('asistente')) return 'rgba(16, 185, 129, 0.85)'; // Emerald
+  if (t.includes('referido') || t.includes('socio') || t.includes('partner')) return 'rgba(245, 158, 11, 0.90)'; // Gold
+  if (t.includes('inversionista') || t.includes('sindicato') || t.includes('pool')) return 'rgba(192, 132, 252, 0.90)'; // Purple
+  return 'rgba(255, 0, 44, 0.75)'; // Copper Red
+};
+
 export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, onOpen360, onRefresh }) => {
   const [relationships, setRelationships] = useState<Relationship[]>([]);
   const [selectedNode, setSelectedNode] = useState<Contact | null>(null);
@@ -45,6 +57,11 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
   const [showAddRelModal, setShowAddRelModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<string>('ALL');
+
+  // Active AI Graph Auto-Discovery & Enrichment State
+  const [isAutoLinking, setIsAutoLinking] = useState(false);
+  const [autoLinkMessage, setAutoLinkMessage] = useState<string | null>(null);
+  const [backgroundDaemonActive, setBackgroundDaemonActive] = useState(true);
 
   // Form State for Linking Relationships
   const [sourceId, setSourceId] = useState('');
@@ -68,6 +85,55 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
   useEffect(() => {
     fetchRelationships();
   }, []);
+
+  // Background Daemon: Silently scan and link in the background every 90s if enabled
+  useEffect(() => {
+    if (!backgroundDaemonActive) return;
+    const interval = setInterval(() => {
+      fetch('/api/graph/auto-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enrichContacts: true, createRelationships: true }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.result?.relationshipsCreated > 0) {
+            fetchRelationships();
+            onRefresh();
+          }
+        })
+        .catch(err => console.debug('Background graph discovery tick:', err));
+    }, 90000);
+    return () => clearInterval(interval);
+  }, [backgroundDaemonActive]);
+
+  const handleRunAutoLink = async () => {
+    setIsAutoLinking(true);
+    setAutoLinkMessage(null);
+    try {
+      const res = await fetch('/api/graph/auto-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enrichContacts: true, createRelationships: true }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        const resStats = data.result;
+        setAutoLinkMessage(
+          `✨ Éxito: +${resStats.relationshipsCreated} nuevos vínculos creados | +${resStats.contactsEnriched} contactos enriquecidos (${resStats.durationSeconds}s)`
+        );
+        fetchRelationships();
+        onRefresh();
+      } else {
+        setAutoLinkMessage(`⚠️ Error en motor: ${data.error}`);
+      }
+    } catch (e: any) {
+      setAutoLinkMessage(`⚠️ Error de conexión: ${e.message}`);
+    } finally {
+      setIsAutoLinking(false);
+      setTimeout(() => setAutoLinkMessage(null), 12000);
+    }
+  };
 
   const fetchRelationships = async () => {
     try {
@@ -304,15 +370,15 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
           const isSelectedEdge =
             selectedNode && (source.id === selectedNode.id || target.id === selectedNode.id);
 
+          const edgeColor = getEdgeColor(rel.relationshipType, Boolean(isSelectedEdge));
+
           // 1. Solid High-Visibility Connection Line
           ctx.beginPath();
           ctx.moveTo(source.x, source.y);
           ctx.lineTo(target.x, target.y);
 
-          ctx.strokeStyle = isSelectedEdge
-            ? 'rgba(0, 223, 223, 1.0)'
-            : 'rgba(0, 223, 223, 0.70)';
-          ctx.lineWidth = isSelectedEdge ? 4.5 : 2.8;
+          ctx.strokeStyle = edgeColor;
+          ctx.lineWidth = isSelectedEdge ? 4.5 : 2.5;
           ctx.stroke();
 
           // 2. Animated Flow Energy Particle along the Line
@@ -324,7 +390,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
           ctx.beginPath();
           ctx.arc(particleX, particleY, isSelectedEdge ? 5 : 3.5, 0, Math.PI * 2);
           ctx.fillStyle = '#ffffff';
-          ctx.shadowColor = '#FF002C';
+          ctx.shadowColor = edgeColor;
           ctx.shadowBlur = 10;
           ctx.fill();
           ctx.shadowBlur = 0; // Reset shadow
@@ -345,7 +411,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
           ctx.roundRect(midX - badgeW / 2, midY - badgeH / 2, badgeW, badgeH, 10);
           ctx.fill();
 
-          ctx.strokeStyle = isSelectedEdge ? '#FF002C' : 'rgba(0, 223, 223, 0.6)';
+          ctx.strokeStyle = edgeColor;
           ctx.lineWidth = 1.5;
           ctx.stroke();
 
@@ -555,7 +621,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
         </div>
 
         <div className="flex items-center gap-3 flex-wrap shrink-0">
-          <div className="relative w-56">
+          <div className="relative w-52">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
@@ -567,18 +633,45 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
           </div>
 
           <button
+            onClick={handleRunAutoLink}
+            disabled={isAutoLinking}
+            style={{ backgroundColor: 'rgba(0, 223, 223, 0.15)', borderColor: 'rgba(0, 223, 223, 0.4)', color: '#00DFDF' }}
+            className="px-4 py-2 border rounded-full text-xs font-black transition-all flex items-center gap-2 hover:scale-105 cursor-pointer shadow-lg disabled:opacity-50"
+            title="Escanear toda la base de datos de contactos para inferir relaciones por empresa, dominio corporativo y eventos"
+          >
+            <Sparkles className={`w-4 h-4 ${isAutoLinking ? 'animate-spin' : ''}`} />
+            <span>{isAutoLinking ? 'Buscando Vínculos...' : '⚡ Auto-Vincular Red con IA'}</span>
+          </button>
+
+          <button
             onClick={() => setShowAddRelModal(true)}
             style={{ backgroundColor: 'var(--primary-color)', color: '#000000' }}
             className="px-4 py-2 rounded-full text-xs font-black transition-all flex items-center gap-2 hover:scale-105 cursor-pointer shadow-lg"
           >
             <Plus className="w-4 h-4" />
-            <span>Vincular Nueva Relación</span>
+            <span>Vincular Manual</span>
           </button>
         </div>
       </div>
 
+      {/* Auto-Link Real-Time Notification Banner */}
+      {autoLinkMessage && (
+        <div className="p-3.5 rounded-sm bg-cyan-950/40 border border-cyan-500/30 text-xs font-medium text-cyan-200 flex items-center justify-between shadow-xl animate-fadeIn">
+          <span className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-cyan-400 shrink-0" />
+            <span>{autoLinkMessage}</span>
+          </span>
+          <button
+            onClick={() => setAutoLinkMessage(null)}
+            className="text-xs text-cyan-400 hover:text-white px-2 py-0.5 rounded bg-white/5 cursor-pointer"
+          >
+            Cerrar
+          </button>
+        </div>
+      )}
+
       {/* Network Metrics Cards Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-4 rounded-sm border border-white/10 flex items-center gap-4 shadow-xl">
           <div className="w-10 h-10 rounded-sm bg-red-500/10 border border-red-500/30 flex items-center justify-center text-[#FF002C] shrink-0">
             <Share2 className="w-5 h-5" />
@@ -595,7 +688,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
           </div>
           <div>
             <div className="text-xs text-slate-400 font-bold uppercase tracking-wider">Eslabón Principal</div>
-            <div className="text-sm font-black text-white truncate max-w-[200px]">{getTopHubContact()}</div>
+            <div className="text-sm font-black text-white truncate max-w-[170px]">{getTopHubContact()}</div>
           </div>
         </div>
 
@@ -607,6 +700,27 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
             <div className="text-xs text-slate-400 font-bold uppercase tracking-wider">Inversionistas en Red</div>
             <div className="text-xl font-black text-white">{filteredContacts.length} Contactos</div>
           </div>
+        </div>
+
+        <div style={{ backgroundColor: 'var(--bg-card)' }} className="p-4 rounded-sm border border-white/10 flex items-center justify-between shadow-xl">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-sm bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Motor en Segundo Plano</div>
+              <div className="text-xs font-black text-white flex items-center gap-1.5 mt-0.5">
+                <span className={`w-2 h-2 rounded-full ${backgroundDaemonActive ? 'bg-emerald-400 animate-pulse' : 'bg-slate-500'}`} />
+                <span>{backgroundDaemonActive ? 'Activo (Auto-Sync)' : 'Pausado'}</span>
+              </div>
+            </div>
+          </div>
+          <button
+            onClick={() => setBackgroundDaemonActive(!backgroundDaemonActive)}
+            className="text-[10px] font-bold text-slate-400 hover:text-white px-2 py-1 rounded bg-white/5 border border-white/10 cursor-pointer"
+          >
+            {backgroundDaemonActive ? 'Pausar' : 'Activar'}
+          </button>
         </div>
       </div>
 
