@@ -10,6 +10,7 @@ const PUBLIC_ROUTES = [
   '/api/whatsapp',
   '/api/hermes',
   '/api/contacts',
+  '/api/ocr',
   '/api/admin/tenants',
   '/api/relationships',
   '/api/calendar',
