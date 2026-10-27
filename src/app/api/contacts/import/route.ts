@@ -18,6 +18,31 @@ export async function POST(request: Request) {
     let countUpdated = 0;
     let countSkipped = 0;
 
+    // High performance batch pre-fetch: 1 query instead of N individual queries
+    const batchEmails = contacts
+      .map((c: any) => (c.email || c.Email || '').trim().toLowerCase())
+      .filter(Boolean);
+    const batchPhones = contacts
+      .map((c: any) => (c.phone || c.Telefono || c.Teléfono || '').trim())
+      .filter(Boolean);
+
+    const existingList = await prisma.contact.findMany({
+      where: {
+        tenantId: effectiveTenantId || null,
+        OR: [
+          ...(batchEmails.length ? [{ email: { in: batchEmails } }] : []),
+          ...(batchPhones.length ? [{ phone: { in: batchPhones } }] : []),
+        ],
+      },
+    });
+
+    const emailMap = new Map<string, any>();
+    const phoneMap = new Map<string, any>();
+    for (const item of existingList) {
+      if (item.email) emailMap.set(item.email.toLowerCase(), item);
+      if (item.phone) phoneMap.set(item.phone, item);
+    }
+
     for (const rawContact of contacts) {
       const name = (rawContact.name || rawContact.Nombre || '').trim();
       if (!name) {
@@ -35,24 +60,15 @@ export async function POST(request: Request) {
       const investorType = (rawContact.investorType || rawContact.Tipo || 'Retail investor').trim();
       const source = (rawContact.source || rawContact.Fuente || 'Import').trim();
       const leadScore = rawContact.leadScore ? parseInt(rawContact.leadScore, 10) : 50;
+      const tags = (rawContact.tags || '').trim();
+      const notes = (rawContact.notes || '').trim();
 
-      // Check for duplicate by email or phone within tenant
-      let existing = null;
-      if (email || phone) {
-        existing = await prisma.contact.findFirst({
-          where: {
-            tenantId: effectiveTenantId || null,
-            OR: [
-              ...(email ? [{ email }] : []),
-              ...(phone ? [{ phone }] : []),
-            ],
-          },
-        });
-      }
+      // Check map for existing contact in memory
+      let existing = (email ? emailMap.get(email.toLowerCase()) : null) || (phone ? phoneMap.get(phone) : null);
 
       if (existing) {
         // Update existing contact
-        await prisma.contact.update({
+        const updated = await prisma.contact.update({
           where: { id: existing.id },
           data: {
             company: company || existing.company,
@@ -60,13 +76,17 @@ export async function POST(request: Request) {
             whatsapp: whatsapp || existing.whatsapp,
             location: location || existing.location,
             stage: stage || existing.stage,
+            tags: tags ? (existing.tags ? `${existing.tags}, ${tags}` : tags) : existing.tags,
+            notes: notes ? (existing.notes ? `${existing.notes}\n${notes}` : notes) : existing.notes,
             updatedAt: new Date(),
           },
         });
+        if (email) emailMap.set(email.toLowerCase(), updated);
+        if (phone) phoneMap.set(phone, updated);
         countUpdated++;
       } else {
         // Create new contact
-        await prisma.contact.create({
+        const created = await prisma.contact.create({
           data: {
             tenantId: effectiveTenantId || null,
             name,
@@ -80,15 +100,19 @@ export async function POST(request: Request) {
             stage,
             source,
             leadScore,
+            tags: tags || undefined,
+            notes: notes || undefined,
             timelineActivities: {
               create: {
                 type: 'NOTE',
                 title: 'Contacto Importado en Lote',
-                description: `Importado desde archivo CSV/Excel (Fuente: ${source}).`,
+                description: `Importado desde migración maestra (Fuente: ${source}).`,
               },
             },
           },
         });
+        if (email) emailMap.set(email.toLowerCase(), created);
+        if (phone) phoneMap.set(phone, created);
         countCreated++;
       }
     }

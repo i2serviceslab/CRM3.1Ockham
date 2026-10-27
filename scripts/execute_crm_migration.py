@@ -16,7 +16,7 @@ INPUT_FILE = "/Users/i2carvajal/Documents/Proyectos/CopperCRM_V3_Clean/data/crm_
 TARGET_URL = "https://copper-giant-crm-3-ockham.wu48i0.easypanel.host/api/contacts/import"
 BATCH_SIZE = 100  # Safe batch size to avoid HTTP timeouts or SQLite write lock contention
 
-def run_migration(dry_run=False):
+def run_migration(dry_run=False, start_offset=0, batch_size=50):
     if not os.path.exists(INPUT_FILE):
         print(f"Error: Migration file not found: {INPUT_FILE}")
         sys.exit(1)
@@ -24,12 +24,16 @@ def run_migration(dry_run=False):
     with open(INPUT_FILE, "r", encoding="utf-8") as f:
         contacts = json.load(f)
 
+    if start_offset > 0:
+        contacts = contacts[start_offset:]
+
     total = len(contacts)
     print("==================================================")
     print(f"🚀 INICIANDO MIGRACIÓN DE DATOS A COPPER GIANT CRM")
     print(f"   Destino: {TARGET_URL}")
-    print(f"   Total de contactos a procesar: {total:,}")
-    print(f"   Tamaño de lote: {BATCH_SIZE} por solicitud")
+    print(f"   Offset inicial: {start_offset}")
+    print(f"   Total de contactos en esta tanda: {total:,}")
+    print(f"   Tamaño de lote: {batch_size} por solicitud")
     print(f"   Modo: {'DRY RUN (Simulación)' if dry_run else 'PRODUCCIÓN (Escritura Real)'}")
     print("==================================================")
 
@@ -45,7 +49,7 @@ def run_migration(dry_run=False):
     total_updated = 0
     total_skipped = 0
 
-    batches = [contacts[i:i + BATCH_SIZE] for i in range(0, total, BATCH_SIZE)]
+    batches = [contacts[i:i + batch_size] for i in range(0, total, batch_size)]
     num_batches = len(batches)
 
     for idx, batch in enumerate(batches, 1):
@@ -63,9 +67,9 @@ def run_migration(dry_run=False):
         )
 
         success = False
-        for attempt in range(3):
+        for attempt in range(4):
             try:
-                with urllib.request.urlopen(req, context=ctx, timeout=60) as resp:
+                with urllib.request.urlopen(req, context=ctx, timeout=120) as resp:
                     res_data = json.loads(resp.read().decode("utf-8"))
                     stats = res_data.get("stats", {})
                     c = stats.get("countCreated", 0)
@@ -78,14 +82,13 @@ def run_migration(dry_run=False):
                     success = True
                     break
             except Exception as e:
-                print(f"⚠ Reintento {attempt+1}/3 tras error: {e}")
-                time.sleep(3)
+                print(f"⚠ Reintento {attempt+1}/4 tras error: {e}")
+                time.sleep(4)
 
         if not success:
             print("❌ Error fatal en el lote. Deteniendo migración.")
             break
 
-        # Small delay between batches to ensure server CPU stays cool
         time.sleep(0.5)
 
     print("\n==================================================")
@@ -98,4 +101,10 @@ def run_migration(dry_run=False):
 
 if __name__ == "__main__":
     is_dry = "--dry-run" in sys.argv
-    run_migration(dry_run=is_dry)
+    start_offset = 0
+    for arg in sys.argv:
+        if arg.startswith("--start="):
+            start_offset = int(arg.split("=")[1])
+        elif arg.startswith("--offset="):
+            start_offset = int(arg.split("=")[1])
+    run_migration(dry_run=is_dry, start_offset=start_offset)
