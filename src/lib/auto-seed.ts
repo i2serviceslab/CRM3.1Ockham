@@ -166,6 +166,23 @@ export async function ensurePersistentData() {
         leadScore: 82,
         investorType: 'HNW investor',
       },
+      {
+        name: 'Scott Kelly',
+        company: 'Wetherby Growth',
+        title: 'Portfolio Manager',
+        email: 'skelly@wetherbygrowth.com',
+        phone: '+1-416-998-4714',
+        whatsapp: '+14169984714',
+        location: '217 Queen Street West, 4th Floor, Toronto ON M5V 0R2, Canada',
+        city: 'Toronto',
+        country: 'Canada',
+        source: 'Card Scan',
+        notes: 'Website: https://wetherbygrowth.com | Address: 217 Queen Street West, 4th Floor, Toronto ON M5V 0R2',
+        stage: 'Interested - early',
+        leadScore: 85,
+        investorType: 'Institutional Investor',
+        dynamicIcebreaker: 'Portfolio Manager en Wetherby Growth (Toronto). Interés estratégico en proyectos de pórfidos Cu-Mo como Mocoa.',
+      },
     ];
 
     for (const c of keyContacts) {
@@ -183,12 +200,16 @@ export async function ensurePersistentData() {
             email: c.email,
             phone: c.phone,
             whatsapp: c.whatsapp,
+            location: (c as any).location || null,
+            city: (c as any).city || null,
+            country: (c as any).country || 'Colombia',
+            notes: (c as any).notes || null,
             stage: c.stage,
             leadScore: c.leadScore,
             investorType: c.investorType,
             dynamicIcebreaker: c.dynamicIcebreaker || '',
             strategicContext: 'Contacto persistido en CRM.',
-            source: 'System Permanent Registry',
+            source: (c as any).source || 'System Permanent Registry',
           },
         });
       }

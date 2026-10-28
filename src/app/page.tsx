@@ -163,10 +163,10 @@ export default function Home() {
 
   useEffect(() => {
     fetchContacts();
-    // Real-Time Background Synchronization (2.5s interval) for zero-refresh UI updates!
+    // Background Synchronization (45s interval) optimized for 5,000+ contacts
     const syncInterval = setInterval(() => {
       fetchContacts(true);
-    }, 2500);
+    }, 45000);
     return () => clearInterval(syncInterval);
   }, [searchTerm, selectedType, selectedStage, selectedSource, selectedTenant]);
 
