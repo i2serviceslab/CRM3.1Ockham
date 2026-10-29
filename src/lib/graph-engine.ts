@@ -74,7 +74,34 @@ export interface GraphEngineResult {
   durationSeconds: number;
 }
 
+let isGraphEngineRunning = false;
+
 export async function runActiveGraphEngine(options: {
+  maxBatchSize?: number;
+  enrichContacts?: boolean;
+  createRelationships?: boolean;
+} = {}): Promise<GraphEngineResult> {
+  if (isGraphEngineRunning) {
+    return {
+      totalContactsAnalyzed: 0,
+      contactsEnriched: 0,
+      relationshipsCreated: 0,
+      relationshipsExisting: 0,
+      companyClusters: 0,
+      eventClusters: 0,
+      topHubs: [],
+      durationSeconds: 0,
+    };
+  }
+  isGraphEngineRunning = true;
+  try {
+    return await executeActiveGraphEngine(options);
+  } finally {
+    isGraphEngineRunning = false;
+  }
+}
+
+async function executeActiveGraphEngine(options: {
   maxBatchSize?: number;
   enrichContacts?: boolean;
   createRelationships?: boolean;
@@ -82,6 +109,7 @@ export async function runActiveGraphEngine(options: {
   const startTime = Date.now();
   const enrich = options.enrichContacts ?? true;
   const link = options.createRelationships ?? true;
+  const maxBatchSize = options.maxBatchSize ?? 200;
 
   // 1. Fetch all contacts with essential fields
   const contacts = await prisma.contact.findMany({
@@ -187,15 +215,18 @@ export async function runActiveGraphEngine(options: {
     }
   }
 
-  // Execute Enrichment Updates in controlled batches
+  // Execute Enrichment Updates in a fast, bounded transaction (max 150 per tick to never lock SQLite)
   if (enrich && contactUpdates.length > 0) {
-    for (const update of contactUpdates) {
-      await prisma.contact.update({
-        where: { id: update.id },
-        data: update.data,
-      });
-      contactsEnriched++;
-    }
+    const slice = contactUpdates.slice(0, 150);
+    await prisma.$transaction(
+      slice.map((update) =>
+        prisma.contact.update({
+          where: { id: update.id },
+          data: update.data,
+        })
+      )
+    );
+    contactsEnriched += slice.length;
   }
 
   // 3. Multi-Layer Relationship Discovery Phase
@@ -335,11 +366,12 @@ export async function runActiveGraphEngine(options: {
     }
   }
 
-  // 4. Batch Insert Relationships into Database
+  // 4. Batch Insert Relationships into Database (bounded per tick to avoid locking SQLite)
   if (link && newRelationshipsToInsert.length > 0) {
+    const boundedRels = newRelationshipsToInsert.slice(0, maxBatchSize);
     const BATCH_INSERT_SIZE = 100;
-    for (let i = 0; i < newRelationshipsToInsert.length; i += BATCH_INSERT_SIZE) {
-      const slice = newRelationshipsToInsert.slice(i, i + BATCH_INSERT_SIZE);
+    for (let i = 0; i < boundedRels.length; i += BATCH_INSERT_SIZE) {
+      const slice = boundedRels.slice(i, i + BATCH_INSERT_SIZE);
       await prisma.$transaction(
         slice.map(rel => prisma.relationship.create({ data: rel }))
       );
@@ -357,13 +389,25 @@ export async function runActiveGraphEngine(options: {
     degreeMap.set(r.targetContactId, (degreeMap.get(r.targetContactId) || 0) + 1);
   }
 
-  // Update relationship scores for top connected contacts
+  // Update relationship scores only for contacts whose score actually changed (bounded transaction)
+  const scoreUpdates: Array<{ id: string; score: number }> = [];
+  const contactScoreMap = new Map(contacts.map((c) => [c.id, c.relationshipScore]));
   for (const [contactId, count] of degreeMap.entries()) {
     const normalizedScore = Math.min(100, 50 + count * 5);
-    await prisma.contact.update({
-      where: { id: contactId },
-      data: { relationshipScore: normalizedScore },
-    });
+    if (contactScoreMap.get(contactId) !== normalizedScore) {
+      scoreUpdates.push({ id: contactId, score: normalizedScore });
+    }
+  }
+  if (scoreUpdates.length > 0) {
+    const slice = scoreUpdates.slice(0, 150);
+    await prisma.$transaction(
+      slice.map((u) =>
+        prisma.contact.update({
+          where: { id: u.id },
+          data: { relationshipScore: u.score },
+        })
+      )
+    );
   }
 
   // Build top hubs list

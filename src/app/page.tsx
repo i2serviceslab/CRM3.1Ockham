@@ -114,6 +114,7 @@ export default function Home() {
 
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
+  const [visibleLimit, setVisibleLimit] = useState<number>(60);
 
   // Filters
   const [searchTerm, setSearchTerm] = useState('');
@@ -602,7 +603,7 @@ export default function Home() {
                     {/* MODE 1: BENTO CARDS GRID */}
                     {contactViewMode === 'grid' && (
                       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
-                        {contacts.map((contact) => (
+                        {contacts.slice(0, visibleLimit).map((contact) => (
                           <ConcaveCard
                             key={contact.id}
                             bgColor="var(--bg-card)"
@@ -703,7 +704,7 @@ export default function Home() {
                     {/* MODE 2: COMPACT EXECUTIVE LIST */}
                     {contactViewMode === 'list' && (
                       <div className="space-y-2.5 w-full">
-                        {contacts.map((contact) => (
+                        {contacts.slice(0, visibleLimit).map((contact) => (
                           <div
                             key={contact.id}
                             className="p-3.5 rounded-sm bg-[#1C1B1B] border border-white/10 hover:bg-[#222121] hover:border-white/20 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
@@ -765,7 +766,7 @@ export default function Home() {
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-white/5 text-neutral-200">
-                            {contacts.map((contact) => (
+                            {contacts.slice(0, visibleLimit).map((contact) => (
                               <tr key={contact.id} className="hover:bg-white/[0.04] transition-colors group">
                                 <td className="py-3 px-4">
                                   <div className="flex items-center gap-2.5">
@@ -804,6 +805,30 @@ export default function Home() {
                             ))}
                           </tbody>
                         </table>
+                      </div>
+                    )}
+
+                    {/* Pagination / Load More Bar for 5,000+ Contacts */}
+                    {contacts.length > visibleLimit && (
+                      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-sm bg-[#1C1B1B] border border-white/10 mt-4">
+                        <span className="text-xs text-slate-400 font-mono">
+                          Mostrando <strong className="text-white">{Math.min(visibleLimit, contacts.length)}</strong> de{' '}
+                          <strong className="text-[#FF002C]">{contacts.length}</strong> contactos
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => setVisibleLimit((prev) => prev + 60)}
+                            className="px-4 py-2 rounded-full bg-[#FF002C] text-white text-xs font-black hover:brightness-110 transition-all cursor-pointer shadow-lg"
+                          >
+                            + Cargar 60 más
+                          </button>
+                          <button
+                            onClick={() => setVisibleLimit(contacts.length)}
+                            className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-bold border border-white/10 transition-all cursor-pointer"
+                          >
+                            Ver todos ({contacts.length})
+                          </button>
+                        </div>
                       </div>
                     )}
                   </>

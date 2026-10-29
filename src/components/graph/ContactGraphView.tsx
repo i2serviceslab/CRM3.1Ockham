@@ -56,7 +56,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
   const [hoveredNode, setHoveredNode] = useState<Contact | null>(null);
   const [showAddRelModal, setShowAddRelModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState<string>('ALL');
+  const [filterType, setFilterType] = useState<string>('CONNECTED');
 
   // Active AI Graph Auto-Discovery & Enrichment State
   const [isAutoLinking, setIsAutoLinking] = useState(false);
@@ -216,16 +216,31 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
     return true;
   });
 
-  // Initialize Physics Nodes with generous spacing
+  // Initialize Physics Nodes with generous spacing (capped at 140 active canvas nodes for 60fps with 5,000+ contacts)
   useEffect(() => {
     const width = 800;
     const height = 550;
 
-    nodesRef.current = filteredContacts.map((c, index) => {
+    const connectedSet = new Set<string>();
+    for (const r of relationships) {
+      connectedSet.add(r.sourceContactId);
+      connectedSet.add(r.targetContactId);
+    }
+
+    const prioritizedContacts = [...filteredContacts]
+      .sort((a, b) => {
+        const aConn = connectedSet.has(a.id) ? 1 : 0;
+        const bConn = connectedSet.has(b.id) ? 1 : 0;
+        if (bConn !== aConn) return bConn - aConn;
+        return (b.leadScore || 0) - (a.leadScore || 0);
+      })
+      .slice(0, 140);
+
+    nodesRef.current = prioritizedContacts.map((c, index) => {
       const existing = nodesRef.current.find((n) => n.id === c.id);
       if (existing) return { ...existing, contact: c };
 
-      const angle = (index / (filteredContacts.length || 1)) * 2 * Math.PI;
+      const angle = (index / (prioritizedContacts.length || 1)) * 2 * Math.PI;
       const dist = 180 + (index % 3) * 70;
 
       return {
@@ -238,7 +253,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
         radius: 28,
       };
     });
-  }, [filteredContacts]);
+  }, [filteredContacts, relationships]);
 
   // Main Physics Simulation & Canvas Render Loop
   useEffect(() => {
