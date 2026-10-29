@@ -7,3 +7,11 @@ node_modules
 *.pdf
 backup_crm_v2.1_checkpoint.zip
 baileys_auth_info
+data
+data/*
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+scripts/*.py
+
