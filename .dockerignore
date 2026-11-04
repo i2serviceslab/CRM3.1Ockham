@@ -7,6 +7,7 @@ node_modules
 *.pdf
 backup_crm_v2.1_checkpoint.zip
 baileys_auth_info
+baileys_local_auth
 data
 data/*
 *.db
