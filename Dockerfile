@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
-RUN npm ci --fetch-retries=5 --fetch-retry-factor=2 --fetch-retry-mintimeout=10000 --fetch-retry-maxtimeout=60000
+RUN npm ci --no-audit
 
 # Step 2: Build Application
 FROM base AS builder
@@ -42,10 +42,11 @@ RUN mkdir .next
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/data ./data-seed
 
 # We run as ROOT to ensure we have write permissions to the EasyPanel volume mount
 # SQLite needs to create files and WAL logs in /app/data
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "mkdir -p /app/data && npx prisma db push --accept-data-loss && node server.js"]
+CMD ["sh", "-c", "mkdir -p /app/data && if [ ! -f /app/data/production.db ] && [ -f /app/data-seed/production.db ]; then cp /app/data-seed/production.db /app/data/production.db; fi && npx prisma db push --accept-data-loss && node server.js"]
