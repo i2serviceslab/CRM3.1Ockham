@@ -31,10 +31,6 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Copy full node_modules and package.json so we can run npx prisma db push at runtime
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-
 COPY --from=builder /app/public ./public
 RUN mkdir .next
 
@@ -44,9 +40,6 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/data ./data-seed
 
-# We run as ROOT to ensure we have write permissions to the EasyPanel volume mount
-# SQLite needs to create files and WAL logs in /app/data
-
 EXPOSE 3000
 
-CMD ["sh", "-c", "mkdir -p /app/data && if [ ! -f /app/data/production.db ] && [ -f /app/data-seed/production.db ]; then cp /app/data-seed/production.db /app/data/production.db; fi && npx prisma db push --accept-data-loss && node server.js"]
+CMD ["sh", "-c", "mkdir -p /app/data && if [ ! -s /app/data/production.db ] || [ $(wc -c < /app/data/production.db) -lt 1000000 ]; then echo 'Syncing master production.db...'; cp /app/data-seed/production.db /app/data/production.db; fi && node server.js"]
