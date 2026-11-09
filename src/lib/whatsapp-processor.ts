@@ -726,7 +726,7 @@ async function handleInstantCardScan(
   await prisma.timelineActivity.create({ data: { contactId: (await prisma.contact.findFirst())?.id || '', title: 'DEBUG_HICS_1', description: `ocr.name: ${ocr.name}, path: ${frontPath}` }}).catch(() => {});
 
   const defaultTenant =
-    (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
+    (await prisma.tenant.findFirst({ where: { slug: { in: ['coppergiant', 'coppergiant-silver'] } } })) ||
     (await prisma.tenant.findFirst());
 
   const cleanPhone = ocr.phone ? ocr.phone.replace(/[^\d+]/g, '') : null;
@@ -945,7 +945,7 @@ async function createContactFromWizard(
   conversationStates.delete(stateKey);
 
   const defaultTenant =
-    (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
+    (await prisma.tenant.findFirst({ where: { slug: { in: ['coppergiant', 'coppergiant-silver'] } } })) ||
     (await prisma.tenant.findFirst());
 
   const newC = await prisma.contact.create({

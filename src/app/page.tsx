@@ -22,7 +22,6 @@ import { IRMetricsDashboard } from '@/components/analytics/IRMetricsDashboard';
 import { SyndicateManager } from '@/components/syndicates/SyndicateManager';
 import { RoadshowManager } from '@/components/roadshows/RoadshowManager';
 import { SocialCalendarManager } from '@/components/social/SocialCalendarManager';
-import SuperAdminDashboard from '@/components/admin/SuperAdminDashboard';
 import WhatsAppOtpLogin from '@/components/auth/WhatsAppOtpLogin';
 import RealWebRtcRoom from '@/components/video/RealWebRtcRoom';
 import UserRoleManager from '@/components/users/UserRoleManager';
@@ -60,8 +59,6 @@ export default function Home() {
 
   // State Initialization with LocalStorage Persistence for seamless page reloads
   const [activeTabState, setActiveTabState] = useState<ActiveTab>('contacts');
-  const [viewMode, setViewMode] = useState<'SUPER_ADMIN_CONSOLE' | 'TENANT_CRM'>('TENANT_CRM');
-  const [selectedTenant, setSelectedTenant] = useState<any>(null);
   const [contactViewMode, setContactViewMode] = useState<'grid' | 'list' | 'table'>('grid');
 
   // ActiveTab Setter with Persistence
@@ -75,17 +72,12 @@ export default function Home() {
   const activeTab = activeTabState;
 
   useEffect(() => {
-    // Initialize & sync full custom theme Engine (Colors, Fonts, Container Geometry)
+    // Initialize theme Engine
     initTheme();
 
-    // Restore persisted tab on mount
     try {
       const savedTab = localStorage.getItem('crm_active_tab') as ActiveTab;
       if (savedTab) setActiveTabState(savedTab);
-      const savedTenant = localStorage.getItem('crm_selected_tenant');
-      if (savedTenant) setSelectedTenant(JSON.parse(savedTenant));
-      const savedViewMode = localStorage.getItem('crm_view_mode') as any;
-      if (savedViewMode) setViewMode(savedViewMode);
     } catch (e) {}
 
     fetch('/api/auth/me')
@@ -93,20 +85,6 @@ export default function Home() {
       .then((data) => {
         if (data.authenticated && data.user) {
           setUser(data.user);
-          if (false) { // Forced Single Tenant
-            const savedViewMode = localStorage.getItem('crm_view_mode');
-            if (savedViewMode === 'SUPER_ADMIN_CONSOLE') {
-              setViewMode('SUPER_ADMIN_CONSOLE');
-            } else {
-              setViewMode('TENANT_CRM');
-            }
-          } else {
-            setViewMode('TENANT_CRM');
-            if (data.user.tenant) {
-              setSelectedTenant(data.user.tenant);
-              setBrandName(data.user.tenant.name);
-            }
-          }
         }
       })
       .catch(() => setUser(null));
@@ -122,7 +100,6 @@ export default function Home() {
   const [selectedStage, setSelectedStage] = useState('ALL');
   const [selectedSource, setSelectedSource] = useState('ALL');
 
-  const [tenants, setTenants] = useState<any[]>([]);
   const [showOtpLoginModal, setShowOtpLoginModal] = useState(false);
   const [showSetupWizard, setShowSetupWizard] = useState(false);
 
@@ -134,33 +111,22 @@ export default function Home() {
   const [showAgendaModal, setShowAgendaModal] = useState(false);
   const [icalUrl, setIcalUrl] = useState('');
 
-  // Branding Customization state with Official Copper Giant Web Palette default (#FF002C True Cyan & #a9aeb2 Metallic Silver)
-  const [brandName, setBrandName] = useState('Copper Giant');
+  // Branding: Fixed to Copper Giant Resources Corp.
+  const [brandName, setBrandName] = useState('Copper Giant Resources Corp.');
   const [brandLogo, setBrandLogo] = useState('/logo.webp');
   const [primaryColor, setPrimaryColor] = useState('#FF002C');
   const [accentPurple, setAccentPurple] = useState('#a9aeb2');
 
-  useEffect(() => {
-    fetchTenants();
-  }, []);
-
-  useEffect(() => {
-    if (selectedTenant) {
-      // Branding is now hardcoded to Copper Giant
-      document.documentElement.style.setProperty('--accent-primary', '#FF002C');
-      document.documentElement.style.setProperty('--primary-color', '#FF002C');
-    }
-  }, [selectedTenant]);
-
   const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
 
   useEffect(() => {
-    if (!selectedTenant?.id) return;
-    fetch('/api/calendar/events?tenantId=' + selectedTenant.id)
-      .then(r => r.json())
-      .then(data => { if (data.success) setUpcomingEvents((data.events || []).slice(0, 3)); })
+    fetch('/api/calendar/events')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) setUpcomingEvents((data.events || []).slice(0, 3));
+      })
       .catch(() => {});
-  }, [selectedTenant]);
+  }, []);
 
   useEffect(() => {
     fetchContacts();
@@ -169,36 +135,13 @@ export default function Home() {
       fetchContacts(true);
     }, 45000);
     return () => clearInterval(syncInterval);
-  }, [searchTerm, selectedType, selectedStage, selectedSource, selectedTenant]);
-
-  const fetchTenants = async () => {
-    try {
-      const res = await fetch('/api/admin/tenants');
-      const data = await res.json();
-      if (data.success && data.tenants) {
-        setTenants(data.tenants);
-        if (!selectedTenant && data.tenants.length > 0) {
-          // Strictly default to Copper Giant Silver Corp — never leak or pick arbitrary tenants
-          const coppergiant = data.tenants.find((t: any) => t.slug === 'coppergiant') || data.tenants[0];
-          setSelectedTenant(coppergiant);
-          setBrandName(coppergiant.name);
-          try {
-            localStorage.setItem('crm_selected_tenant', JSON.stringify(coppergiant));
-          } catch (e) {}
-        }
-      }
-    } catch (e) {
-      console.error('Error fetching tenants:', e);
-    }
-  };
+  }, [searchTerm, selectedType, selectedStage, selectedSource]);
 
   const fetchContacts = async (silent = false) => {
     if (!silent) setLoading(true);
     try {
       const query = new URLSearchParams();
       if (searchTerm) query.append('search', searchTerm);
-      const activeTenantId = selectedTenant?.id || '1757cddf-5974-4184-9bb1-d5f4f7e931be';
-      query.append('tenantId', activeTenantId);
       
       if (selectedType && selectedType !== 'ALL') {
         if (selectedType === 'Hot Client' || selectedType === 'Great Interest') {
@@ -253,7 +196,7 @@ export default function Home() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `contactos_${selectedTenant?.slug || 'the-core'}_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `contactos_coppergiant_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -264,15 +207,6 @@ export default function Home() {
       <MagicLogin
         onLoginSuccess={(usr) => {
           setUser(usr);
-          if (false) { // Forced Single Tenant
-            setViewMode('SUPER_ADMIN_CONSOLE');
-          } else {
-            setViewMode('TENANT_CRM');
-            if (usr.tenant) {
-              setSelectedTenant(usr.tenant);
-              setBrandName(usr.tenant.name);
-            }
-          }
         }}
         brandName={brandName}
       />
@@ -288,24 +222,15 @@ export default function Home() {
       });
     } catch (e) {}
     setUser(null);
-    try {
-      localStorage.removeItem('crm_view_mode');
-      localStorage.removeItem('crm_selected_tenant');
-    } catch (e) {}
     window.location.href = '/';
   };
 
-  if (viewMode === 'SUPER_ADMIN_CONSOLE' && user?.role !== 'SUPER_ADMIN') {
-    setViewMode('TENANT_CRM');
-  }
-
-  // 2. ISOLATED TENANT CRM WORKSPACE
   return (
     <div
       style={{ backgroundColor: 'var(--bg-main)' }}
       className="min-h-screen text-slate-100 flex relative font-['Urbanist'] tracking-tight selection:bg-[#38bdf8] selection:text-zinc-950 transition-colors duration-200"
     >
-      {/* Fixed Left Sidebar Menu (Always standalone, fixed at left-0) */}
+      {/* Fixed Left Sidebar Menu */}
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -313,34 +238,10 @@ export default function Home() {
         onLogout={handleLogout}
         brandName={brandName}
         brandLogo={brandLogo}
-        selectedTenant={selectedTenant}
       />
 
-      {/* Right Column Workspace (Inspection Banner + Navbar + Main Canvas) */}
+      {/* Right Column Workspace */}
       <div className="flex-1 ml-64 w-[calc(100%-16rem)] flex flex-col min-h-screen relative z-10">
-        {/* Replica Inspection Notification Banner — Only visible when SUPER_ADMIN is inspecting a replica */}
-        {user?.role === 'SUPER_ADMIN' && selectedTenant && (
-          <div className="bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-500 text-slate-950 px-6 py-2 text-xs font-black flex items-center justify-between shadow-lg sticky top-0 z-50 w-full">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-slate-950" />
-              <span>Modo Inspección CRM Empresa: <strong>{selectedTenant?.name || brandName}</strong></span>
-            </div>
-            <button
-              onClick={() => {
-                setSelectedTenant(null);
-                try {
-                  localStorage.setItem('crm_view_mode', 'SUPER_ADMIN_CONSOLE');
-                  localStorage.removeItem('crm_selected_tenant');
-                } catch (e) {}
-                setViewMode('SUPER_ADMIN_CONSOLE');
-              }}
-              className="px-4 py-1 rounded-full bg-slate-950 text-white font-extrabold text-[11px] hover:bg-slate-900 transition-colors cursor-pointer"
-            >
-              Volver a Consola Super Admin
-            </button>
-          </div>
-        )}
-
         {/* Top Header Navbar */}
         <Navbar
           user={user}
@@ -354,17 +255,6 @@ export default function Home() {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           totalContacts={contacts.length}
-          tenants={tenants}
-          selectedTenant={selectedTenant}
-          onSelectTenant={(t) => {
-            setSelectedTenant(t);
-            if (t) {
-              setBrandName(t.name);
-              setActiveTab('contacts');
-            } else {
-              setViewMode('SUPER_ADMIN_CONSOLE');
-            }
-          }}
           upcomingEvents={upcomingEvents}
         />
 
@@ -389,7 +279,7 @@ export default function Home() {
                         </span>
                       </h4>
                       <p className="text-[12px] text-[#A1A1A1] font-medium mt-0.5">
-                        Inversionistas prioritarios ({contacts.filter(c => (c.leadScore || 0) >= 75).slice(0, 2).map(c => c.name).join(', ')}...) listos para entrega de avances de {selectedTenant?.name || brandName}.
+                        Inversionistas prioritarios ({contacts.filter(c => (c.leadScore || 0) >= 75).slice(0, 2).map(c => c.name).join(', ')}...) listos para entrega de avances de Copper Giant Resources Corp.
                       </p>
                     </div>
                   </div>
@@ -457,7 +347,7 @@ export default function Home() {
                           </span>
                         </div>
                         <p className="text-xs text-neutral-300 mt-1 font-medium leading-relaxed">
-                          {selectedTenant?.name ? 'Panel corporativo activo: ' + selectedTenant.name : 'Gestiona tus contactos, relaciones e inversores en tiempo real.'}
+                          Panel corporativo activo: Copper Giant Resources Corp. | Mocoa Cu-Mo Project
                         </p>
                       </div>
                     </div>
@@ -962,25 +852,25 @@ export default function Home() {
           )}
 
           {activeTab === 'whatsapp' && (
-            <WhatsAppManager tenantId={selectedTenant?.id} tenantName={brandName} />
+            <WhatsAppManager />
           )}
 
           {activeTab === 'workflows' && (
-            <WorkflowsManager tenantId={selectedTenant?.id} />
+            <WorkflowsManager />
           )}
 
           {activeTab === 'hermes-agent' && (
             <ErrorBoundary>
-              <HermesAgentStudio tenantId={selectedTenant?.id} tenantName={brandName} />
+              <HermesAgentStudio />
             </ErrorBoundary>
           )}
 
           {activeTab === 'media-drive' && (
-            <MediaDriveManager tenantId={selectedTenant?.id} tenantName={brandName} />
+            <MediaDriveManager />
           )}
 
           {activeTab === 'social-calendar' && (
-            <SocialCalendarManager tenantId={selectedTenant?.id} />
+            <SocialCalendarManager />
           )}
 
           {activeTab === 'settings' && (
@@ -1003,25 +893,13 @@ export default function Home() {
           )}
 
           {activeTab === 'users' && (
-            <UserRoleManager currentTenantId={selectedTenant?.id} tenantName={brandName} />
+            <UserRoleManager />
           )}
 
           {activeTab === 'backups' && (
             <ErrorBoundary>
               <BackupManager />
             </ErrorBoundary>
-          )}
-
-          {activeTab === 'super-admin' && (
-            <SuperAdminDashboard
-              currentTenantId={selectedTenant?.id}
-              onSelectTenant={(t) => {
-                setSelectedTenant(t);
-                if (t && t.status === 'PENDING_SETUP') {
-                  setShowSetupWizard(true);
-                }
-              }}
-            />
           )}
         </main>
       </div>
@@ -1031,10 +909,6 @@ export default function Home() {
           onSuccess={(loggedUser) => {
             setUser(loggedUser);
             setShowOtpLoginModal(false);
-            if (loggedUser.tenant) {
-              setSelectedTenant(loggedUser.tenant);
-              setBrandName(loggedUser.tenant.name);
-            }
           }}
           onCancel={() => setShowOtpLoginModal(false)}
         />
@@ -1060,7 +934,6 @@ export default function Home() {
 
       {showAddContactModal && (
         <ContactModal
-          tenantId={selectedTenant?.id}
           onClose={() => setShowAddContactModal(false)}
           onSuccess={fetchContacts}
         />
@@ -1108,7 +981,7 @@ export default function Home() {
                         const res = await fetch('/api/calendar/sync', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ icalUrl: url, tenantId: selectedTenant?.id }),
+                          body: JSON.stringify({ icalUrl: url }),
                         });
                         const data = await res.json();
                         alert(data.message || data.error);
@@ -1145,7 +1018,6 @@ export default function Home() {
                           body: JSON.stringify({
                             title,
                             startTime: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
-                            tenantId: selectedTenant?.id,
                           }),
                         });
                         const data = await res.json();
@@ -1167,7 +1039,6 @@ export default function Home() {
                           body: JSON.stringify({
                             title,
                             startTime: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
-                            tenantId: selectedTenant?.id,
                           }),
                         });
                         const data = await res.json();
@@ -1193,7 +1064,7 @@ export default function Home() {
         onSuccess={() => {
           fetchContacts();
         }}
-        tenantName={selectedTenant?.name || brandName}
+        tenantName={brandName}
       />
     </div>
   );

@@ -1,47 +1,98 @@
 import { prisma } from '@/lib/prisma';
+import { COPPER_GIANT_TENANT_ID } from '@/lib/auth';
 
 let isSeeding = false;
 let isInitialized = false;
 
 /**
- * Self-healing automatic data persistence synchronizer
- * Guarantees that essential configurations, whitelist, contacts, and tokens
- * are never lost across EasyPanel container rebuilds.
+ * Self-healing automatic data persistence synchronizer for Copper Giant Resources Corp.
+ * Single Tenant - All multi-tenant overhead completely removed.
  */
 export async function ensurePersistentData() {
   if (isInitialized || isSeeding) return;
   isSeeding = true;
 
   try {
-    // 1. Ensure Default Tenant
-    let tenant = await prisma.tenant.findFirst({
-      where: { OR: [{ slug: 'coppergiant' }, { name: 'Copper Giant' }] },
+    const tenantId = COPPER_GIANT_TENANT_ID;
+
+    // 1. Ensure Single Unified Tenant (Copper Giant)
+    let tenant = await prisma.tenant.findUnique({
+      where: { id: tenantId },
     });
 
     if (!tenant) {
       try {
         tenant = await prisma.tenant.upsert({
           where: { slug: 'coppergiant' },
-          update: {},
+          update: {
+            name: 'Copper Giant Resources Corp.',
+            slug: 'coppergiant',
+            primaryColor: '#E65100',
+            status: 'ACTIVE',
+          },
           create: {
-            name: 'Copper Giant',
+            id: tenantId,
+            name: 'Copper Giant Resources Corp.',
             slug: 'coppergiant',
             primaryColor: '#E65100',
             status: 'ACTIVE',
           },
         });
       } catch (e) {
-        tenant = await prisma.tenant.findFirst({
-          where: { slug: 'coppergiant' },
-        });
+        tenant = await prisma.tenant.findFirst({ where: { slug: 'coppergiant' } });
       }
     }
 
-    const tenantId = tenant?.id || '';
+    // 2. Ensure Real Executive Users in DB (for WhatsApp OTP login)
+    const executiveUsers = [
+      {
+        phone: '+573207116676',
+        name: 'Nelson Carvajal',
+        email: 'carvajal@i2services.co',
+        role: 'SUPER_ADMIN',
+      },
+      {
+        phone: '+13039562944',
+        name: 'Ian Harris',
+        email: 'ian@coppergiant.com',
+        role: 'SUPER_ADMIN',
+      },
+      {
+        phone: '+573044223098',
+        name: 'Andrés',
+        email: 'andres@i2services.co',
+        role: 'TENANT_ADMIN',
+      },
+      {
+        phone: '+573012954278',
+        name: 'Sara',
+        email: 'sara@coppergiant.com',
+        role: 'MANAGER',
+      },
+    ];
 
-    // 2. Ensure WhatsApp Session is Connected
+    for (const u of executiveUsers) {
+      await prisma.user.upsert({
+        where: { phone: u.phone },
+        update: {
+          name: u.name,
+          email: u.email,
+          role: u.role,
+          tenantId,
+        },
+        create: {
+          phone: u.phone,
+          name: u.name,
+          email: u.email,
+          role: u.role,
+          tenantId,
+        },
+      });
+    }
+
+    // 3. Ensure WhatsApp Session is Connected via Olimpo
     const session = await prisma.whatsAppSession.findFirst({
-      where: { OR: [{ tenantId }, { instanceName: 'Copper GiantBot' }] },
+      where: { instanceName: 'olimpus' },
     });
 
     if (!session) {
@@ -49,25 +100,27 @@ export async function ensurePersistentData() {
         await prisma.whatsAppSession.create({
           data: {
             tenantId,
-            instanceName: 'Copper GiantBot',
+            instanceName: 'olimpus',
             status: 'CONNECTED',
-            phoneNumber: '+573124031892',
+            phoneNumber: '+573207116676',
             qrCode: null,
           },
         });
       } catch (e) {
-        // Ignored if created by another worker
+        // Ignored if created concurrently
       }
     }
 
-    // 3. Ensure Full WhatsApp Whitelist
+    // 4. Ensure Full WhatsApp Whitelist
     const whitelistEntries = [
       { phoneNumber: '+573137873131', name: 'Nelson (Línea Nueva)', role: 'Admin' },
       { phoneNumber: '+573207116676', name: 'Nelson', role: 'Admin' },
       { phoneNumber: '+573012954278', name: 'Sara', role: 'Admin' },
+      { phoneNumber: '+573044223098', name: 'Andrés', role: 'Admin' },
       { phoneNumber: '+573124031892', name: 'Administrador WhatsApp', role: 'Admin' },
       { phoneNumber: '63260657213511', name: 'Nelson', role: 'Admin' },
       { phoneNumber: '149684358279226', name: 'Sara', role: 'Admin' },
+      { phoneNumber: '125937114960119', name: 'Andrés', role: 'Admin' },
     ];
 
     for (const entry of whitelistEntries) {
@@ -78,142 +131,52 @@ export async function ensurePersistentData() {
       });
     }
 
-    // 4. Ensure CopperMind Gateway Configuration
-    const copperMindConfig = await prisma.hermesConfig.findFirst({
-      where: { OR: [{ tenantId }, { gatewayMode: 'TELEGRAM' }] },
-    });
-
-    if (!copperMindConfig) {
+    // 5. Ensure Olimpo Gateway Configuration (WhatsApp Native, No Telegram Bot tokens)
+    const hermesConfig = await prisma.hermesConfig.findFirst();
+    if (!hermesConfig) {
       await prisma.hermesConfig.create({
         data: {
           tenantId,
-          endpointUrl: 'http://localhost:8000',
-          apiKey: 'hermes_coppergiant_secret_2026',
-          telegramBotToken: '8925340221:AAHU0nrxvP2XqPewfZMK1GzmjjyFGPIUX8o',
-          telegramChatId: '-5370719843',
-          gatewayMode: 'TELEGRAM',
+          endpointUrl: 'http://127.0.0.1:18789',
+          apiKey: 'olimpus_coppergiant_2026',
+          gatewayMode: 'WHATSAPP',
           isActive: true,
         },
       });
     } else {
       await prisma.hermesConfig.update({
-        where: { id: copperMindConfig.id },
+        where: { id: hermesConfig.id },
         data: {
-          telegramBotToken: '8925340221:AAHU0nrxvP2XqPewfZMK1GzmjjyFGPIUX8o',
-          telegramChatId: '-5370719843',
-          gatewayMode: 'TELEGRAM',
+          gatewayMode: 'WHATSAPP',
+          endpointUrl: 'http://127.0.0.1:18789',
           isActive: true,
         },
       });
     }
 
-    // 5. Ensure Key Contacts
-    const keyContacts = [
-      {
-        name: 'Guillermo Flores',
-        company: 'Banco Popular',
-        title: 'Gerente Banca Corporativa',
-        email: 'guillermo@bancopopular.com',
-        phone: '+57 301 295 4278',
-        whatsapp: '+573012954278',
-        stage: 'Follow-up Required',
-        leadScore: 85,
-        investorType: 'Institutional Investor',
-        dynamicIcebreaker: 'Contacto clave de banca corporativa en Banco Popular.',
-      },
-      {
-        name: 'Ian Harris',
-        company: 'Copper Giant',
-        title: 'CEO & Mining Executive',
-        email: 'ian@coppergiant.com',
-        phone: '+1 303 956-2944',
-        whatsapp: '+13039562944',
-        stage: 'Deal Committed',
-        leadScore: 95,
-        investorType: 'Strategic Corporate',
-        dynamicIcebreaker: 'Ejecutivo minero estratégico para exploraciones.',
-      },
-      {
-        name: 'Felipe Olaya',
-        company: 'BBVA',
-        title: 'Director de Inversiones',
-        email: 'felipe@bbva.com',
-        phone: '+149684358279226',
-        whatsapp: '+149684358279226',
-        stage: 'Meeting Scheduled',
-        leadScore: 78,
-        investorType: 'Institutional Investor',
-      },
-      {
-        name: 'Andrés',
-        company: 'I2services',
-        title: 'Tech Director',
-        email: 'andres@i2services.co',
-        phone: '+63260657213511',
-        whatsapp: '+63260657213511',
-        stage: 'Strategic Partner',
-        leadScore: 90,
-        investorType: 'Strategic Corporate',
-      },
-      {
-        name: 'Patricia Gomez',
-        company: 'Pan American Silver Corp',
-        title: 'VP Business Development',
-        email: 'pgomez@panamericansilver.com',
-        phone: '+1 604 555 8890',
-        whatsapp: '+16045558890',
-        stage: 'Deck Sent',
-        leadScore: 82,
-        investorType: 'HNW investor',
-      },
-      {
-        name: 'Scott Kelly',
-        company: 'Wetherby Growth',
-        title: 'Portfolio Manager',
-        email: 'skelly@wetherbygrowth.com',
-        phone: '+1-416-998-4714',
-        whatsapp: '+14169984714',
-        location: '217 Queen Street West, 4th Floor, Toronto ON M5V 0R2, Canada',
-        city: 'Toronto',
-        country: 'Canada',
-        source: 'Card Scan',
-        notes: 'Website: https://wetherbygrowth.com | Address: 217 Queen Street West, 4th Floor, Toronto ON M5V 0R2',
-        stage: 'Interested - early',
-        leadScore: 85,
-        investorType: 'Institutional Investor',
-        dynamicIcebreaker: 'Portfolio Manager en Wetherby Growth (Toronto). Interés estratégico en proyectos de pórfidos Cu-Mo como Mocoa.',
-      },
+    // 6. Ensure Institutional Media Drive Folders
+    const institutionalFolders = [
+      { name: 'Presentaciones Corporativas & Pitch Decks', color: '#E65100', description: 'Decks corporativos y materiales de IR' },
+      { name: 'Reportes Técnicos & NI 43-101', color: '#00E5FF', description: 'Estudios geológicos y recursos minerales de Mocoa' },
+      { name: 'Doctrina y Memoria del Olimpo', color: '#FF002C', description: 'Directivas y directrices estratégicas de los agentes' },
+      { name: 'Pórfido Mocoa Cu-Mo', color: '#10B981', description: 'Mapas, barrenos y modelos de bloques' },
     ];
 
-    for (const c of keyContacts) {
-      const existing = await prisma.contact.findFirst({
-        where: { name: c.name },
-      });
-
+    for (const f of institutionalFolders) {
+      const existing = await prisma.mediaFolder.findFirst({ where: { name: f.name } });
       if (!existing) {
-        await prisma.contact.create({
+        await prisma.mediaFolder.create({
           data: {
+            name: f.name,
+            color: f.color,
+            description: f.description,
+            isSystem: true,
             tenantId,
-            name: c.name,
-            company: c.company,
-            title: c.title,
-            email: c.email,
-            phone: c.phone,
-            whatsapp: c.whatsapp,
-            location: (c as any).location || null,
-            city: (c as any).city || null,
-            country: (c as any).country || 'Colombia',
-            notes: (c as any).notes || null,
-            stage: c.stage,
-            leadScore: c.leadScore,
-            investorType: c.investorType,
-            dynamicIcebreaker: c.dynamicIcebreaker || '',
-            strategicContext: 'Contacto persistido en CRM.',
-            source: (c as any).source || 'System Permanent Registry',
           },
         });
       }
     }
+
     isInitialized = true;
   } catch (err: any) {
     console.error('[Auto-Seed] Error ensuring persistent data:', err?.message);

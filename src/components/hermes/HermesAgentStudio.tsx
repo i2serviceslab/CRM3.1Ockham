@@ -526,9 +526,9 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                   <Sparkles className="w-7 h-7 text-[var(--accent-primary)]" />
                 </div>
                 <div className="max-w-md space-y-1">
-                  <h3 className="text-base font-bold text-white">¿En qué podemos colaborar con Forge?</h3>
+                  <h3 className="text-base font-bold text-white">¿En qué te asiste El Olimpo de Copper Giant?</h3>
                   <p className="text-xs text-neutral-400 leading-relaxed">
-                    Escribe tu requerimiento, adjunta archivos PDF/CSV o envía una nota de voz para activar los workers de scraping e investigación en tu Mac Mini.
+                    Escribe tu consulta o requerimiento para activar a Hermes, Plutus, Athena, Argus o Zeus sobre la memoria y base de datos del CRM.
                   </p>
                 </div>
 
@@ -536,24 +536,24 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-lg w-full pt-4">
                   {[
                     {
-                      label: '🕷️ Scrapear directorio minero',
-                      desc: 'Extraer directores y correos de una empresa',
-                      worker: 'SCRAPER',
+                      label: '💎 Auditar pipeline de capital',
+                      desc: 'Consultar inversores y fondos calificados',
+                      worker: 'PLUTUS',
                     },
                     {
-                      label: '📄 Analizar documento técnico',
-                      desc: 'Extraer leyes minerales y coordenadas',
-                      worker: 'DOC_ANALYSIS',
+                      label: '🦉 Validar leyes y NI 43-101',
+                      desc: 'Auditoría técnica de Mocoa Cu-Mo',
+                      worker: 'ATHENA',
                     },
                     {
-                      label: '🔍 Buscar fondos en Vancouver',
-                      desc: 'Identificar fondos mineros activos',
-                      worker: 'RESEARCH',
+                      label: '🪽 Buscar contacto en el CRM',
+                      desc: 'Buscar en la base de 5,087 directores y fondos',
+                      worker: 'HERMES',
                     },
                     {
-                      label: '📊 Estructurar datos a CSV',
-                      desc: 'Convertir reporte no estructurado en tabla',
-                      worker: 'SCRAPER',
+                      label: '👁️ Estado de Sentinel y Web',
+                      desc: 'Vigilancia 24/7 de portales y noticias',
+                      worker: 'ARGUS',
                     },
                   ].map((sug, i) => (
                     <button
@@ -722,7 +722,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce" />
                       </div>
                       <span className="text-xs font-semibold text-neutral-200">
-                        Forge está pensando y ejecutando la solicitud en tu Mac...
+                        El Olimpo está consultando la memoria y ejecutando en el CRM...
                       </span>
                     </div>
 
@@ -742,12 +742,13 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
           <div className="p-4 border-t border-white/10 bg-[#181717] space-y-3 shrink-0">
             {/* WORKER SELECTOR PILLS */}
             <div className="flex items-center gap-2 overflow-x-auto pb-1 max-w-4xl mx-auto">
-              <span className="text-[10px] font-mono uppercase text-neutral-500 font-bold">Worker:</span>
+              <span className="text-[10px] font-mono uppercase text-neutral-500 font-bold">Olimpo:</span>
               {[
-                { id: 'GENERAL', label: '🧠 Forge General' },
-                { id: 'SCRAPER', label: '🕷️ Web Scraping Worker' },
-                { id: 'DOC_ANALYSIS', label: '📄 Analizador de Documentos' },
-                { id: 'RESEARCH', label: '🔍 Deep Market Research' },
+                { id: 'HERMES', label: '🪽 Hermes (Orquestador)' },
+                { id: 'PLUTUS', label: '💎 Plutus (Capital & Pipeline)' },
+                { id: 'ATHENA', label: '🦉 Athena (Doctrina & NI 43-101)' },
+                { id: 'ARGUS', label: '👁️ Argus (Centinela & Web)' },
+                { id: 'ZEUS', label: '⚡ Zeus (CEO Ian Harris)' },
               ].map((w) => (
                 <button
                   key={w.id}
@@ -975,7 +976,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
               <div className="p-3.5 rounded-sm bg-[#131313] border border-white/10">
                 <div className="text-xs font-bold text-white">Webhook del CRM (Inbound Callbacks):</div>
                 <div className="text-[11px] font-mono text-[var(--accent-primary)] break-all mt-0.5">
-                  https://homunculus-host-coppergiant-silver-crm.wu48i0.easypanel.host/api/hermes/webhook
+                  https://copper-giant-crm-3-ockham.wu48i0.easypanel.host/api/hermes/webhook
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSession, getEffectiveTenantId } from '@/lib/auth';
+import { COPPER_GIANT_TENANT_ID } from '@/lib/auth';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -12,27 +12,15 @@ export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
-
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const session = await getSession();
-    const { searchParams } = new URL(request.url);
-    const requestedTenantId = searchParams.get('tenantId');
-    const effectiveTenantId = getEffectiveTenantId(session, requestedTenantId);
-
-    const whereClause: any = {};
-    if (effectiveTenantId) {
-      whereClause.OR = [{ tenantId: effectiveTenantId }, { tenantId: null }];
-    }
-
     const events = await prisma.roadshowEvent.findMany({
-      where: whereClause,
       include: {
         meetings: {
-          include: { contact: true }
-        }
+          include: { contact: true },
+        },
       },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
     });
 
     return NextResponse.json({ success: true, events }, { headers: corsHeaders });
@@ -43,26 +31,28 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const session = await getSession();
-    if (!session) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
-    
     const body = await request.json();
-    const { name, city, country, dates, boothNumber, tenantId } = body;
-    const effectiveTenantId = getEffectiveTenantId(session, tenantId);
+    const { name, city, country, dates, boothNumber } = body;
+
+    if (!name) {
+      return NextResponse.json({ success: false, error: 'Name is required' }, { status: 400 });
+    }
 
     const event = await prisma.roadshowEvent.create({
       data: {
-        tenantId: effectiveTenantId || null,
+        tenantId: COPPER_GIANT_TENANT_ID,
         name,
-        city,
-        country,
-        dates,
-        boothNumber
+        city: city || 'Toronto',
+        country: country || 'Canada',
+        dates: dates || '2026',
+        boothNumber: boothNumber || null,
       },
-      include: { meetings: true }
+      include: {
+        meetings: true,
+      },
     });
 
-    return NextResponse.json({ success: true, event });
+    return NextResponse.json({ success: true, event }, { headers: corsHeaders });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }

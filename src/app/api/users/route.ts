@@ -1,37 +1,19 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSession, requireRole, getEffectiveTenantId } from '@/lib/auth';
+import { getSession, requireRole, COPPER_GIANT_TENANT_ID } from '@/lib/auth';
 
 export async function GET(request: Request) {
   try {
-    const session = await getSession();
     const { searchParams } = new URL(request.url);
-    const requestedTenantId = searchParams.get('tenantId');
     const role = searchParams.get('role');
 
-    const effectiveTenantId = getEffectiveTenantId(session, requestedTenantId);
-
     const where: any = {};
-
-    if (effectiveTenantId) {
-      where.tenantId = effectiveTenantId;
-    }
-
     if (role && role !== 'ALL') {
       where.role = role;
     }
 
     const users = await prisma.user.findMany({
       where,
-      include: {
-        tenant: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-          },
-        },
-      },
       orderBy: { createdAt: 'desc' },
     });
 
@@ -49,11 +31,9 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { action, userId, name, email, phone, role, tenantId: bodyTenantId } = body;
+    const { action, userId, name, email, phone, role } = body;
 
-    const effectiveTenantId = getEffectiveTenantId(session, bodyTenantId);
-
-    // Delete / Deactivate User
+    // Delete User
     if (action === 'DELETE' && userId) {
       await prisma.user.delete({ where: { id: userId } });
       return NextResponse.json({ success: true, message: 'User successfully removed' });
@@ -67,7 +47,6 @@ export async function POST(request: Request) {
       formattedPhone = `+57${Date.now().toString().slice(-10)}`;
     }
 
-    // Save or update user safely
     let user;
     if (userId) {
       user = await prisma.user.update({
@@ -77,11 +56,10 @@ export async function POST(request: Request) {
           email: cleanEmail || undefined,
           phone: formattedPhone,
           role: role || 'AGENT',
-          tenantId: effectiveTenantId || null,
+          tenantId: COPPER_GIANT_TENANT_ID,
         },
       });
     } else {
-      // Find existing user by email OR phone
       let existingUser = null;
       if (cleanEmail) {
         existingUser = await prisma.user.findUnique({ where: { email: cleanEmail } });
@@ -98,7 +76,7 @@ export async function POST(request: Request) {
             email: cleanEmail || existingUser.email,
             phone: formattedPhone || existingUser.phone,
             role: role || existingUser.role,
-            tenantId: effectiveTenantId || existingUser.tenantId,
+            tenantId: COPPER_GIANT_TENANT_ID,
           },
         });
       } else {
@@ -108,27 +86,11 @@ export async function POST(request: Request) {
             name: name || (cleanEmail ? cleanEmail.split('@')[0].toUpperCase() : `User ${formattedPhone.slice(-4)}`),
             email: cleanEmail || `${Date.now()}@investor.com`,
             role: role || 'AGENT',
-            tenantId: effectiveTenantId || null,
+            tenantId: COPPER_GIANT_TENANT_ID,
           },
         });
       }
     }
-
-    // Send WhatsApp Welcome / Invitation Message
-    const welcomeMsg =
-      `👋 *Hello, ${user.name}! Welcome to Copper Giant CRM.*\n\n` +
-      `Your account has been configured with role: *${user.role}*.\n\n` +
-      `🔑 You can log in anytime using your phone number (*${user.phone}*) via WhatsApp OTP on the CRM platform.`;
-
-    await prisma.whatsAppMessage.create({
-      data: {
-        fromNumber: 'CRM Security',
-        senderName: 'System Admin',
-        toNumber: user.phone,
-        message: welcomeMsg,
-        direction: 'OUTBOUND',
-      },
-    });
 
     return NextResponse.json({
       success: true,

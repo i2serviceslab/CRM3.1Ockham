@@ -156,29 +156,24 @@ function extractInboundMessage(m: any, instanceName: string, tenantId: string) {
 
 export async function GET() {
   try {
-    const defaultTenant =
-      (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
-      (await prisma.tenant.findFirst());
-
-    const tenantId = defaultTenant?.id || 'default-tenant';
+    const tenantId = 'be078b12-b027-44e3-8d77-144bfbe23279';
 
     let dbSession = await prisma.whatsAppSession.findFirst({
-      where: { tenantId },
+      where: { instanceName: 'olimpus' },
     });
 
     if (!dbSession) {
       dbSession = await prisma.whatsAppSession.create({
-        data: { tenantId, status: 'CONNECTED', qrCode: null, phoneNumber: '+573124031892', instanceName: 'Copper GiantBot' },
+        data: { tenantId, status: 'CONNECTED', qrCode: null, phoneNumber: '+573207116676', instanceName: 'olimpus' },
       });
     }
 
     if (EvoApi.isConfigured()) {
-      const instanceName = dbSession.instanceName || 'Copper GiantBot';
+      const instanceName = 'olimpus';
       const evStatus = await EvoApi.getInstanceStatus(instanceName);
       const isConnected = evStatus.state === 'open';
       const isConnecting = evStatus.state === 'connecting';
 
-      // Keep current QR in DB, don't regenerate every 2s while user is scanning!
       let freshQr = dbSession.qrCode;
       if (isConnected) {
         freshQr = null;
@@ -276,7 +271,7 @@ export async function POST(request: Request) {
 
         const messages = Array.isArray(msgData) ? msgData : [msgData];
         const defaultTenant =
-          (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
+          (await prisma.tenant.findFirst({ where: { slug: { in: ['coppergiant', 'coppergiant-silver'] } } })) ||
           (await prisma.tenant.findFirst());
         const tenantId = defaultTenant?.id || 'default-tenant';
 
@@ -297,7 +292,7 @@ export async function POST(request: Request) {
     const { action, message, phoneNumber, fromNumber, id, name, role, mediaUrl } = body;
 
     const defaultTenant =
-      (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
+      (await prisma.tenant.findFirst({ where: { slug: { in: ['coppergiant', 'coppergiant-silver'] } } })) ||
       (await prisma.tenant.findFirst());
     const tenantId = defaultTenant?.id || 'default-tenant';
 

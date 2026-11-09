@@ -3,17 +3,18 @@
  * Connects the CRM to an Evolution API instance running on EasyPanel VPS
  */
 
-const BASE_URL = (process.env.EVOLUTION_API_URL || 'https://herramientas-evolution-api.wu48i0.easypanel.host').replace(/\/$/, '');
-const GLOBAL_KEY = process.env.EVOLUTION_API_KEY || '429683C4C977415CAAFCCE10F7D57E11';
+const BASE_URL = (process.env.EVOLUTION_API_URL || 'https://evolution-boost-boost.0fdovo.easypanel.host').replace(/\/$/, '');
+const GLOBAL_KEY = process.env.EVOLUTION_API_KEY || 'CB49F3CF6FD1-4B91-9FE7-816F3BDC9E08';
+const DEFAULT_INSTANCE = process.env.EVOLUTION_INSTANCE || 'olimpus';
 
 function headers() {
   return { 'Content-Type': 'application/json', apikey: GLOBAL_KEY };
 }
 
-/** Derives a safe Evolution API instance name from a tenantId */
-export function instanceNameFor(tenantId: string): string {
-  if (!tenantId || tenantId === 'default-tenant') return 'Copper GiantBot';
-  return `crm-${tenantId.replace(/[^a-zA-Z0-9]/g, '-').slice(0, 40)}`;
+/** Derives the Evolution API instance name (defaults to Olimpo instance) */
+export function instanceNameFor(tenantId?: string): string {
+  if (process.env.EVOLUTION_INSTANCE) return process.env.EVOLUTION_INSTANCE;
+  return DEFAULT_INSTANCE;
 }
 
 // ─────────────────────────────────────────────

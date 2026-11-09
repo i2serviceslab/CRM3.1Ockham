@@ -10,7 +10,7 @@ interface RealWebRtcRoomProps {
 }
 
 export default function RealWebRtcRoom({
-  roomName = 'Copper GiantSilver-IR-Executive',
+  roomName = 'CopperGiant-IR-Executive',
   contactName,
   onClose,
 }: RealWebRtcRoomProps) {

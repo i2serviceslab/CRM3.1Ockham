@@ -16,7 +16,7 @@ INPUT_FILE = "/Users/i2carvajal/Documents/Proyectos/CopperCRM_V3_Clean/data/crm_
 TARGET_URL = "https://copper-giant-crm-3-ockham.wu48i0.easypanel.host/api/contacts/import"
 BATCH_SIZE = 100  # Safe batch size to avoid HTTP timeouts or SQLite write lock contention
 
-def run_migration(dry_run=False, start_offset=0, batch_size=50):
+def run_migration(dry_run=False, start_offset=0, batch_size=25):
     if not os.path.exists(INPUT_FILE):
         print(f"Error: Migration file not found: {INPUT_FILE}")
         sys.exit(1)

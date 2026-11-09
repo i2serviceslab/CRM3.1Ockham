@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { sendText, instanceNameFor } from '@/lib/evolution-api';
 
 export async function POST(request: Request) {
   try {
@@ -50,27 +51,35 @@ export async function POST(request: Request) {
       },
     });
 
-    // Send OTP message via WhatsApp DB / Daemon Engine
+    // Send OTP message via WhatsApp DB & Evolution API Olimpo
     const otpMessageText =
-      `🔑 *Copper Giant Silver CRM Security Verification Code*\n\n` +
+      `🔑 *Copper Giant CRM Security Verification Code*\n\n` +
       `Your single-use login code is: *${otpCode}*\n\n` +
-      `⏱️ *Valid for 5 minutes*. Please do not share this code with anyone.`;
+      `⏱️ *Valid for 5 minutes*. Please do not share this code with anyone.\n\n` +
+      `— 🪽 Hermes (Security Daemon)`;
 
     await prisma.whatsAppMessage.create({
       data: {
         fromNumber: 'CRM Bot',
-        senderName: 'CRM Security Daemon',
+        senderName: 'Hermes Security Daemon',
         toNumber: user.phone,
         message: otpMessageText,
         direction: 'OUTBOUND',
       },
     });
 
+    // Dispatch directly through Evolution API (olimpus instance)
+    try {
+      await sendText(instanceNameFor(), user.phone, otpMessageText);
+    } catch (e: any) {
+      console.warn('[OTP Dispatch Note]:', e?.message);
+    }
+
     return NextResponse.json({
       success: true,
       message: `Código de verificación de 6 dígitos enviado por WhatsApp a ${user.phone}`,
-      devPreviewCode: otpCode,
       expiresInSeconds: 300,
+      ...(process.env.NODE_ENV === 'development' ? { devPreviewCode: otpCode } : {}),
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

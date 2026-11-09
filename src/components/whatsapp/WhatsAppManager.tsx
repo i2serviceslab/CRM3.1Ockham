@@ -475,16 +475,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
               className="w-full hs-pill-btn hs-btn-lime py-2.5 text-xs font-black flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] transition-transform"
             >
               <QrCode className="w-4 h-4" />
-              <span>{loading ? 'Generating New QR...' : '⚡ Generate / Re-generate QR Code'}</span>
-            </button>
-
-            <button
-              onClick={handleSimulatePairing}
-              disabled={loading}
-              style={{ backgroundColor: 'var(--bg-card-inner)' }}
-              className="w-full py-2 rounded-full text-xs font-black text-slate-300 hover:text-white transition-colors"
-            >
-              Simulate Direct Pairing (Sandbox)
+              <span>{loading ? 'Consultando Estado...' : '⚡ Sincronizar Estado Olimpo'}</span>
             </button>
           </div>
         </div>

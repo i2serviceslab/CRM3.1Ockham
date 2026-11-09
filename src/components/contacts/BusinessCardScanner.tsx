@@ -107,13 +107,6 @@ export const BusinessCardScanner: React.FC<BusinessCardScannerProps> = ({ onSucc
             Escanea el frente y reverso de la tarjeta con IA/OCR para extraer datos de contacto y clasificarlos.
           </p>
         </div>
-
-        <button
-          onClick={handleLoadDemoCard}
-          className="px-3.5 py-2 rounded-sm bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold hover:bg-purple-500/20 transition-all"
-        >
-          Cargar Tarjeta de Ejemplo
-        </button>
       </div>
 
       {successMsg && (

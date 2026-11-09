@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
       (async () => {
         try {
           const defaultTenant =
-            (await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } })) ||
+            (await prisma.tenant.findFirst({ where: { slug: { in: ['coppergiant', 'coppergiant-silver'] } } })) ||
             (await prisma.tenant.findFirst());
           const tenantId = defaultTenant?.id || 'default-tenant';
 

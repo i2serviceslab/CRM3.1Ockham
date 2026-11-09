@@ -33,7 +33,6 @@ export type ActiveTab =
   | 'analytics'
   | 'users'
   | 'backups'
-  | 'super-admin'
   | 'settings';
 
 interface SidebarProps {
@@ -51,23 +50,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
   setActiveTab,
   contactCount,
   onLogout,
-  brandName = 'Copper Giant',
+  brandName = 'Copper Giant Resources Corp.',
   brandLogo,
-  selectedTenant,
 }) => {
   const currentLogo = brandLogo || '/logo.webp';
   const menuItems = [
     { id: 'contacts' as ActiveTab, label: '360° Contacts', icon: Users, badge: contactCount },
     { id: 'graph' as ActiveTab, label: 'Relationship Graph', icon: Network, highlight: true },
     { id: 'followup' as ActiveTab, label: 'Follow-up Pipeline', icon: Clock },
-    { id: 'hermes-agent' as ActiveTab, label: 'Forge AI', icon: Bot, badge: 'Workers', highlight: true },
+    { id: 'hermes-agent' as ActiveTab, label: 'El Olimpo AI', icon: Bot, badge: 'Olimpo', highlight: true },
     { id: 'syndicates' as ActiveTab, label: 'Syndicates & Pools', icon: Users, badge: 'Pools' },
     { id: 'roadshows' as ActiveTab, label: 'Roadshows & Summits', icon: Calendar, badge: 'Events' },
     { id: 'social-calendar' as ActiveTab, label: 'Social Calendar', icon: Calendar, badge: 'IR' },
     { id: 'meetings' as ActiveTab, label: 'Meeting Intelligence', icon: Mic },
-    { id: 'whatsapp' as ActiveTab, label: 'WhatsApp Baileys', icon: MessageSquare, badge: 'Bot' },
+    { id: 'whatsapp' as ActiveTab, label: 'WhatsApp Olimpo', icon: MessageSquare, badge: 'En Línea' },
     { id: 'workflows' as ActiveTab, label: 'Workflows & Rules', icon: Workflow },
-    { id: 'media-drive' as ActiveTab, label: 'Repositorio & Drive IA', icon: FolderKanban, badge: 'Humunculus' },
+    { id: 'media-drive' as ActiveTab, label: 'Repositorio & Drive IA', icon: FolderKanban, badge: 'Drive' },
     { id: 'users' as ActiveTab, label: 'Users & Roles', icon: Users, badge: 'RBAC' },
     { id: 'backups' as ActiveTab, label: 'Database Backups', icon: Database, badge: 'Auto' },
     { id: 'analytics' as ActiveTab, label: 'Analytics & Reports', icon: BarChart3 },
@@ -118,7 +116,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             />
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-xs font-bold text-white uppercase tracking-wider leading-tight truncate">
-                {selectedTenant?.name || brandName}
+                {brandName}
               </span>
               <span className="text-[10px] font-mono text-[var(--accent-primary)] font-semibold uppercase tracking-widest leading-none mt-0.5">
                 CORE CRM v2.1

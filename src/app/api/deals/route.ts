@@ -1,16 +1,10 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSession, getEffectiveTenantId } from '@/lib/auth';
+import { COPPER_GIANT_TENANT_ID } from '@/lib/auth';
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const session = await getSession();
-    const { searchParams } = new URL(request.url);
-    const requestedTenantId = searchParams.get('tenantId');
-    const effectiveTenantId = getEffectiveTenantId(session, requestedTenantId);
-
     const deals = await prisma.deal.findMany({
-      where: effectiveTenantId ? { tenantId: effectiveTenantId } : {},
       include: {
         contact: true,
         quotes: true,
@@ -25,15 +19,12 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const session = await getSession();
     const body = await request.json();
-    const { contactId, title, amount, currency, stage, probability, expectedCloseDate, tenantId: bodyTenantId } = body;
+    const { contactId, title, amount, currency, stage, probability, expectedCloseDate } = body;
 
     if (!contactId || !title) {
       return NextResponse.json({ success: false, error: 'Contact ID and title are required' }, { status: 400 });
     }
-
-    const effectiveTenantId = getEffectiveTenantId(session, bodyTenantId);
 
     const deal = await prisma.deal.create({
       data: {
@@ -44,7 +35,7 @@ export async function POST(request: Request) {
         stage: stage || 'Prospecting',
         probability: probability ? parseInt(probability, 10) : 20,
         expectedCloseDate: expectedCloseDate ? new Date(expectedCloseDate) : null,
-        tenantId: effectiveTenantId || null,
+        tenantId: COPPER_GIANT_TENANT_ID,
       },
       include: { contact: true },
     });
@@ -78,9 +69,9 @@ export async function PUT(request: Request) {
       data: {
         stage,
         probability,
-        amount,
-        updatedAt: new Date(),
+        amount: amount !== undefined ? parseFloat(amount) : undefined,
       },
+      include: { contact: true },
     });
 
     return NextResponse.json({ success: true, deal: updated });

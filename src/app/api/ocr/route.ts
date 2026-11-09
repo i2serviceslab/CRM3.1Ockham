@@ -28,10 +28,7 @@ export async function POST(request: Request) {
       process.env.GEMINI_API_KEY ||
       process.env.GEMINI_DRIVE_API_KEY ||
       process.env.GOOGLE_API_KEY ||
-      Buffer.from(
-        'QVEuQWI4Uk42S29feFNoeUdSd3VXRTE5LU52Umo1MS1RemVydmNrdXFEZDRiU2NYdnhycVE=',
-        'base64'
-      ).toString('utf-8');
+      '';
 
     let parsedData: any = {
       name: '',
@@ -160,19 +157,9 @@ CRITICAL INSTRUCTIONS:
       }
     }
 
-    // Demo fallback for unsplash images
-    if (!extractedText && typeof frontImage === 'string' && frontImage.includes('unsplash')) {
-      parsedData = {
-        name: 'David Vance',
-        title: 'Managing Director - Mining Capital',
-        company: 'Sprott Resource Lending',
-        email: 'dvance@sprottnet.com',
-        phone: '+1 212 555 0321',
-        location: 'Toronto, Canada',
-        website: 'https://sprott.com',
-        rawText: 'David Vance | Managing Director | Sprott Resource Lending',
-      };
-      extractedText = parsedData.rawText;
+    // Ensure extractedText has at least the JSON representation if fields were found
+    if (!extractedText && parsedData.name) {
+      extractedText = `${parsedData.name} | ${parsedData.title || ''} | ${parsedData.company || ''}`;
     }
 
     // Save record to BusinessCard model

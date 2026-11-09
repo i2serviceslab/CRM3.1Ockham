@@ -1,24 +1,16 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSession, getEffectiveTenantId } from '@/lib/auth';
+import { getSession, COPPER_GIANT_TENANT_ID } from '@/lib/auth';
 
 export async function GET(request: Request) {
   try {
-    const session = await getSession();
     const { searchParams } = new URL(request.url);
     const startDate = searchParams.get('start_date');
     const endDate = searchParams.get('end_date');
     const platform = searchParams.get('platform');
     const categoryId = searchParams.get('category_id');
-    const requestedTenantId = searchParams.get('tenantId');
-
-    const effectiveTenantId = getEffectiveTenantId(session, requestedTenantId);
 
     const where: any = {};
-
-    if (effectiveTenantId) {
-      where.tenantId = effectiveTenantId;
-    }
 
     if (startDate && endDate) {
       where.scheduledDate = {
@@ -71,18 +63,15 @@ export async function POST(request: Request) {
       recurringDay,
       hashtags,
       mediaIds,
-      tenantId: bodyTenantId,
     } = body;
 
     if (!title || !title.trim()) {
       return NextResponse.json({ error: 'El título es obligatorio' }, { status: 400 });
     }
 
-    const effectiveTenantId = getEffectiveTenantId(session, bodyTenantId);
-
     const newPost = await prisma.socialPost.create({
       data: {
-        tenantId: effectiveTenantId || null,
+        tenantId: COPPER_GIANT_TENANT_ID,
         title: title.trim(),
         content: content || '',
         platforms: platforms || 'instagram,x,linkedin',
@@ -102,7 +91,6 @@ export async function POST(request: Request) {
       },
     });
 
-    // Associate media if provided
     if (mediaIds && Array.isArray(mediaIds) && mediaIds.length > 0) {
       await prisma.socialMedia.updateMany({
         where: { id: { in: mediaIds } },
@@ -117,7 +105,6 @@ export async function POST(request: Request) {
 
     const username = session?.name || session?.email || 'Admin Copper Giant';
 
-    // Record Audit Log
     await prisma.socialAuditLog.create({
       data: {
         action: 'create_post',

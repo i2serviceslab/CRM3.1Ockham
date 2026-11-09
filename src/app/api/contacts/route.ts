@@ -1,36 +1,19 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSession, getEffectiveTenantId } from '@/lib/auth';
+import { getSession, COPPER_GIANT_TENANT_ID } from '@/lib/auth';
 import { ensurePersistentData } from '@/lib/auto-seed';
 
 export async function GET(request: Request) {
   try {
     await ensurePersistentData();
-    const session = await getSession();
     const { searchParams } = new URL(request.url);
     const search = searchParams.get('search') || '';
     const investorType = searchParams.get('investorType');
     const interestLevel = searchParams.get('interestLevel');
     const stage = searchParams.get('stage');
     const source = searchParams.get('source');
-    const requestedTenantId = searchParams.get('tenantId');
-
-    let effectiveTenantId = getEffectiveTenantId(session, requestedTenantId);
-    if (!effectiveTenantId) {
-      effectiveTenantId = requestedTenantId && requestedTenantId !== 'ALL' ? requestedTenantId : '1757cddf-5974-4184-9bb1-d5f4f7e931be';
-    }
 
     const andClauses: any[] = [];
-
-    // Enforce Tenant Scoping
-    if (effectiveTenantId) {
-      andClauses.push({
-        OR: [
-          { tenantId: effectiveTenantId },
-          { tenantId: null }, // Shared legacy contacts
-        ],
-      });
-    }
 
     if (search) {
       andClauses.push({
@@ -64,10 +47,17 @@ export async function GET(request: Request) {
     const contacts = await prisma.contact.findMany({
       where,
       orderBy: { updatedAt: 'desc' },
+      include: {
+        timelineActivities: {
+          take: 5,
+          orderBy: { createdAt: 'desc' },
+        },
+      },
     });
 
-    return NextResponse.json({ success: true, contacts, count: contacts.length });
+    return NextResponse.json({ success: true, count: contacts.length, contacts });
   } catch (error: any) {
+    console.error('Error fetching contacts:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
@@ -87,11 +77,10 @@ export async function POST(request: Request) {
       investorType, 
       stage, 
       source, 
+      dynamicIcebreaker, 
+      strategicContext, 
       leadScore, 
-      dynamicIcebreaker,
-      strategicContext,
       businessCard,
-      tenantId: bodyTenantId, 
       apiKey 
     } = body;
 
@@ -106,11 +95,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Name is required' }, { status: 400 });
     }
 
-    const effectiveTenantId = getEffectiveTenantId(session, bodyTenantId);
-
     const contact = await prisma.contact.create({
       data: {
-        tenantId: effectiveTenantId || null,
+        tenantId: COPPER_GIANT_TENANT_ID,
         name,
         title: title || null,
         company: company || null,
@@ -129,7 +116,7 @@ export async function POST(request: Request) {
           create: {
             type: 'NOTE',
             title: 'Contacto Creado',
-            description: `Contacto registrado en la réplica CRM (${investorType} / ${stage}).`,
+            description: `Contacto registrado en Copper Giant CRM (${investorType} / ${stage}).`,
           },
         },
       },
@@ -157,4 +144,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
-

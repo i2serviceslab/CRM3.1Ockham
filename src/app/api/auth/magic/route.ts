@@ -147,7 +147,7 @@ export async function POST(request: Request) {
       const normalizedEmail = email.trim().toLowerCase();
       let user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
       if (!user) {
-        const coppergiantTenant = await prisma.tenant.findFirst({ where: { slug: 'coppergiant-silver' } });
+        const coppergiantTenant = (await prisma.tenant.findFirst({ where: { slug: { in: ['coppergiant', 'coppergiant-silver'] } } })) || (await prisma.tenant.findFirst());
         const uniquePhone = `+579${Math.floor(100000000 + Math.random() * 900000000)}`;
         const isAdminEmail =
           normalizedEmail.includes('admin') ||

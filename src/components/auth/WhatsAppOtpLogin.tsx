@@ -194,7 +194,7 @@ export default function WhatsAppOtpLogin({ onSuccess, onCancel }: WhatsAppOtpLog
               onClick={onCancel}
               className="text-xs text-slate-500 hover:text-slate-300 font-bold"
             >
-              Continue without signing in (Demo Mode)
+              Cancelar
             </button>
           </div>
         )}

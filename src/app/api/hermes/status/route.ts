@@ -130,7 +130,7 @@ export async function POST(request: Request) {
 
     // If a new bot token is saved, auto-register Telegram webhook for updates
     if (config.telegramBotToken) {
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://homunculus-host-coppergiant-silver-crm.wu48i0.easypanel.host';
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://copper-giant-crm-3-ockham.wu48i0.easypanel.host';
       const webhookUrl = `${appUrl}/api/hermes/telegram-webhook`;
       await setTelegramWebhook(config.telegramBotToken, webhookUrl).catch(() => {});
     }
