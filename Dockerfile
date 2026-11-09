@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
-RUN npm ci --no-audit
+RUN npm ci --no-audit && npm install --no-save @tailwindcss/oxide-linux-x64-musl
 
 # Step 2: Build Application
 FROM base AS builder
