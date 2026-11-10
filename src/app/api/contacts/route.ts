@@ -81,6 +81,7 @@ export async function POST(request: Request) {
       strategicContext, 
       leadScore, 
       businessCard,
+      notes,
       apiKey 
     } = body;
 
@@ -109,6 +110,7 @@ export async function POST(request: Request) {
         investorType: investorType || 'Retail investor',
         stage: stage || 'Interested - early',
         source: source || (businessCard ? 'Card Scan' : 'Networking'),
+        notes: notes || null,
         dynamicIcebreaker: dynamicIcebreaker || null,
         strategicContext: strategicContext || null,
         leadScore: leadScore ? parseInt(leadScore, 10) : 10,
