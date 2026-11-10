@@ -42,4 +42,4 @@ COPY --from=builder /app/data ./data-seed
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "mkdir -p /app/data && if [ ! -s /app/data/production.db ] || [ $(wc -c < /app/data/production.db) -lt 1000000 ]; then echo 'Syncing master production.db...'; cp /app/data-seed/production.db /app/data/production.db; fi && node server.js"]
+CMD ["sh", "-c", "mkdir -p /app/data && cp -f /app/data-seed/production.db /app/data/production.db && node server.js"]
