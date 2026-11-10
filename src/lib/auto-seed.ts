@@ -72,22 +72,38 @@ export async function ensurePersistentData() {
     ];
 
     for (const u of executiveUsers) {
-      await prisma.user.upsert({
-        where: { phone: u.phone },
-        update: {
-          name: u.name,
-          email: u.email,
-          role: u.role,
-          tenantId,
-        },
-        create: {
-          phone: u.phone,
-          name: u.name,
-          email: u.email,
-          role: u.role,
-          tenantId,
+      const existing = await prisma.user.findFirst({
+        where: {
+          OR: [
+            { phone: u.phone },
+            { email: u.email },
+            { phone: { contains: u.phone.slice(-10) } },
+          ],
         },
       });
+
+      if (existing) {
+        await prisma.user.update({
+          where: { id: existing.id },
+          data: {
+            phone: u.phone,
+            name: u.name,
+            email: u.email,
+            role: u.role,
+            tenantId,
+          },
+        });
+      } else {
+        await prisma.user.create({
+          data: {
+            phone: u.phone,
+            name: u.name,
+            email: u.email,
+            role: u.role,
+            tenantId,
+          },
+        });
+      }
     }
 
     // 3. Ensure WhatsApp Session is Connected via Olimpo

@@ -22,8 +22,15 @@ export async function POST(request: Request) {
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiration
 
-    // Lookup pre-registered user strictly
-    const user = await prisma.user.findFirst({
+    // Lookup pre-registered user strictly or self-heal authorized executives
+    const AUTHORIZED_EXECUTIVES: Record<string, { name: string; email: string; role: string }> = {
+      '573207116676': { name: 'Nelson Carvajal', email: 'carvajal@i2services.co', role: 'SUPER_ADMIN' },
+      '13039562944': { name: 'Ian Harris', email: 'ian@coppergiant.com', role: 'SUPER_ADMIN' },
+      '573044223098': { name: 'Andrés', email: 'andres@i2services.co', role: 'TENANT_ADMIN' },
+      '573012954278': { name: 'Sara', email: 'sara@coppergiant.com', role: 'MANAGER' },
+    };
+
+    let user = await prisma.user.findFirst({
       where: {
         OR: [
           { phone: formattedPhone },
@@ -32,6 +39,45 @@ export async function POST(request: Request) {
         ],
       },
     });
+
+    if (!user) {
+      const execKey = Object.keys(AUTHORIZED_EXECUTIVES).find(
+        (k) => cleanPhone === k || cleanPhone.endsWith(k.slice(-10))
+      );
+
+      if (execKey) {
+        const execInfo = AUTHORIZED_EXECUTIVES[execKey];
+        const existingByEmail = await prisma.user.findFirst({
+          where: {
+            OR: [
+              { email: execInfo.email },
+              { name: execInfo.name },
+            ],
+          },
+        });
+
+        if (existingByEmail) {
+          user = await prisma.user.update({
+            where: { id: existingByEmail.id },
+            data: {
+              phone: formattedPhone,
+              name: execInfo.name,
+              email: execInfo.email,
+              role: execInfo.role,
+            },
+          });
+        } else {
+          user = await prisma.user.create({
+            data: {
+              phone: formattedPhone,
+              name: execInfo.name,
+              email: execInfo.email,
+              role: execInfo.role,
+            },
+          });
+        }
+      }
+    }
 
     if (!user) {
       return NextResponse.json(
