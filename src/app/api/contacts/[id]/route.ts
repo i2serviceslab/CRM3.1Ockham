@@ -69,18 +69,31 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       },
     });
 
-    if (businessCard && (businessCard.frontImageUrl || businessCard.imageUrl)) {
+    if (businessCard) {
       try {
-        const frontUrl = businessCard.frontImageUrl || businessCard.imageUrl;
-        await prisma.businessCard.create({
-          data: {
-            contactId: id,
-            frontImageUrl: frontUrl.length > 2000 ? frontUrl.slice(0, 2000) : frontUrl,
-            backImageUrl: businessCard.backImageUrl && businessCard.backImageUrl.length > 2000 ? businessCard.backImageUrl.slice(0, 2000) : (businessCard.backImageUrl || null),
-            parsedData: JSON.stringify({ name: updated.name, title: updated.title, company: updated.company, email: updated.email, phone: updated.phone }),
-            parsedDataJson: JSON.stringify({ name: updated.name, title: updated.title, company: updated.company, email: updated.email, phone: updated.phone }),
-          },
+        const existingCard = await prisma.businessCard.findFirst({
+          where: { contactId: id },
+          orderBy: { createdAt: 'desc' }
         });
+        if (existingCard && businessCard.backImageUrl) {
+          await prisma.businessCard.update({
+            where: { id: existingCard.id },
+            data: {
+              backImageUrl: businessCard.backImageUrl.length > 2000 ? businessCard.backImageUrl.slice(0, 2000) : businessCard.backImageUrl,
+            }
+          });
+        } else if (businessCard.frontImageUrl || businessCard.imageUrl) {
+          const frontUrl = businessCard.frontImageUrl || businessCard.imageUrl;
+          await prisma.businessCard.create({
+            data: {
+              contactId: id,
+              frontImageUrl: frontUrl ? (frontUrl.length > 2000 ? frontUrl.slice(0, 2000) : frontUrl) : null,
+              backImageUrl: businessCard.backImageUrl ? (businessCard.backImageUrl.length > 2000 ? businessCard.backImageUrl.slice(0, 2000) : businessCard.backImageUrl) : null,
+              parsedData: JSON.stringify({ name: updated.name, title: updated.title, company: updated.company, email: updated.email, phone: updated.phone }),
+              parsedDataJson: JSON.stringify({ name: updated.name, title: updated.title, company: updated.company, email: updated.email, phone: updated.phone }),
+            },
+          });
+        }
       } catch (cardErr) {
         console.warn('Could not associate businessCard with updated contact:', cardErr);
       }
