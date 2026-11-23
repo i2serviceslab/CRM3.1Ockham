@@ -19,6 +19,7 @@ import { ThemeCustomizer } from '@/components/settings/ThemeCustomizer';
 import { ConcaveCard } from '@/components/ui/ConcaveCard';
 import { DailyScheduleWidget } from '@/components/ui/DailyScheduleWidget';
 import { IRMetricsDashboard } from '@/components/analytics/IRMetricsDashboard';
+import { KaizenWebIntelligence } from '@/components/analytics/KaizenWebIntelligence';
 import { SyndicateManager } from '@/components/syndicates/SyndicateManager';
 import { RoadshowManager } from '@/components/roadshows/RoadshowManager';
 import { SocialCalendarManager } from '@/components/social/SocialCalendarManager';
@@ -889,6 +890,12 @@ export default function Home() {
           {activeTab === 'analytics' && (
             <ErrorBoundary>
               <IRMetricsDashboard contacts={contacts} onOpenContact360={(c) => setSelectedContact360(c)} tenantName={brandName} />
+            </ErrorBoundary>
+          )}
+
+          {activeTab === 'kaizen-radar' && (
+            <ErrorBoundary>
+              <KaizenWebIntelligence />
             </ErrorBoundary>
           )}
 

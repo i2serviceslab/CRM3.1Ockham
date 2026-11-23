@@ -16,6 +16,7 @@ import {
   Layers,
   FolderKanban,
   Bot,
+  Globe,
 } from 'lucide-react';
 
 export type ActiveTab =
@@ -29,6 +30,7 @@ export type ActiveTab =
   | 'whatsapp'
   | 'workflows'
   | 'hermes-agent'
+  | 'kaizen-radar'
   | 'media-drive'
   | 'analytics'
   | 'users'
@@ -69,6 +71,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'users' as ActiveTab, label: 'Users & Roles', icon: Users, badge: 'RBAC' },
     { id: 'backups' as ActiveTab, label: 'Database Backups', icon: Database, badge: 'Auto' },
     { id: 'analytics' as ActiveTab, label: 'Analytics & Reports', icon: BarChart3 },
+    { id: 'kaizen-radar' as ActiveTab, label: 'Kaizen & SEO/GEO', icon: Globe, badge: 'GEO', highlight: true },
     { id: 'settings' as ActiveTab, label: 'Branding & Theme', icon: Sliders },
   ];
 
