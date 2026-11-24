@@ -11,7 +11,11 @@ export interface CopperFactsSSOT {
     ceo: string;
     email: string;
     website: string;
+    presentationVersion?: string;
+    presentationInfo?: string;
+    presentationUrl?: string;
   };
+  latestNews?: { id: string; title: string; date: string; summary?: string; pdfUrl: string }[];
   mocoa: {
     location: string;
     ownership: string;
@@ -134,9 +138,17 @@ export async function getCopperFactsPromptBlock(): Promise<string> {
   const inf = f.mocoa.inferred;
   const comb = f.mocoa.combined;
   const drills = f.mocoa.recentDrilling.map((d) => `${d.hole} (${d.date}): ${d.highlight}`).join(' | ');
+  const presLine = f.company.presentationInfo
+    ? `- Presentación Corporativa Actual: ${f.company.presentationInfo} (${f.company.presentationUrl || 'https://coppergiant.com/assets/corporate-presentation.pdf'})`
+    : '';
+  const newsLine = Array.isArray(f.latestNews) && f.latestNews.length
+    ? `- Últimos Comunicados Oficiales: ${f.latestNews.slice(0, 3).map((n) => `[${n.date}] ${n.title}`).join(' | ')}`
+    : '';
   return [
     `[FUENTE ÚNICA DE VERDAD OFICIAL — SSOT v${f.version}]`,
     `- Compañía: ${f.company.name} (${f.company.tickers.join(' | ')}) | CEO: ${f.company.ceo} | Antes: ${f.company.formerName}`,
+    presLine,
+    newsLine,
     `- Mocoa NI 43-101 MRE (efectivo ${f.mocoa.mreEffectiveDate}, anunciado ${f.mocoa.mreAnnouncedDate}):`,
     `  * Indicated: ${ind.tonnageMt} Mt @ ${ind.cuEqPct}% CuEq* (${ind.cuPct}% Cu, ${ind.moPct}% Mo) = ${ind.cuBlbs} Blbs Cu y ${ind.moBlbs} Blbs Mo.`,
     `  * Inferred: ${inf.tonnageBt} Bt @ ${inf.cuEqPct}% CuEq* (${inf.cuPct}% Cu, ${inf.moPct}% Mo) = ${inf.cuBlbs} Blbs Cu y ${inf.moBlbs} Blbs Mo.`,
@@ -144,5 +156,5 @@ export async function getCopperFactsPromptBlock(): Promise<string> {
     `- Perforación reciente: ${drills}`,
     `- Colombia 2026: ${f.colombia.presidentialTransition}. ${f.colombia.block39.name} (${f.colombia.block39.areaHa} ha en ${f.colombia.block39.location}, firmado ${f.colombia.block39.signedDate}, ${f.colombia.block39.anmTier}).`,
     `- REGLAS ESTRICTAS: ${f.strictRules.join(' ')}`,
-  ].join('\n');
+  ].filter(Boolean).join('\n');
 }
