@@ -41,6 +41,7 @@ export const KaizenWebIntelligence: React.FC = () => {
     topSessions: IntentSession[];
   } | null>(null);
   const [omni, setOmni] = useState<any>(null);
+  const [ssot, setSsot] = useState<any>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const loadAll = async () => {
@@ -57,6 +58,7 @@ export const KaizenWebIntelligence: React.FC = () => {
       }
       if (data.intent) setIntent(data.intent);
       if (data.omnichannel) setOmni(data.omnichannel);
+      if (data.ssot) setSsot(data.ssot);
     } catch (e: any) {
       setErrorMsg(e?.message || 'Error conectando con coppergiant.com');
     } finally {
@@ -150,6 +152,17 @@ export const KaizenWebIntelligence: React.FC = () => {
       {errorMsg && (
         <div className="bg-red-500/10 border border-red-500/30 text-red-300 text-xs rounded-lg px-4 py-3">
           {errorMsg}
+        </div>
+      )}
+
+      {ssot && (
+        <div className="bg-emerald-500/10 border border-emerald-500/25 rounded-xl px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="text-emerald-300 font-semibold">
+            SSOT Oficial Activo (v{ssot.version}): <span className="text-white font-mono">{ssot.mocoa?.indicated?.tonnageMt} Mt Indicated @ {ssot.mocoa?.indicated?.cuEqPct}% CuEq*</span> &amp; <span className="text-white font-mono">{ssot.mocoa?.inferred?.tonnageBt} Bt Inferred @ {ssot.mocoa?.inferred?.cuEqPct}% CuEq*</span>
+          </div>
+          <div className="text-[11px] font-mono text-emerald-400/90">
+            Block 39: {ssot.colombia?.block39?.areaHa} ha · PEA: {ssot.mocoa?.peaTimeline}
+          </div>
         </div>
       )}
 

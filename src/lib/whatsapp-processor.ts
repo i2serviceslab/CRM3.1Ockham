@@ -7,6 +7,7 @@
 import { prisma } from '@/lib/prisma';
 import * as EvoApi from '@/lib/evolution-api';
 import { parseCardImage, ExtractedCardInfo } from '@/lib/card-ocr';
+import { getCopperFactsPromptBlock } from '@/lib/copper-facts';
 import path from 'path';
 import fs from 'fs';
 
@@ -519,7 +520,9 @@ async function handleNaturalConversation(
     return;
   }
 
+  const ssotBlock = await getCopperFactsPromptBlock();
   const systemPrompt = `Eres el asistente ejecutivo de inteligencia artificial de Copper Giant Resources CRM (Proyecto Mocoa Cu-Mo, TSXV: CGNT | OTCQX: CGNRF), hablando por WhatsApp con ${firstName}.
+${ssotBlock}
 Responde siempre en español, de forma muy natural, cordial, inteligente, fluida y concisa (1 a 3 oraciones máximo).
 Contexto del CRM en vivo:
 - Total Inversionistas: ${totalContacts}

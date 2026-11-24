@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getCopperFactsPromptBlock } from '@/lib/copper-facts';
 
 export async function POST(request: Request) {
   try {
@@ -66,6 +67,7 @@ export async function POST(request: Request) {
             {
               role: 'system',
               content: `Eres el motor de Búsqueda Profunda e Inteligencia Corporativa de Copper Giant Resources Corp. (TSXV: CGNT | OTCQX: CGNRF | FRA: 29H0, compañía de exploración minera que avanza el pórfido de cobre y molibdeno Mocoa en Colombia).
+${await getCopperFactsPromptBlock()}
 Dada la información de un contacto, realiza una inferencia profunda de inteligencia de negocios para relaciones de inversión (IR).
 DEBES responder ÚNICAMENTE en JSON con el objeto 'enrichment' conteniendo exactamente estas claves:
 "investorType", "estimatedAum", "keyInsights", "icebreaker", "suggestedStrategy".`,

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getCopperFactsSSOT } from '@/lib/copper-facts';
 
 const WEB_BASE = (process.env.COPPERGIANT_WEB_URL || 'https://coppergiant.com').replace(/\/$/, '');
 
@@ -19,15 +20,17 @@ async function safeFetchJson(url: string, init?: RequestInit) {
 }
 
 export async function GET() {
-  const [radar, intent, omnichannel] = await Promise.all([
+  const [radar, intent, omnichannel, ssot] = await Promise.all([
     safeFetchJson(`${WEB_BASE}/api/seo-radar`),
     safeFetchJson(`${WEB_BASE}/api/investor-intent`),
     safeFetchJson(`${WEB_BASE}/api/omnichannel-stats`),
+    getCopperFactsSSOT(true),
   ]);
 
   return NextResponse.json({
     ok: true,
     sourceUrl: WEB_BASE,
+    ssot,
     radar: radar.ok ? radar.data : null,
     intent: intent.ok ? intent.data : null,
     omnichannel: omnichannel.ok ? omnichannel.data : null,

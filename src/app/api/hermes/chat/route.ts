@@ -4,6 +4,7 @@ import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
 import * as cheerio from 'cheerio';
 import { YoutubeTranscript } from 'youtube-transcript';
 import { sendText, instanceNameFor } from '@/lib/evolution-api';
+import { getCopperFactsPromptBlock } from '@/lib/copper-facts';
 
 const apiKey = process.env.GEMINI_API_KEY || '';
 const openaiKey = process.env.OPENAI_API_KEY || '';
@@ -256,12 +257,15 @@ async function processAgenticLoop(sessionId: string, promptText: string, worker:
     });
 
     // Estadísticas en vivo de la DB
-    const [totalContacts, totalDeals] = await Promise.all([
+    const [totalContacts, totalDeals, ssotBlock] = await Promise.all([
       prisma.contact.count(),
       prisma.deal.count(),
+      getCopperFactsPromptBlock(),
     ]);
 
     const systemPrompt = `${god.prompt}
+
+${ssotBlock}
 
 [ESTADO DE LA BASE DE DATOS DEL CRM]:
 - Total contactos e inversores indexados: ${totalContacts}

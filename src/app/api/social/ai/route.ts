@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getCopperFactsPromptBlock } from '@/lib/copper-facts';
 
 const geminiKey = process.env.GEMINI_API_KEY || '';
 const genAI = geminiKey ? new GoogleGenerativeAI(geminiKey) : null;
@@ -11,9 +12,12 @@ export async function POST(request: Request) {
     const { title, tone = 'professional', prompt: userPrompt } = body;
 
     let generatedCopy = '';
+    const ssotBlock = await getCopperFactsPromptBlock();
     const systemPrompt = `You are the Expert Investor Relations (IR) Director at Copper Giant Resources Corp. (TSXV: CGNT | OTCQX: CGNRF | FRA: 29H0). 
 You write highly engaging, strategic social media posts about Copper Giant Resources, the flagship Mocoa Copper-Molybdenum Porphyry project in Colombia (1.60 Bt Inferred & 290 Mt Indicated NI 43-101 MRE), the global copper supply deficit, and critical electrification infrastructure. 
-The tone should be: ${tone}.`;
+The tone should be: ${tone}.
+
+${ssotBlock}`;
 
     const fullUserPrompt = `${userPrompt || title || 'Write a high-impact investor update about our Mocoa Copper-Molybdenum Project progress.'}\nWrite ONLY the social media post content. Do not include quotes or conversational filler.`;
 
