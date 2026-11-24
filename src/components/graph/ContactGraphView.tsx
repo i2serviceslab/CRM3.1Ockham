@@ -61,7 +61,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
   // Active AI Graph Auto-Discovery & Enrichment State
   const [isAutoLinking, setIsAutoLinking] = useState(false);
   const [autoLinkMessage, setAutoLinkMessage] = useState<string | null>(null);
-  const [backgroundDaemonActive, setBackgroundDaemonActive] = useState(true);
+  const [backgroundDaemonActive, setBackgroundDaemonActive] = useState(false);
 
   // Form State for Linking Relationships
   const [sourceId, setSourceId] = useState('');

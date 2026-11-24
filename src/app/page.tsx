@@ -131,10 +131,12 @@ export default function Home() {
 
   useEffect(() => {
     fetchContacts();
-    // Background Synchronization (45s interval) optimized for 5,000+ contacts
+    // Background Synchronization (180s interval, visible tab only) to keep VPS CPU low
     const syncInterval = setInterval(() => {
-      fetchContacts(true);
-    }, 45000);
+      if (typeof document === 'undefined' || !document.hidden) {
+        fetchContacts(true);
+      }
+    }, 180000);
     return () => clearInterval(syncInterval);
   }, [searchTerm, selectedType, selectedStage, selectedSource]);
 
