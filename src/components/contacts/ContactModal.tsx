@@ -684,7 +684,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
               </div>
 
               <div>
-                <label className="text-xs font-black text-slate-300 block mb-1">Company / Fund</label>
+                <label className="text-xs font-black text-slate-300 block mb-1">Company / Organization</label>
                 <input
                   type="text"
                   value={company}

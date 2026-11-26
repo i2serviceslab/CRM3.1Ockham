@@ -535,13 +535,8 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                   </div>
 
                   <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm space-y-1">
-                    <span className="text-[10px] text-slate-400 font-bold uppercase block">Assets Under Management (AUM)</span>
-                    <span style={{ color: 'var(--primary-color)' }} className="font-bold block truncate">{editAum || 'CAD $50M - $250M (Estimated)'}</span>
-                  </div>
-
-                  <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm space-y-1">
-                    <span className="text-[10px] text-slate-400 font-bold uppercase block">Fund / Entity Type</span>
-                    <span className="font-bold text-white block truncate">{editFundType || 'Mining PE & Family Office'}</span>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase block">Organization / Stakeholder Type</span>
+                    <span className="font-bold text-white block truncate">{editFundType || 'Corporate / Institutional / Partner'}</span>
                   </div>
 
                   <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm space-y-1">
@@ -554,13 +549,13 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
 
                 <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-4 rounded-sm space-y-2">
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">
-                    INVESTMENT FOCUS & MINING BACKGROUND
+                    SECTOR FOCUS &amp; BACKGROUND
                   </span>
                   <p className="text-xs font-medium text-slate-300 leading-relaxed">
                     {editInvestmentFocus || 'Copper-molybdenum porphyry exploration and development in Colombia (Mocoa).'}
                   </p>
                   <p className="text-xs text-slate-400 italic">
-                    History: {editMiningHistory || 'Active participation in mining venture capital rounds.'}
+                    History: {editMiningHistory || 'Strategic contact in the mining &amp; resources ecosystem.'}
                   </p>
                 </div>
               </div>
@@ -707,10 +702,10 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Company / Fund</label>
+                      <label className="text-[10px] text-slate-400 font-bold uppercase">Company / Organization</label>
                       <input
                         type="text"
-                        placeholder="Company / Fund"
+                        placeholder="Company / Organization"
                         value={editCompany}
                         onChange={(e) => setEditCompany(e.target.value)}
                         className="w-full hs-input-hero text-xs py-2"
@@ -773,21 +768,10 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Assets Under Management (AUM)</label>
+                      <label className="text-[10px] text-slate-400 font-bold uppercase">Organization / Stakeholder Type</label>
                       <input
                         type="text"
-                        placeholder="e.g. CAD $100M - $500M"
-                        value={editAum}
-                        onChange={(e) => setEditAum(e.target.value)}
-                        className="w-full hs-input-hero text-xs py-2"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Fund / Entity Type</label>
-                      <input
-                        type="text"
-                        placeholder="e.g. Family Office / Mining PE"
+                        placeholder="e.g. Corporate / Institutional / Partner"
                         value={editFundType}
                         onChange={(e) => setEditFundType(e.target.value)}
                         className="w-full hs-input-hero text-xs py-2"

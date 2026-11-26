@@ -25,7 +25,6 @@ const WhatsAppManager = dynamic(() => import('@/components/whatsapp/WhatsAppMana
 const ThemeCustomizer = dynamic(() => import('@/components/settings/ThemeCustomizer').then(m => m.ThemeCustomizer), { ssr: false });
 const IRMetricsDashboard = dynamic(() => import('@/components/analytics/IRMetricsDashboard').then(m => m.IRMetricsDashboard), { ssr: false });
 const KaizenWebIntelligence = dynamic(() => import('@/components/analytics/KaizenWebIntelligence').then(m => m.KaizenWebIntelligence), { ssr: false });
-const SyndicateManager = dynamic(() => import('@/components/syndicates/SyndicateManager').then(m => m.SyndicateManager), { ssr: false });
 const RoadshowManager = dynamic(() => import('@/components/roadshows/RoadshowManager').then(m => m.RoadshowManager), { ssr: false });
 const SocialCalendarManager = dynamic(() => import('@/components/social/SocialCalendarManager').then(m => m.SocialCalendarManager), { ssr: false });
 const RealWebRtcRoom = dynamic(() => import('@/components/video/RealWebRtcRoom'), { ssr: false });
@@ -78,8 +77,8 @@ export default function Home() {
     initTheme();
 
     try {
-      const savedTab = localStorage.getItem('crm_active_tab') as ActiveTab;
-      if (savedTab) setActiveTabState(savedTab);
+      const savedTab = localStorage.getItem('crm_active_tab') as string | null;
+      if (savedTab && savedTab !== 'syndicates') setActiveTabState(savedTab as ActiveTab);
     } catch (e) {}
 
     fetch('/api/auth/me')
@@ -441,12 +440,14 @@ export default function Home() {
                         className="bg-transparent text-white font-bold text-xs focus:outline-none cursor-pointer"
                       >
                         <option value="ALL" className="bg-slate-900 text-white">Todas las Etapas</option>
-                        <option value="Lead Prospect" className="bg-slate-900 text-white">Lead Prospect</option>
-                        <option value="Interested - early" className="bg-slate-900 text-white">Interested / Contacted</option>
-                        <option value="Qualified" className="bg-slate-900 text-white">Qualified</option>
-                        <option value="Due Diligence" className="bg-slate-900 text-white">Due Diligence</option>
-                        <option value="Term Sheet" className="bg-slate-900 text-white">Term Sheet</option>
-                        <option value="Closed Investor" className="bg-slate-900 text-white">Closed Investor</option>
+                        <option value="First Contact" className="bg-slate-900 text-white">Primer Contacto</option>
+                        <option value="Deck Sent" className="bg-slate-900 text-white">Presentación Enviada</option>
+                        <option value="Meeting Scheduled" className="bg-slate-900 text-white">Reunión Agendada</option>
+                        <option value="Follow-up Pending" className="bg-slate-900 text-white">Seguimiento Pendiente</option>
+                        <option value="Interested - early" className="bg-slate-900 text-white">Interested - early</option>
+                        <option value="Interested - considering" className="bg-slate-900 text-white">Interested - considering</option>
+                        <option value="Interested - committed" className="bg-slate-900 text-white">Interested - committed</option>
+                        <option value="Keep in Touch" className="bg-slate-900 text-white">Mantener Contacto</option>
                       </select>
                     </div>
 
@@ -847,10 +848,6 @@ export default function Home() {
                 tenantName={brandName}
               />
             </ErrorBoundary>
-          )}
-
-          {activeTab === 'syndicates' && (
-            <SyndicateManager contacts={contacts} onOpen360={(c) => setSelectedContact360(c)} />
           )}
 
           {activeTab === 'roadshows' && (

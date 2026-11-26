@@ -749,7 +749,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
               <span className="text-[10px] font-mono uppercase text-neutral-500 font-bold">Olimpo:</span>
               {[
                 { id: 'HERMES', label: '🪽 Hermes (Orquestador)' },
-                { id: 'PLUTUS', label: '💎 Plutus (Capital & Pipeline)' },
+                { id: 'PLUTUS', label: '💎 Plutus (Contactos & Seguimiento)' },
                 { id: 'ATHENA', label: '🦉 Athena (Doctrina & NI 43-101)' },
                 { id: 'ARGUS', label: '👁️ Argus (Centinela & Web)' },
                 { id: 'ZEUS', label: '⚡ Zeus (CEO Ian Harris)' },

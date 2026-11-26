@@ -423,7 +423,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
                 {/* PE Funds Bar */}
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs font-bold">
-                    <span className="text-slate-300">Fondos de Capital Minero (PE)</span>
+                    <span className="text-slate-300">Inversionistas Institucionales / Corporativos</span>
                     <span className="text-white font-mono">{pePct}% ({peCount > 0 ? peCount : 0} fondos)</span>
                   </div>
                   <div className="w-full bg-white/5 rounded-full h-2.5 overflow-hidden">
@@ -456,7 +456,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
                 {/* Advisors Bar */}
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs font-bold">
-                    <span className="text-slate-300">Asesores Geológicos & Mercado de Capitales</span>
+                    <span className="text-slate-300">Asesores y Aliados Estratégicos</span>
                     <span className="text-white font-mono">{advisorPct}% ({advisorCount > 0 ? advisorCount : 0} consultores)</span>
                   </div>
                   <div className="w-full bg-white/5 rounded-full h-2.5 overflow-hidden">
@@ -473,7 +473,7 @@ export const IRMetricsDashboard: React.FC<IRMetricsDashboardProps> = ({ contacts
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
                   <Globe className="w-4 h-4 text-emerald-400" />
-                  <span>Distribución Geográfica de Capital IR</span>
+                  <span>Distribución Geográfica de Contactos</span>
                 </h3>
                 <span className="text-[10px] text-slate-400 font-mono font-bold">Hubs Mineros</span>
               </div>

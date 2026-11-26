@@ -23,7 +23,6 @@ export type ActiveTab =
   | 'contacts'
   | 'graph'
   | 'followup'
-  | 'syndicates'
   | 'roadshows'
   | 'social-calendar'
   | 'meetings'
@@ -61,7 +60,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'graph' as ActiveTab, label: 'Relationship Graph', icon: Network, highlight: true },
     { id: 'followup' as ActiveTab, label: 'Follow-up Pipeline', icon: Clock },
     { id: 'hermes-agent' as ActiveTab, label: 'El Olimpo AI', icon: Bot, badge: 'Olimpo', highlight: true },
-    { id: 'syndicates' as ActiveTab, label: 'Syndicates & Pools', icon: Users, badge: 'Pools' },
     { id: 'roadshows' as ActiveTab, label: 'Roadshows & Summits', icon: Calendar, badge: 'Events' },
     { id: 'social-calendar' as ActiveTab, label: 'Social Calendar', icon: Calendar, badge: 'IR' },
     { id: 'meetings' as ActiveTab, label: 'Meeting Intelligence', icon: Mic },
