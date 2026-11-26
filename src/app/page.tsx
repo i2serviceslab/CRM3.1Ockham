@@ -1,38 +1,39 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { Contact } from '@/types/crm';
 import { OUTCROP_TAGS } from '@/lib/constants';
 import { Navbar } from '@/components/layout/Navbar';
 import { Sidebar, ActiveTab } from '@/components/layout/Sidebar';
 import { MagicLogin } from '@/components/auth/MagicLogin';
-import { Contact360View } from '@/components/contacts/Contact360View';
-import { ContactModal } from '@/components/contacts/ContactModal';
-import { VoiceNoteRecorder } from '@/components/contacts/VoiceNoteRecorder';
-import { MeetingRecorder } from '@/components/meetings/MeetingRecorder';
-
-import { ContactGraphView } from '@/components/graph/ContactGraphView';
-import { KanbanPipeline } from '@/components/pipeline/KanbanPipeline';
-import { WorkflowsManager } from '@/components/workflows/WorkflowsManager';
-import { WhatsAppManager } from '@/components/whatsapp/WhatsAppManager';
-import { ThemeCustomizer } from '@/components/settings/ThemeCustomizer';
 import { ConcaveCard } from '@/components/ui/ConcaveCard';
 import { DailyScheduleWidget } from '@/components/ui/DailyScheduleWidget';
-import { IRMetricsDashboard } from '@/components/analytics/IRMetricsDashboard';
-import { KaizenWebIntelligence } from '@/components/analytics/KaizenWebIntelligence';
-import { SyndicateManager } from '@/components/syndicates/SyndicateManager';
-import { RoadshowManager } from '@/components/roadshows/RoadshowManager';
-import { SocialCalendarManager } from '@/components/social/SocialCalendarManager';
 import WhatsAppOtpLogin from '@/components/auth/WhatsAppOtpLogin';
-import RealWebRtcRoom from '@/components/video/RealWebRtcRoom';
-import UserRoleManager from '@/components/users/UserRoleManager';
-import BackupManager from '@/components/admin/BackupManager';
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
-import { ImportCSVModal } from '@/components/contacts/ImportCSVModal';
 import { FinancialTickerWidget } from '@/components/analytics/FinancialTickerWidget';
-import { MediaDriveManager } from '@/components/drive/MediaDriveManager';
-import { HermesAgentStudio } from '@/components/hermes/HermesAgentStudio';
 import { initTheme } from '@/lib/themeEngine';
+
+const Contact360View = dynamic(() => import('@/components/contacts/Contact360View').then(m => m.Contact360View), { ssr: false });
+const ContactModal = dynamic(() => import('@/components/contacts/ContactModal').then(m => m.ContactModal), { ssr: false });
+const VoiceNoteRecorder = dynamic(() => import('@/components/contacts/VoiceNoteRecorder').then(m => m.VoiceNoteRecorder), { ssr: false });
+const MeetingRecorder = dynamic(() => import('@/components/meetings/MeetingRecorder').then(m => m.MeetingRecorder), { ssr: false });
+const ContactGraphView = dynamic(() => import('@/components/graph/ContactGraphView').then(m => m.ContactGraphView), { ssr: false });
+const KanbanPipeline = dynamic(() => import('@/components/pipeline/KanbanPipeline').then(m => m.KanbanPipeline), { ssr: false });
+const WorkflowsManager = dynamic(() => import('@/components/workflows/WorkflowsManager').then(m => m.WorkflowsManager), { ssr: false });
+const WhatsAppManager = dynamic(() => import('@/components/whatsapp/WhatsAppManager').then(m => m.WhatsAppManager), { ssr: false });
+const ThemeCustomizer = dynamic(() => import('@/components/settings/ThemeCustomizer').then(m => m.ThemeCustomizer), { ssr: false });
+const IRMetricsDashboard = dynamic(() => import('@/components/analytics/IRMetricsDashboard').then(m => m.IRMetricsDashboard), { ssr: false });
+const KaizenWebIntelligence = dynamic(() => import('@/components/analytics/KaizenWebIntelligence').then(m => m.KaizenWebIntelligence), { ssr: false });
+const SyndicateManager = dynamic(() => import('@/components/syndicates/SyndicateManager').then(m => m.SyndicateManager), { ssr: false });
+const RoadshowManager = dynamic(() => import('@/components/roadshows/RoadshowManager').then(m => m.RoadshowManager), { ssr: false });
+const SocialCalendarManager = dynamic(() => import('@/components/social/SocialCalendarManager').then(m => m.SocialCalendarManager), { ssr: false });
+const RealWebRtcRoom = dynamic(() => import('@/components/video/RealWebRtcRoom'), { ssr: false });
+const UserRoleManager = dynamic(() => import('@/components/users/UserRoleManager'), { ssr: false });
+const BackupManager = dynamic(() => import('@/components/admin/BackupManager'), { ssr: false });
+const ImportCSVModal = dynamic(() => import('@/components/contacts/ImportCSVModal').then(m => m.ImportCSVModal), { ssr: false });
+const MediaDriveManager = dynamic(() => import('@/components/drive/MediaDriveManager').then(m => m.MediaDriveManager), { ssr: false });
+const HermesAgentStudio = dynamic(() => import('@/components/hermes/HermesAgentStudio').then(m => m.HermesAgentStudio), { ssr: false });
 
 import {
   Plus,
@@ -130,14 +131,20 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    fetchContacts();
+    const delay = searchTerm ? 250 : 0;
+    const debounceTimer = setTimeout(() => {
+      fetchContacts();
+    }, delay);
     // Background Synchronization (180s interval, visible tab only) to keep VPS CPU low
     const syncInterval = setInterval(() => {
       if (typeof document === 'undefined' || !document.hidden) {
         fetchContacts(true);
       }
     }, 180000);
-    return () => clearInterval(syncInterval);
+    return () => {
+      clearTimeout(debounceTimer);
+      clearInterval(syncInterval);
+    };
   }, [searchTerm, selectedType, selectedStage, selectedSource]);
 
   const fetchContacts = async (silent = false) => {

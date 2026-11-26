@@ -105,7 +105,9 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
   useEffect(() => {
     fetchSessions();
     checkHealth();
-    const interval = setInterval(checkHealth, 30000);
+    const interval = setInterval(() => {
+      if (typeof document === 'undefined' || !document.hidden) checkHealth();
+    }, 30000);
     return () => clearInterval(interval);
   }, [tenantId]);
 
@@ -118,7 +120,9 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
 
     fetchSessionMessages(currentSessionId);
     const pollInterval = setInterval(() => {
-      fetchSessionMessages(currentSessionId, true);
+      if (typeof document === 'undefined' || !document.hidden) {
+        fetchSessionMessages(currentSessionId, true);
+      }
     }, 4000);
 
     return () => clearInterval(pollInterval);
