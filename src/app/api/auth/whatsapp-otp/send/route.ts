@@ -11,8 +11,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Phone number is required' }, { status: 400 });
     }
 
-    const cleanPhone = phone.replace(/\D/g, '');
-    const formattedPhone = cleanPhone.startsWith('+') ? cleanPhone : `+${cleanPhone}`;
+    const rawDigits = phone.replace(/\D/g, '');
+    const cleanPhone = /^3\d{9}$/.test(rawDigits) ? `57${rawDigits}` : rawDigits;
+    const formattedPhone = `+${cleanPhone}`;
 
     if (cleanPhone.length < 7) {
       return NextResponse.json({ success: false, error: 'Invalid phone number format' }, { status: 400 });
