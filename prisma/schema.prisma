@@ -107,6 +107,11 @@ model Contact {
   sourceRelationships Relationship[] @relation("SourceContact")
   targetRelationships Relationship[] @relation("TargetContact")
   tasks               Task[]
+
+  @@index([tenantId])
+  @@index([updatedAt])
+  @@index([stage])
+  @@index([investorType])
 }
 
 model Interaction {
@@ -121,6 +126,8 @@ model Interaction {
 
   contact     Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
+
+  @@index([contactId, createdAt])
 }
 
 model Document {
@@ -133,6 +140,8 @@ model Document {
 
   contact     Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
+
+  @@index([contactId, createdAt])
 }
 
 model Deal {
@@ -193,6 +202,8 @@ model TimelineActivity {
   metadata    String?
   contact     Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
+
+  @@index([contactId, createdAt])
 }
 
 model CalendarEvent {

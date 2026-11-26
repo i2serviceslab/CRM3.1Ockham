@@ -14,9 +14,9 @@ interface MarketQuote {
   lastUpdated: string;
 }
 
-// 60-second in-memory server cache
+// 5-minute in-memory server cache to minimize outbound Yahoo Finance requests and CPU
 const cacheMap = new Map<string, { data: MarketQuote; timestamp: number }>();
-const CACHE_TTL_MS = 60 * 1000;
+const CACHE_TTL_MS = 5 * 60 * 1000;
 
 // Exchange rates cache
 let cachedUsdCad = 1.3878;

@@ -90,6 +90,7 @@ export const ContactGraphView: React.FC<ContactGraphViewProps> = ({ contacts, on
   useEffect(() => {
     if (!backgroundDaemonActive) return;
     const interval = setInterval(() => {
+      if (typeof document !== 'undefined' && document.hidden) return;
       fetch('/api/graph/auto-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

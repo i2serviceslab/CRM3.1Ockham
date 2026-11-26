@@ -267,7 +267,11 @@ export const FinancialTickerWidget: React.FC = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(refreshData, 30000);
+    const interval = setInterval(() => {
+      if (typeof document === 'undefined' || !document.hidden) {
+        refreshData();
+      }
+    }, 120000);
     return () => clearInterval(interval);
   }, []);
 
