@@ -4,6 +4,11 @@ import { getSession, requireRole, COPPER_GIANT_TENANT_ID } from '@/lib/auth';
 
 export async function GET(request: Request) {
   try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const role = searchParams.get('role');
 

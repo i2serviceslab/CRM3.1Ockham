@@ -39,7 +39,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
       });
       const data = await res.json();
       if (data.success) {
-        setPreviewCode(data.devPreviewCode || '123456');
+        setPreviewCode('SENT');
         setWhatsappStep('CODE');
       } else {
         setError(data.error || 'Error al enviar código por WhatsApp');
@@ -89,7 +89,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
       });
       const data = await res.json();
       if (data.success) {
-        setPreviewCode(data.previewCode);
+        setPreviewCode('SENT');
         setEmailStep('CODE');
       } else {
         setError(data.error || 'Error al enviar código al correo');
@@ -264,6 +264,14 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
                 {loading ? 'Verificando...' : 'Verificar e Ingresar a The Core'}
                 <ShieldCheck className="w-4 h-4" />
               </button>
+              <button
+                type="button"
+                disabled={loading}
+                onClick={handleWhatsAppSend}
+                className="w-full py-2 text-[11px] font-bold text-slate-400 hover:text-white transition-colors"
+              >
+                ¿No llegó? Reenviar código por WhatsApp (Olimpus)
+              </button>
             </form>
           )
         )}
@@ -300,21 +308,7 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
             </form>
           ) : (
             <form onSubmit={handleEmailVerify} className="space-y-5">
-              {previewCode ? (
-                <div className="p-3.5 rounded-sm bg-red-500/10 border border-red-500/30 text-center space-y-1.5 animate-fadeIn">
-                  <div className="flex items-center justify-center gap-1.5 text-[#FF002C] text-xs font-bold">
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span>PIN de acceso generado: <strong className="font-mono text-white tracking-widest text-sm">{previewCode}</strong></span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setEmailCode(previewCode)}
-                    className="text-[11px] text-red-300 hover:text-white font-black underline cursor-pointer"
-                  >
-                    Auto-completar PIN ({previewCode})
-                  </button>
-                </div>
-              ) : (
+              {previewCode && (
                 <div className="p-3.5 rounded-sm bg-red-500/10 border border-red-500/30 text-center space-y-1">
                   <div className="flex items-center justify-center gap-1.5 text-[#FF002C] text-xs font-bold">
                     <CheckCircle2 className="w-4 h-4" />
@@ -354,6 +348,14 @@ export const MagicLogin: React.FC<MagicLoginProps> = ({ onLoginSuccess }) => {
               >
                 {loading ? 'Verificando...' : 'Verificar e Ingresar a The Core'}
                 <ShieldCheck className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                disabled={loading}
+                onClick={handleEmailSend}
+                className="w-full py-2 text-[11px] font-bold text-slate-400 hover:text-white transition-colors"
+              >
+                ¿No llegó? Reenviar código al correo
               </button>
             </form>
           )

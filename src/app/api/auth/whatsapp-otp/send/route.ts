@@ -115,17 +115,21 @@ export async function POST(request: Request) {
     });
 
     // Dispatch directly through Evolution API (olimpus instance)
-    try {
-      await sendText(instanceNameFor(), user.phone, otpMessageText);
-    } catch (e: any) {
-      console.warn('[OTP Dispatch Note]:', e?.message);
+    const sentMsgId = await sendText(instanceNameFor(), user.phone, otpMessageText);
+    if (!sentMsgId) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Olimpus (WhatsApp) no pudo entregar el código. Verifica que la instancia de WhatsApp esté conectada en línea.',
+        },
+        { status: 502 }
+      );
     }
 
     return NextResponse.json({
       success: true,
-      message: `Código de verificación de 6 dígitos enviado por WhatsApp a ${user.phone}`,
+      message: `Código de verificación de 6 dígitos enviado por WhatsApp (Olimpus) a ${user.phone}`,
       expiresInSeconds: 300,
-      ...(process.env.NODE_ENV === 'development' ? { devPreviewCode: otpCode } : {}),
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

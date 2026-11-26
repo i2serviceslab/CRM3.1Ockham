@@ -108,9 +108,14 @@ export async function sendText(instanceName: string, to: string, text: string) {
       headers: headers(),
       body: JSON.stringify({ number, text, delay: 500 }),
     });
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      console.error(`❌ [Evolution] sendText HTTP ${res.status}:`, errText);
+      return undefined;
+    }
     const data = await res.json();
     console.log(`✅ [Evolution] Text sent to ${number} via ${instanceName}:`, data?.key?.id || data?.status || 'OK');
-    return data?.key?.id as string | undefined;
+    return (data?.key?.id as string | undefined) || 'SENT';
   } catch (e: any) {
     console.error(`❌ [Evolution] sendText error:`, e?.message);
     return undefined;

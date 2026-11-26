@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { signSession } from '@/lib/session';
+import { signSession, getSessionCookieOptions } from '@/lib/session';
 
 export async function POST(request: Request) {
   try {
@@ -65,15 +65,12 @@ export async function POST(request: Request) {
       tenant: user.tenant,
     });
 
-    // Set HTTP-only session cookie
+    // Set HTTP-only persistent session cookie (180 days)
     const sessionToken = await signSession(sessionPayload);
     response.cookies.set({
       name: 'crm_session',
       value: sessionToken,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24 * 30, // 30 days (1 month)
-      path: '/',
+      ...getSessionCookieOptions(),
     });
 
     return response;

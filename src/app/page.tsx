@@ -57,6 +57,7 @@ import {
 
 export default function Home() {
   const [user, setUser] = useState<any>(null);
+  const [authChecking, setAuthChecking] = useState(true);
 
   // State Initialization with LocalStorage Persistence for seamless page reloads
   const [activeTabState, setActiveTabState] = useState<ActiveTab>('contacts');
@@ -88,7 +89,8 @@ export default function Home() {
           setUser(data.user);
         }
       })
-      .catch(() => setUser(null));
+      .catch(() => setUser(null))
+      .finally(() => setAuthChecking(false));
   }, []);
 
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -210,6 +212,14 @@ export default function Home() {
     link.click();
     document.body.removeChild(link);
   };
+
+  if (authChecking) {
+    return (
+      <div className="min-h-screen bg-[#07080c] flex items-center justify-center text-slate-400 text-xs font-bold uppercase tracking-widest">
+        Verificando sesión...
+      </div>
+    );
+  }
 
   if (!user) {
     return (

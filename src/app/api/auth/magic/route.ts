@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { signSession } from '@/lib/session';
+import { signSession, getSessionCookieOptions } from '@/lib/session';
 
 async function sendResendOtpEmail(email: string, otpCode: string): Promise<boolean> {
   const resendKey = process.env.RESEND_API_KEY;
@@ -143,27 +143,17 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: false, error: 'Email is required' }, { status: 400 });
       }
 
-      // 1. Pre-registration check or auto-create Copper Giant user for ANY email
+      // 1. Strict pre-registration check (only admin-authorized users can log in)
       const normalizedEmail = email.trim().toLowerCase();
-      let user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+      const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
       if (!user) {
-        const coppergiantTenant = (await prisma.tenant.findFirst({ where: { slug: { in: ['coppergiant', 'coppergiant-silver'] } } })) || (await prisma.tenant.findFirst());
-        const uniquePhone = `+579${Math.floor(100000000 + Math.random() * 900000000)}`;
-        const isAdminEmail =
-          normalizedEmail.includes('admin') ||
-          normalizedEmail.includes('carvajal') ||
-          normalizedEmail.endsWith('@i2services.co') ||
-          normalizedEmail.endsWith('@coppergiantsilver.com');
-
-        user = await prisma.user.create({
-          data: {
-            email: normalizedEmail,
-            phone: uniquePhone,
-            name: normalizedEmail.split('@')[0].toUpperCase(),
-            role: isAdminEmail ? 'SUPER_ADMIN' : 'AGENT',
-            tenantId: coppergiantTenant?.id || null,
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'Acceso no autorizado. Este correo no está registrado. Solicita acceso al administrador.',
           },
-        });
+          { status: 403 }
+        );
       }
 
       // 2. Generate 6-digit OTP pin (10 min expiry)
@@ -175,19 +165,28 @@ export async function POST(request: Request) {
         data: { otpCode, otpExpiresAt: expiresAt },
       });
 
-      // 3. Attempt email send safely
+      // 3. Attempt email send — fail closed if email delivery is unavailable
       let emailSent = false;
       try {
         emailSent = await sendResendOtpEmail(normalizedEmail, otpCode);
       } catch (e) {
-        console.log('[MagicLogin] Non-critical email send error:', e);
+        console.log('[MagicLogin] Email send error:', e);
+      }
+
+      if (!emailSent) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'El envío por correo no está disponible en este momento. Usa el ingreso por WhatsApp (Olimpus).',
+          },
+          { status: 502 }
+        );
       }
 
       return NextResponse.json({
         success: true,
-        message: 'Código de acceso generado correctamente. Haz clic en Auto-completar PIN para ingresar.',
-        emailSent,
-        previewCode: otpCode,
+        message: `Código de acceso enviado a ${normalizedEmail}.`,
+        emailSent: true,
         email: normalizedEmail,
       });
     }
@@ -231,10 +230,7 @@ export async function POST(request: Request) {
       response.cookies.set({
         name: 'crm_session',
         value: sessionToken,
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 60 * 60 * 24 * 30, // 30 days (1 month)
-        path: '/',
+        ...getSessionCookieOptions(),
       });
       return response;
     }
