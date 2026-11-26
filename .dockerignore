@@ -12,4 +12,7 @@ baileys_local_auth
 *.db-wal
 *.db-shm
 scripts/*.py
+*.py
+*.sh
+Referentes
 
