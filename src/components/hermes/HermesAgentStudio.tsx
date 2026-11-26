@@ -59,7 +59,7 @@ interface HermesAgentStudioProps {
 
 export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
   tenantId,
-  tenantName = 'Copper Giant Silver Corp',
+  tenantName = 'Copper Giant Resources Corp.',
 }) => {
   // Sessions & Messages State
   const [sessions, setSessions] = useState<HermesSession[]>([]);
@@ -83,10 +83,10 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Gateway Connection State
-  const [endpointUrl, setEndpointUrl] = useState('http://localhost:8000');
-  const [apiKey, setApiKey] = useState('hermes_coppergiant_secret_2026');
-  const [telegramBotToken, setTelegramBotToken] = useState('8925340221:AAHU0nrxvP2XqPewfZMK1GzmjjyFGPIUX8o');
-  const [telegramChatId, setTelegramChatId] = useState('-5370719843');
+  const [endpointUrl, setEndpointUrl] = useState('');
+  const [apiKey, setApiKey] = useState('');
+  const [telegramBotToken, setTelegramBotToken] = useState('');
+  const [telegramChatId, setTelegramChatId] = useState('');
   const [gatewayMode, setGatewayMode] = useState<'TELEGRAM' | 'HTTP_TUNNEL'>('TELEGRAM');
   const [botInfo, setBotInfo] = useState<any>(null);
   const [statusOnline, setStatusOnline] = useState(false);
@@ -147,10 +147,10 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
         setLatencyMs(data.latencyMs);
         setBotInfo(data.botInfo || null);
         if (data.config) {
-          setEndpointUrl(data.config.endpointUrl || 'http://localhost:8000');
-          setApiKey(data.config.apiKey || 'hermes_coppergiant_secret_2026');
+          setEndpointUrl(data.config.endpointUrl || '');
+          setApiKey(data.config.apiKey || '');
           setTelegramBotToken(data.config.telegramBotToken || '');
-          setTelegramChatId(data.config.telegramChatId || '8724044473');
+          setTelegramChatId(data.config.telegramChatId || '');
           setGatewayMode(data.config.gatewayMode || 'TELEGRAM');
         }
       }
@@ -966,7 +966,7 @@ export const HermesAgentStudio: React.FC<HermesAgentStudioProps> = ({
                       type="text"
                       value={apiKey}
                       onChange={(e) => setApiKey(e.target.value)}
-                      placeholder="hermes_coppergiant_secret_2026"
+                      placeholder="Ingresa tu API Key..."
                       className="w-full px-3.5 py-2.5 rounded-sm bg-[#131313] border border-white/10 text-xs text-white focus:outline-none focus:border-[var(--accent-primary)] font-mono"
                     />
                   </div>

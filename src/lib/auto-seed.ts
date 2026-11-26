@@ -149,12 +149,13 @@ export async function ensurePersistentData() {
 
     // 5. Ensure Olimpo Gateway Configuration (WhatsApp Native, No Telegram Bot tokens)
     const hermesConfig = await prisma.hermesConfig.findFirst();
+    const defaultEndpoint = process.env.HERMES_ENDPOINT_URL || 'http://127.0.0.1:18789';
     if (!hermesConfig) {
       await prisma.hermesConfig.create({
         data: {
           tenantId,
-          endpointUrl: 'http://127.0.0.1:18789',
-          apiKey: 'olimpus_coppergiant_2026',
+          endpointUrl: defaultEndpoint,
+          apiKey: process.env.HERMES_API_KEY || '',
           gatewayMode: 'WHATSAPP',
           isActive: true,
         },
@@ -164,7 +165,7 @@ export async function ensurePersistentData() {
         where: { id: hermesConfig.id },
         data: {
           gatewayMode: 'WHATSAPP',
-          endpointUrl: 'http://127.0.0.1:18789',
+          endpointUrl: defaultEndpoint,
           isActive: true,
         },
       });

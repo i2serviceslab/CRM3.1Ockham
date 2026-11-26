@@ -85,7 +85,7 @@ export async function POST(request: Request) {
       apiKey 
     } = body;
 
-    const isDaemonAuthorized = apiKey === process.env.WHATSAPP_DAEMON_KEY || apiKey === 'coppergiant_daemon_secret_2026';
+    const isDaemonAuthorized = Boolean(process.env.WHATSAPP_DAEMON_KEY && apiKey === process.env.WHATSAPP_DAEMON_KEY);
     const session = isDaemonAuthorized ? null : await getSession();
 
     if (!session && !isDaemonAuthorized) {

@@ -211,5 +211,5 @@ export async function POST(req: NextRequest) {
 
 // Evolution API verifies the webhook with a GET request
 export async function GET() {
-  return NextResponse.json({ status: 'Evolution API Webhook Active', crm: 'Copper Giant Silver CRM v20.2' });
+  return NextResponse.json({ status: 'Evolution API Webhook Active', crm: 'Copper Giant Resources CRM' });
 }

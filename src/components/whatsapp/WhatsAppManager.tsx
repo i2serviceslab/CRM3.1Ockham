@@ -139,14 +139,14 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
     }
   };
 
-  const [pairingPhone, setPairingPhone] = useState('+573124031892');
+  const [pairingPhone, setPairingPhone] = useState('');
   const [generatedPairingCode, setGeneratedPairingCode] = useState<string | null>(null);
 
   const [chatInput, setChatInput] = useState('');
   const [chatMessages, setChatMessages] = useState<Array<{ sender: string; text: string; isBot: boolean; time: string }>>([
     {
-      sender: 'Copper Giant Silver Bot',
-      text: '👋 ¡Hola! Soy el Bot Ejecutivo de Copper Giant Silver CRM. Escribe "Hola", "Resumen del CRM", "/scan" o "Agrega a un contacto" para probar mis respuestas en tiempo real.',
+      sender: 'Copper Giant Bot',
+      text: '👋 ¡Hola! Soy el Bot Ejecutivo de Copper Giant Resources CRM. Escribe "Hola", "Resumen del CRM", "/scan" o "Agrega a un contacto" para probar mis respuestas en tiempo real.',
       isBot: true,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
@@ -179,7 +179,7 @@ export const WhatsAppManager: React.FC<WhatsAppManagerProps> = ({ tenantId, tena
         setChatMessages((prev) => [
           ...prev,
           {
-            sender: 'Copper Giant Silver Bot',
+            sender: 'Copper Giant Bot',
             text: data.botResponse,
             isBot: true,
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),

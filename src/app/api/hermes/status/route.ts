@@ -15,11 +15,11 @@ export async function GET(request: Request) {
       config = await prisma.hermesConfig.create({
         data: {
           tenantId: tenantId || null,
-          endpointUrl: 'http://localhost:8000',
-          apiKey: 'hermes_coppergiant_secret_2026',
-          telegramBotToken: '8925340221:AAHU0nrxvP2XqPewfZMK1GzmjjyFGPIUX8o',
-          telegramChatId: '-5370719843',
-          gatewayMode: 'TELEGRAM',
+          endpointUrl: process.env.HERMES_ENDPOINT_URL || 'http://127.0.0.1:18789',
+          apiKey: process.env.HERMES_API_KEY || '',
+          telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || null,
+          telegramChatId: process.env.TELEGRAM_CHAT_ID || null,
+          gatewayMode: process.env.TELEGRAM_BOT_TOKEN ? 'TELEGRAM' : 'WHATSAPP',
           isActive: true,
         },
       });
@@ -118,11 +118,11 @@ export async function POST(request: Request) {
       config = await prisma.hermesConfig.create({
         data: {
           tenantId: tenantId || null,
-          endpointUrl: endpointUrl || 'http://localhost:8000',
-          apiKey: apiKey || 'hermes_coppergiant_secret_2026',
-          telegramBotToken: telegramBotToken || null,
-          telegramChatId: telegramChatId || '8724044473',
-          gatewayMode: gatewayMode || 'TELEGRAM',
+          endpointUrl: endpointUrl || process.env.HERMES_ENDPOINT_URL || 'http://127.0.0.1:18789',
+          apiKey: apiKey || process.env.HERMES_API_KEY || '',
+          telegramBotToken: telegramBotToken || process.env.TELEGRAM_BOT_TOKEN || null,
+          telegramChatId: telegramChatId || process.env.TELEGRAM_CHAT_ID || null,
+          gatewayMode: gatewayMode || (telegramBotToken ? 'TELEGRAM' : 'WHATSAPP'),
           isActive: isActive !== undefined ? isActive : true,
         },
       });

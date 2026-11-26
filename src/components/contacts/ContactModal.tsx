@@ -285,7 +285,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
             </div>
             <div>
               <h2 className="text-lg font-black text-white">New Investor Contact</h2>
-              <p className="text-xs text-slate-400 font-medium">Copper Giant Silver Taxonomy & Smart Card Scanner</p>
+              <p className="text-xs text-slate-400 font-medium">Copper Giant Taxonomy & Smart Card Scanner</p>
             </div>
           </div>
 
@@ -689,7 +689,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
                   type="text"
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
-                  placeholder="Pan American Silver"
+                  placeholder="Teck Resources / Freeport-McMoRan"
                   className="w-full hs-input-hero text-xs"
                 />
               </div>
@@ -761,7 +761,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ onClose, onSuccess, 
             {/* Copper Giant Tag Taxonomy Section */}
             <div className="p-4 rounded-sm bg-[#0f1218] border border-white/5 space-y-3">
               <span className="text-xs font-black uppercase tracking-wider block" style={{ color: 'var(--primary-color)' }}>
-                Copper Giant Silver Strict Taxonomy
+                Copper Giant Strict Taxonomy
               </span>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

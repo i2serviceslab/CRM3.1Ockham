@@ -203,7 +203,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
           keyInsights: [
             `LinkedIn: ${e.linkedinUrl || 'Verified'}`,
             `AUM / Estimated Capital: ${e.aum || 'CAD $100M+'}`,
-            `Mining Focus: ${e.investmentFocus || 'High-grade silver'}`,
+            `Mining Focus: ${e.investmentFocus || 'Copper-Molybdenum Porphyry (Mocoa)'}`,
           ],
         });
 
@@ -557,7 +557,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                     INVESTMENT FOCUS & MINING BACKGROUND
                   </span>
                   <p className="text-xs font-medium text-slate-300 leading-relaxed">
-                    {editInvestmentFocus || 'High-grade silver, epithermal silver/gold exploration in Colombia and Latin America.'}
+                    {editInvestmentFocus || 'Copper-molybdenum porphyry exploration and development in Colombia (Mocoa).'}
                   </p>
                   <p className="text-xs text-slate-400 italic">
                     History: {editMiningHistory || 'Active participation in mining venture capital rounds.'}
@@ -809,7 +809,7 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                       <label className="text-[10px] text-slate-400 font-bold uppercase">Investment Focus</label>
                       <input
                         type="text"
-                        placeholder="e.g. High-grade epithermal silver"
+                        placeholder="e.g. Copper-molybdenum porphyry (Mocoa)"
                         value={editInvestmentFocus}
                         onChange={(e) => setEditInvestmentFocus(e.target.value)}
                         className="w-full hs-input-hero text-xs py-2"

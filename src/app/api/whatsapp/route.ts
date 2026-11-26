@@ -471,7 +471,7 @@ export async function POST(request: Request) {
           tenantId,
           fromNumber: phoneNumber,
           senderName: 'Sandbox User',
-          toNumber: 'Copper Giant Silver CRM Bot',
+          toNumber: 'Copper Giant CRM Bot',
           message,
           mediaUrl: mediaUrl || null,
           direction: 'INBOUND',
