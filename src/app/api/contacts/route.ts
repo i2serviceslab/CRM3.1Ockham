@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession, COPPER_GIANT_TENANT_ID } from '@/lib/auth';
 import { ensurePersistentData } from '@/lib/auto-seed';
+import { executeWorkflowsForContact } from '@/lib/workflow-engine';
 
 export async function GET(request: Request) {
   try {
@@ -43,19 +44,28 @@ export async function GET(request: Request) {
     }
 
     const where = andClauses.length > 0 ? { AND: andClauses } : {};
+    const limitParam = parseInt(searchParams.get('limit') || '0', 10);
+    const offsetParam = parseInt(searchParams.get('offset') || '0', 10);
+    const take = limitParam > 0 ? Math.min(limitParam, 500) : undefined;
+    const skip = offsetParam > 0 ? offsetParam : undefined;
 
-    const contacts = await prisma.contact.findMany({
-      where,
-      orderBy: { updatedAt: 'desc' },
-      include: {
-        timelineActivities: {
-          take: 5,
-          orderBy: { createdAt: 'desc' },
+    const [contacts, total] = await Promise.all([
+      prisma.contact.findMany({
+        where,
+        orderBy: { updatedAt: 'desc' },
+        ...(take !== undefined ? { take } : {}),
+        ...(skip !== undefined ? { skip } : {}),
+        include: {
+          timelineActivities: {
+            take: 5,
+            orderBy: { createdAt: 'desc' },
+          },
         },
-      },
-    });
+      }),
+      prisma.contact.count({ where }),
+    ]);
 
-    return NextResponse.json({ success: true, count: contacts.length, contacts });
+    return NextResponse.json({ success: true, count: contacts.length, total, contacts });
   } catch (error: any) {
     console.error('Error fetching contacts:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -140,6 +150,9 @@ export async function POST(request: Request) {
         console.warn('Could not associate businessCard with new contact:', cardErr);
       }
     }
+
+    await executeWorkflowsForContact({ triggerType: 'LEAD_SCORE_ABOVE' }, contact);
+    await executeWorkflowsForContact({ triggerType: 'STAGE_CHANGED', triggerValue: contact.stage }, contact);
 
     return NextResponse.json({ success: true, contact });
   } catch (error: any) {

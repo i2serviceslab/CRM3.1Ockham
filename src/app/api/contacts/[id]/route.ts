@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession, getEffectiveTenantId } from '@/lib/auth';
+import { executeWorkflowsForContact } from '@/lib/workflow-engine';
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -40,7 +41,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     const body = await request.json();
     const { apiKey, businessCard, timelineActivities, deals, quotes, documents, interactions, sourceRelationships, targetRelationships, ...cleanData } = body;
 
-    const isDaemonAuthorized = apiKey === process.env.WHATSAPP_DAEMON_KEY || apiKey === 'coppergiant_daemon_secret_2026';
+    const isDaemonAuthorized = Boolean(process.env.WHATSAPP_DAEMON_KEY && apiKey === process.env.WHATSAPP_DAEMON_KEY);
     const session = isDaemonAuthorized ? null : await getSession();
 
     if (!session && !isDaemonAuthorized) {
@@ -120,6 +121,16 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
           description: `Puntaje anterior: ${existing.leadScore}`,
         },
       });
+    }
+
+    if (cleanData.stage && cleanData.stage !== existing.stage) {
+      await executeWorkflowsForContact({ triggerType: 'STAGE_CHANGED', triggerValue: cleanData.stage }, updated);
+    }
+    if (cleanData.leadScore !== undefined && cleanData.leadScore !== existing.leadScore) {
+      await executeWorkflowsForContact({ triggerType: 'LEAD_SCORE_ABOVE' }, updated);
+    }
+    if (cleanData.tags && cleanData.tags !== existing.tags) {
+      await executeWorkflowsForContact({ triggerType: 'TAG_ADDED' }, updated);
     }
 
     return NextResponse.json({ success: true, contact: updated });
