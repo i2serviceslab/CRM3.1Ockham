@@ -1,6 +1,13 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { testTelegramBot, setTelegramWebhook } from '@/lib/telegram-gateway';
+import { getSession, requireRole } from '@/lib/auth';
+
+function maskSecret(val?: string | null): string {
+  if (!val) return '';
+  if (val.length <= 4) return '••••';
+  return `••••${val.slice(-4)}`;
+}
 
 export async function GET(request: Request) {
   try {
@@ -73,7 +80,11 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       success: true,
-      config,
+      config: {
+        ...config,
+        apiKey: maskSecret(config.apiKey),
+        telegramBotToken: maskSecret(config.telegramBotToken),
+      },
       status: endpointStatus,
       isReachable,
       latencyMs: isReachable ? latencyMs : null,
@@ -86,6 +97,11 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const session = await getSession();
+    if (!requireRole(session, 'SUPER_ADMIN', 'TENANT_ADMIN')) {
+      return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
+    }
+
     const body = await request.json();
     const {
       tenantId,
@@ -103,12 +119,14 @@ export async function POST(request: Request) {
 
     let config;
     if (existing) {
+      const nextApiKey = apiKey !== undefined && !String(apiKey).startsWith('••••') ? apiKey : existing.apiKey;
+      const nextTgToken = telegramBotToken !== undefined && !String(telegramBotToken).startsWith('••••') ? telegramBotToken : existing.telegramBotToken;
       config = await prisma.hermesConfig.update({
         where: { id: existing.id },
         data: {
           endpointUrl: endpointUrl !== undefined ? endpointUrl : existing.endpointUrl,
-          apiKey: apiKey !== undefined ? apiKey : existing.apiKey,
-          telegramBotToken: telegramBotToken !== undefined ? telegramBotToken : existing.telegramBotToken,
+          apiKey: nextApiKey,
+          telegramBotToken: nextTgToken,
           telegramChatId: telegramChatId !== undefined ? telegramChatId : existing.telegramChatId,
           gatewayMode: gatewayMode !== undefined ? gatewayMode : existing.gatewayMode,
           isActive: isActive !== undefined ? isActive : existing.isActive,

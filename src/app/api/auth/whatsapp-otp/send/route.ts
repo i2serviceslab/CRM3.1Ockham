@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendText, instanceNameFor } from '@/lib/evolution-api';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
   try {
@@ -17,6 +18,20 @@ export async function POST(request: Request) {
 
     if (cleanPhone.length < 7) {
       return NextResponse.json({ success: false, error: 'Invalid phone number format' }, { status: 400 });
+    }
+
+    const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    const phoneLimit = checkRateLimit(`otp:phone:${cleanPhone}`, 5, 10 * 60 * 1000);
+    const ipLimit = checkRateLimit(`otp:ip:${clientIp}`, 12, 10 * 60 * 1000);
+    if (!phoneLimit.allowed || !ipLimit.allowed) {
+      const retryAfter = Math.max(phoneLimit.retryAfterSeconds, ipLimit.retryAfterSeconds);
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Demasiados intentos de código. Espera ${retryAfter}s antes de volver a solicitarlo.`,
+        },
+        { status: 429, headers: { 'Retry-After': String(retryAfter) } }
+      );
     }
 
     // Generate 6-digit numeric OTP code

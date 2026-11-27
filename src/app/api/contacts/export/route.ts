@@ -1,12 +1,15 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSession, getEffectiveTenantId } from '@/lib/auth';
+import { getSession, getEffectiveTenantId, requireRole } from '@/lib/auth';
 
 export async function GET(request: Request) {
   try {
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (!requireRole(session, 'SUPER_ADMIN', 'TENANT_ADMIN', 'MANAGER')) {
+      return NextResponse.json({ error: 'Forbidden: insufficient role to export contacts' }, { status: 403 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -21,7 +24,7 @@ export async function GET(request: Request) {
     });
 
     const headers = [
-      'Name', 'Email', 'Phone', 'Company', 'Title', 'Stage', 'Investor Type', 'Lead Score', 'Source', 'AUM', 'Country', 'CreatedAt'
+      'Name', 'Email', 'Phone', 'Company', 'Title', 'Stage', 'Stakeholder Type', 'Lead Score', 'Source', 'Country', 'CreatedAt'
     ];
 
     const rows = contacts.map(c => {
@@ -35,7 +38,6 @@ export async function GET(request: Request) {
         c.investorType || '',
         c.leadScore?.toString() || '0',
         c.source || '',
-        c.aum || '',
         c.country || '',
         c.createdAt.toISOString()
       ].map(val => `"${val.replace(/"/g, '""')}"`).join(',');

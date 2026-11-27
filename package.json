@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
-    "daemon:coppermind": "node scripts/coppermind-daemon.mjs"
+    "daemon:coppermind": "node scripts/coppermind-daemon.mjs",
+    "smoke": "node scripts/smoke-test.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

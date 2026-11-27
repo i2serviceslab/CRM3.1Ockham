@@ -1,23 +1,16 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// Public routes that don't require authentication or handle optional auth
+// Strictly public routes (auth flows, healthcheck, and external webhooks)
 const PUBLIC_ROUTES = [
+  '/api/health',
   '/api/auth/me',
   '/api/auth/magic',
   '/api/auth/whatsapp-otp/send',
   '/api/auth/whatsapp-otp/verify',
-  '/api/whatsapp',
-  '/api/hermes',
-  '/api/contacts',
-  '/api/ocr',
-  '/api/admin/tenants',
-  '/api/relationships',
-  '/api/graph',
-  '/api/calendar',
-  '/api/deals',
-  '/api/roadshows',
-  '/api/debug-logs',
+  '/api/whatsapp/webhook',
+  '/api/hermes/webhook',
+  '/api/hermes/telegram-webhook',
 ];
 
 export function middleware(request: NextRequest) {
@@ -29,8 +22,13 @@ export function middleware(request: NextRequest) {
   }
 
   // Allow public routes through
-  const isPublic = PUBLIC_ROUTES.some(route => pathname.startsWith(route));
+  const isPublic = PUBLIC_ROUTES.some((route) => pathname.startsWith(route));
   if (isPublic) {
+    return NextResponse.next();
+  }
+
+  // Allow daemon-authenticated calls to /api/contacts when daemon header is present
+  if (pathname.startsWith('/api/contacts') && request.headers.get('x-daemon-key')) {
     return NextResponse.next();
   }
 
