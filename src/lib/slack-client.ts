@@ -1,7 +1,29 @@
 const SLACK_API_BASE = 'https://slack.com/api';
+const userNameCache = new Map<string, string>();
 
 export function isSlackConfigured(): boolean {
   return Boolean(process.env.SLACK_BOT_TOKEN);
+}
+
+export async function getSlackUserName(userId?: string): Promise<string> {
+  if (!userId) return 'Usuario Slack';
+  const cached = userNameCache.get(userId);
+  if (cached) return cached;
+
+  const token = process.env.SLACK_BOT_TOKEN;
+  if (!token) return userId;
+
+  try {
+    const res = await fetch(`${SLACK_API_BASE}/users.info?user=${encodeURIComponent(userId)}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    const name = data?.user?.profile?.display_name || data?.user?.real_name || data?.user?.name || userId;
+    userNameCache.set(userId, name);
+    return name;
+  } catch {
+    return userId;
+  }
 }
 
 export async function postSlackMessage(params: {
