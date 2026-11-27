@@ -3,6 +3,8 @@ import { getCopperFactsSSOT } from '@/lib/copper-facts';
 import { enqueueWhatsAppMessage } from '@/lib/whatsapp-queue';
 
 const WEB_BASE = (process.env.COPPERGIANT_WEB_URL || 'https://coppergiant.com').replace(/\/$/, '');
+const INTEL_CACHE_TTL_MS = 60 * 1000;
+let cachedIntel: { ts: number; payload: any } | null = null;
 
 async function safeFetchJson(url: string, init?: RequestInit) {
   try {
@@ -21,11 +23,15 @@ async function safeFetchJson(url: string, init?: RequestInit) {
 }
 
 export async function GET() {
+  if (cachedIntel && Date.now() - cachedIntel.ts < INTEL_CACHE_TTL_MS) {
+    return NextResponse.json(cachedIntel.payload);
+  }
+
   const [radar, intent, omnichannel, analytics, ssot] = await Promise.all([
     safeFetchJson(`${WEB_BASE}/api/seo-radar`),
     safeFetchJson(`${WEB_BASE}/api/investor-intent`),
     safeFetchJson(`${WEB_BASE}/api/omnichannel-stats`),
-    safeFetchJson(`${WEB_BASE}/api/analytics?limit=500`),
+    safeFetchJson(`${WEB_BASE}/api/analytics?limit=250`),
     getCopperFactsSSOT(true),
   ]);
 
@@ -41,7 +47,7 @@ export async function GET() {
       timestamp: String(e.temporal?.timestampIso || e.timestamp || ''),
     }));
 
-  return NextResponse.json({
+  const payload = {
     ok: true,
     sourceUrl: WEB_BASE,
     ssot,
@@ -54,11 +60,14 @@ export async function GET() {
       intent: intent.ok ? null : intent.data?.error || `HTTP ${intent.status}`,
       omnichannel: omnichannel.ok ? null : omnichannel.data?.error || `HTTP ${omnichannel.status}`,
     },
-  });
+  };
+  cachedIntel = { ts: Date.now(), payload };
+  return NextResponse.json(payload);
 }
 
 export async function POST(req: Request) {
   try {
+    cachedIntel = null;
     const body = await req.json().catch(() => ({}));
     if (body?.action === 'save_key') {
       const result = await safeFetchJson(`${WEB_BASE}/api/seo-radar/config`, {

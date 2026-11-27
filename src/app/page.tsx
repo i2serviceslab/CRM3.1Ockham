@@ -9,7 +9,7 @@ import { Sidebar, ActiveTab } from '@/components/layout/Sidebar';
 import { MagicLogin } from '@/components/auth/MagicLogin';
 import { ConcaveCard } from '@/components/ui/ConcaveCard';
 import { DailyScheduleWidget } from '@/components/ui/DailyScheduleWidget';
-import WhatsAppOtpLogin from '@/components/auth/WhatsAppOtpLogin';
+const WhatsAppOtpLogin = dynamic(() => import('@/components/auth/WhatsAppOtpLogin'), { ssr: false });
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import { FinancialTickerWidget } from '@/components/analytics/FinancialTickerWidget';
 import { initTheme } from '@/lib/themeEngine';
