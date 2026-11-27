@@ -33,6 +33,9 @@ if (!isBuildPhase) {
           'CREATE INDEX IF NOT EXISTS "Interaction_contactId_createdAt_idx" ON "Interaction"("contactId", "createdAt");',
           'CREATE INDEX IF NOT EXISTS "Document_contactId_createdAt_idx" ON "Document"("contactId", "createdAt");',
           'CREATE INDEX IF NOT EXISTS "TimelineActivity_contactId_createdAt_idx" ON "TimelineActivity"("contactId", "createdAt");',
+          'UPDATE "SocialCategory" SET "createdAt" = "createdAt" || \'Z\' WHERE typeof("createdAt") = \'text\' AND "createdAt" NOT LIKE \'%Z\';',
+          'UPDATE "SocialCategory" SET "updatedAt" = "updatedAt" || \'Z\' WHERE typeof("updatedAt") = \'text\' AND "updatedAt" NOT LIKE \'%Z\';',
+          'UPDATE "MediaFolder" SET "createdAt" = "createdAt" || \'Z\' WHERE typeof("createdAt") = \'text\' AND "createdAt" NOT LIKE \'%Z\';',
         ].join(' ')
       )
       .catch(() => {});

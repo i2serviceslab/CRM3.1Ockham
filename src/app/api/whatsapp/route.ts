@@ -159,12 +159,17 @@ export async function GET() {
     const tenantId = 'be078b12-b027-44e3-8d77-144bfbe23279';
 
     let dbSession = await prisma.whatsAppSession.findFirst({
-      where: { instanceName: 'olimpus' },
+      where: { OR: [{ instanceName: 'olimpus' }, { tenantId }] },
     });
 
     if (!dbSession) {
       dbSession = await prisma.whatsAppSession.create({
         data: { tenantId, status: 'CONNECTED', qrCode: null, phoneNumber: '+573207116676', instanceName: 'olimpus' },
+      });
+    } else if (dbSession.instanceName !== 'olimpus') {
+      dbSession = await prisma.whatsAppSession.update({
+        where: { id: dbSession.id },
+        data: { instanceName: 'olimpus' },
       });
     }
 

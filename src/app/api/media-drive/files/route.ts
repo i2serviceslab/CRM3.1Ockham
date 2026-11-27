@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
     const fileWhere: any = {};
 
-    if (folderId && folderId !== 'root') {
+    if (folderId && folderId !== 'root' && folderId !== 'ALL') {
       fileWhere.folderId = folderId;
     }
 
