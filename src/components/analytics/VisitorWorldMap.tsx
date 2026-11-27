@@ -6,8 +6,10 @@ import { Globe } from 'lucide-react';
 export interface GeoVisitEvent {
   country: string;
   city?: string;
+  org?: string;
   type?: string;
   device?: string;
+  timestamp?: string;
 }
 
 const COUNTRY_TO_ISO: Record<string, string> = {
@@ -71,23 +73,44 @@ function loadScriptOnce(src: string): Promise<void> {
 
 export const VisitorWorldMap: React.FC<{ events: GeoVisitEvent[] }> = ({ events }) => {
   const [layer, setLayer] = useState<'all' | 'pdf' | 'desktop' | 'mobile'>('all');
+  const [dateRange, setDateRange] = useState<'24h' | '7d' | '30d' | 'all'>('all');
   const [mapReady, setMapReady] = useState(false);
   const mapHostRef = useRef<HTMLDivElement | null>(null);
 
   const filteredEvents = useMemo(() => {
-    if (layer === 'pdf') return events.filter((e) => e.type === 'presentation_view');
-    if (layer === 'desktop') return events.filter((e) => e.device === 'Desktop');
-    if (layer === 'mobile') return events.filter((e) => e.device === 'Mobile');
-    return events;
-  }, [events, layer]);
+    const now = Date.now();
+    const cutoff =
+      dateRange === '24h'
+        ? now - 24 * 60 * 60 * 1000
+        : dateRange === '7d'
+          ? now - 7 * 24 * 60 * 60 * 1000
+          : dateRange === '30d'
+            ? now - 30 * 24 * 60 * 60 * 1000
+            : 0;
 
-  const { isoCounts, topCountries, maxCount } = useMemo(() => {
+    return events.filter((e) => {
+      if (cutoff > 0 && e.timestamp) {
+        const ts = new Date(e.timestamp).getTime();
+        if (!Number.isNaN(ts) && ts < cutoff) return false;
+      }
+      if (layer === 'pdf') return e.type === 'presentation_view';
+      if (layer === 'desktop') return e.device === 'Desktop';
+      if (layer === 'mobile') return e.device === 'Mobile';
+      return true;
+    });
+  }, [events, layer, dateRange]);
+
+  const { isoCounts, topCountries, topOrgs, maxCount } = useMemo(() => {
     const byIso: Record<string, number> = {};
     const byName: Record<string, number> = {};
+    const byOrg: Record<string, number> = {};
     let max = 0;
     for (const ev of filteredEvents) {
       if (!ev.country || ev.country === 'Unknown') continue;
       byName[ev.country] = (byName[ev.country] || 0) + 1;
+      if (ev.org && ev.org !== 'Unknown') {
+        byOrg[ev.org] = (byOrg[ev.org] || 0) + 1;
+      }
       const iso = COUNTRY_TO_ISO[ev.country];
       if (iso) {
         byIso[iso] = (byIso[iso] || 0) + 1;
@@ -96,8 +119,11 @@ export const VisitorWorldMap: React.FC<{ events: GeoVisitEvent[] }> = ({ events 
     }
     const top = Object.entries(byName)
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 10);
-    return { isoCounts: byIso, topCountries: top, maxCount: max };
+      .slice(0, 8);
+    const orgs = Object.entries(byOrg)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+    return { isoCounts: byIso, topCountries: top, topOrgs: orgs, maxCount: max };
   }, [filteredEvents]);
 
   useEffect(() => {
@@ -191,6 +217,21 @@ export const VisitorWorldMap: React.FC<{ events: GeoVisitEvent[] }> = ({ events 
           <span>Mapa Global de Visitantes (coppergiant.com)</span>
         </div>
         <div className="flex items-center gap-1.5 flex-wrap">
+          {(['24h', '7d', '30d', 'all'] as const).map((r) => (
+            <button
+              key={r}
+              type="button"
+              onClick={() => setDateRange(r)}
+              className={`px-2.5 py-1 rounded-md text-[11px] font-mono font-bold transition-colors ${
+                dateRange === r
+                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                  : 'bg-white/5 text-slate-400 hover:text-white'
+              }`}
+            >
+              {r === 'all' ? 'Todo' : r}
+            </button>
+          ))}
+          <span className="text-white/10 mx-1">|</span>
           {(
             [
               { id: 'all', label: 'Tráfico Global' },
@@ -256,6 +297,20 @@ export const VisitorWorldMap: React.FC<{ events: GeoVisitEvent[] }> = ({ events 
                   </div>
                 );
               })}
+            </div>
+          )}
+
+          {topOrgs.length > 0 && (
+            <div className="pt-3 border-t border-white/10 space-y-2">
+              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                Top Redes / Organizaciones (IP)
+              </div>
+              {topOrgs.map(([org, cnt]) => (
+                <div key={org} className="flex items-center justify-between text-[11px]">
+                  <span className="text-slate-300 truncate pr-2">{org}</span>
+                  <span className="font-mono text-emerald-400 shrink-0">{cnt}</span>
+                </div>
+              ))}
             </div>
           )}
         </div>

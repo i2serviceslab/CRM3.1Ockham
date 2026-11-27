@@ -37,10 +37,24 @@ interface RoadshowManagerProps {
 export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOpen360 }) => {
   const [events, setEvents] = useState<RoadshowEvent[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeEventId, setActiveEventId] = useState<string | null>(null);
 
   useEffect(() => {
+    try {
+      const savedActive = localStorage.getItem('crm_active_roadshow_id');
+      if (savedActive) setActiveEventId(savedActive);
+    } catch {}
     fetchEvents();
   }, []);
+
+  const toggleActiveEvent = (id: string) => {
+    const next = activeEventId === id ? null : id;
+    setActiveEventId(next);
+    try {
+      if (next) localStorage.setItem('crm_active_roadshow_id', next);
+      else localStorage.removeItem('crm_active_roadshow_id');
+    } catch {}
+  };
 
   const fetchEvents = async () => {
     try {
@@ -160,19 +174,38 @@ export const RoadshowManager: React.FC<RoadshowManagerProps> = ({ contacts, onOp
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
               <div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
                   <h3 className="text-lg font-black text-white">{event.summitName}</h3>
+                  {activeEventId === event.id && (
+                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-black uppercase animate-pulse">
+                      ● En Progreso Ahora
+                    </span>
+                  )}
+                  <button
+                    onClick={() => toggleActiveEvent(event.id)}
+                    className={`px-2.5 py-1 rounded-sm text-[10px] font-bold border transition-colors ${
+                      activeEventId === event.id
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                        : 'bg-white/5 text-slate-300 border-white/10 hover:bg-white/10'
+                    }`}
+                  >
+                    {activeEventId === event.id ? 'Finalizar Evento' : 'Marcar En Progreso'}
+                  </button>
                   <button onClick={(e) => handleDeleteEvent(event.id, e)} className="p-1.5 text-red-400 hover:bg-red-500/20 rounded-md transition-colors" title="Eliminar Evento">
                     <Trash2 size={18} />
                   </button>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-slate-400 font-bold mt-1">
+                <div className="flex items-center gap-3 text-xs text-slate-400 font-bold mt-1 flex-wrap">
                   <span className="flex items-center gap-1 text-[#FF002C]">
                     <MapPin className="w-3.5 h-3.5" />
                     {event.city}, {event.country}
                   </span>
                   <span>•</span>
                   <span>{event.dates}</span>
+                  <span>•</span>
+                  <span className="text-slate-300 font-mono">
+                    {event.meetings.length} reuniones ({event.meetings.filter((m) => m.status === 'Completada').length} completadas)
+                  </span>
                 </div>
               </div>
 

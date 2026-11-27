@@ -36,6 +36,7 @@ export const KaizenWebIntelligence: React.FC = () => {
   const [serpKeyInput, setSerpKeyInput] = useState('');
   const [latestRadar, setLatestRadar] = useState<RadarSnapshot | null>(null);
   const [prevRadar, setPrevRadar] = useState<RadarSnapshot | null>(null);
+  const [radarHistory, setRadarHistory] = useState<RadarSnapshot[]>([]);
   const [intent, setIntent] = useState<{
     totalSessions: number;
     segments: Record<string, number>;
@@ -57,6 +58,7 @@ export const KaizenWebIntelligence: React.FC = () => {
         setHasKey(Boolean(data.radar.hasKey));
         setLatestRadar(data.radar.latest || null);
         setPrevRadar(data.radar.previous || null);
+        setRadarHistory(Array.isArray(data.radar.history) ? data.radar.history : []);
       }
       if (data.intent) setIntent(data.intent);
       if (data.omnichannel) setOmni(data.omnichannel);
@@ -292,6 +294,28 @@ export const KaizenWebIntelligence: React.FC = () => {
               </div>
             )}
           </div>
+
+          {radarHistory.length > 1 && (
+            <div className="pt-3 border-t border-white/10 space-y-2">
+              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                Evolución Histórica ({radarHistory.length} escaneos)
+              </div>
+              <div className="flex items-end gap-1.5 h-12">
+                {radarHistory.slice(-10).map((snap, i) => {
+                  const ranked = (snap.results || []).filter((r) => typeof r.rank === 'number');
+                  const avg = ranked.length
+                    ? ranked.reduce((acc, r) => acc + (r.rank || 20), 0) / ranked.length
+                    : 20;
+                  const heightPct = Math.max(15, Math.min(100, Math.round(((21 - avg) / 20) * 100)));
+                  return (
+                    <div key={snap.timestamp || i} className="flex-1 flex flex-col items-center gap-1" title={`${new Date(snap.timestamp).toLocaleDateString()} · Promedio #${avg.toFixed(1)}`}>
+                      <div className="w-full bg-emerald-500/70 rounded-t-sm" style={{ height: `${heightPct}%` }} />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right: Investor Intent Sessions */}

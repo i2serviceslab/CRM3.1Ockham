@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getCopperFactsSSOT } from '@/lib/copper-facts';
+import { enqueueWhatsAppMessage } from '@/lib/whatsapp-queue';
 
 const WEB_BASE = (process.env.COPPERGIANT_WEB_URL || 'https://coppergiant.com').replace(/\/$/, '');
 
@@ -34,8 +35,10 @@ export async function GET() {
     .map((e: any) => ({
       country: String(e.geo.country),
       city: e.geo.city ? String(e.geo.city) : '',
+      org: e.geo.org ? String(e.geo.org) : '',
       type: String(e.type || ''),
       device: String(e.hw?.category || ''),
+      timestamp: String(e.temporal?.timestampIso || e.timestamp || ''),
     }));
 
   return NextResponse.json({
@@ -71,6 +74,27 @@ export async function POST(req: Request) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({}),
     });
+
+    if (result.ok && result.data?.snapshot?.results && result.data?.previous?.results) {
+      const prevMap = new Map<string, number | null>(
+        result.data.previous.results.map((r: any) => [r.q, r.rank])
+      );
+      const drops: string[] = [];
+      for (const r of result.data.snapshot.results) {
+        const prev = prevMap.get(r.q);
+        if (typeof prev === 'number' && typeof r.rank === 'number' && r.rank - prev >= 5) {
+          drops.push(`• "${r.q}": #${prev} -> #${r.rank}`);
+        }
+      }
+      if (drops.length > 0 && process.env.NOTIFY_TEAM_PHONE) {
+        enqueueWhatsAppMessage({
+          to: process.env.NOTIFY_TEAM_PHONE,
+          text: `⚠️ *Alerta Kaizen SEO/GEO*\nCaída de posiciones detectada en ${WEB_BASE}:\n${drops.join('\n')}`,
+          senderName: 'Kaizen SEO Radar',
+        });
+      }
+    }
+
     return NextResponse.json(result.data, { status: result.status });
   } catch (err: any) {
     return NextResponse.json({ error: err?.message || 'Internal error' }, { status: 500 });
