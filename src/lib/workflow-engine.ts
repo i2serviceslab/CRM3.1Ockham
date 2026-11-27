@@ -1,8 +1,10 @@
 import { prisma } from '@/lib/prisma';
+import { enqueueWhatsAppMessage, renderWhatsAppTemplate } from '@/lib/whatsapp-queue';
 
 export interface WorkflowContactSnapshot {
   id: string;
   name: string;
+  company?: string | null;
   stage?: string | null;
   leadScore?: number | null;
   tags?: string | null;
@@ -55,6 +57,12 @@ export async function executeWorkflowsForContact(
 
       if (!matched) continue;
 
+      const templateVars = {
+        nombre: contact.name,
+        empresa: contact.company || 'su organización',
+        etapa: contact.stage || '',
+      };
+
       if (rule.actionType === 'ADD_SCORE') {
         const nextScore = Math.min(100, (contact.leadScore || 0) + 20);
         await prisma.contact.update({
@@ -70,21 +78,37 @@ export async function executeWorkflowsForContact(
           },
         });
       } else if (rule.actionType === 'NOTIFY_TEAM') {
+        const msgText = renderWhatsAppTemplate(
+          rule.actionValue || `🔔 Alerta CRM: {{nombre}} ({{empresa}}) activó "${rule.name}" en etapa {{etapa}}.`,
+          templateVars
+        );
+        const notifyPhone = process.env.NOTIFY_TEAM_PHONE;
+        if (notifyPhone) {
+          enqueueWhatsAppMessage({ to: notifyPhone, text: msgText, senderName: `Workflow: ${rule.name}` });
+        }
         await prisma.timelineActivity.create({
           data: {
             contactId: contact.id,
             type: 'WORKFLOW',
             title: `Workflow "${rule.name}": Notificación al Equipo`,
-            description: rule.actionValue || `Disparado por ${rule.triggerType} (${rule.triggerValue}).`,
+            description: msgText,
           },
         });
       } else if (rule.actionType === 'SEND_WHATSAPP') {
+        const targetPhone = contact.whatsapp || contact.phone;
+        const msgText = renderWhatsAppTemplate(
+          rule.actionValue || `Hola {{nombre}}, gracias por conectar con Copper Giant Resources.`,
+          templateVars
+        );
+        if (targetPhone) {
+          enqueueWhatsAppMessage({ to: targetPhone, text: msgText, senderName: `Workflow: ${rule.name}` });
+        }
         await prisma.timelineActivity.create({
           data: {
             contactId: contact.id,
             type: 'WORKFLOW',
-            title: `Workflow "${rule.name}": Acción WhatsApp`,
-            description: rule.actionValue || `Mensaje programado para ${contact.whatsapp || contact.phone || contact.name}.`,
+            title: `Workflow "${rule.name}": WhatsApp ${targetPhone ? 'encolado' : 'sin número'}`,
+            description: msgText,
           },
         });
       }

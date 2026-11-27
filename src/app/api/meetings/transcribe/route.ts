@@ -46,20 +46,22 @@ export async function POST(request: Request) {
     
     const path = require('path');
     const os = require('os');
-    const { execSync } = require('child_process');
+    const { execFile } = require('child_process');
+    const { promisify } = require('util');
+    const execFileAsync = promisify(execFile);
 
     const tempInput = path.join(os.tmpdir(), `input_${Date.now()}`);
     const tempOutput = path.join(os.tmpdir(), `output_${Date.now()}.mp3`);
     
-    fs.writeFileSync(tempInput, buffer);
+    await fs.promises.writeFile(tempInput, buffer);
     const segmentDir = path.join(os.tmpdir(), `segments_${Date.now()}`);
-    fs.mkdirSync(segmentDir, { recursive: true });
+    await fs.promises.mkdir(segmentDir, { recursive: true });
 
     try {
-      // 1. Convert to a single highly compressed MP3
-      execSync(`ffmpeg -y -i "${tempInput}" -ar 16000 -ac 1 -b:a 16k "${tempOutput}"`, { stdio: 'pipe' });
+      // 1. Convert to a single highly compressed MP3 asynchronously (non-blocking event loop)
+      await execFileAsync('ffmpeg', ['-y', '-i', tempInput, '-ar', '16000', '-ac', '1', '-b:a', '16k', tempOutput]);
       // 2. Split into 15-minute chunks (900 seconds) to prevent OpenAI Whisper Timeouts
-      execSync(`ffmpeg -i "${tempOutput}" -f segment -segment_time 900 -c copy "${path.join(segmentDir, 'chunk_%03d.mp3')}"`, { stdio: 'pipe' });
+      await execFileAsync('ffmpeg', ['-i', tempOutput, '-f', 'segment', '-segment_time', '900', '-c', 'copy', path.join(segmentDir, 'chunk_%03d.mp3')]);
     } catch (e: any) {
       if (fs.existsSync(tempInput)) fs.unlinkSync(tempInput);
       if (fs.existsSync(tempOutput)) fs.unlinkSync(tempOutput);
@@ -201,6 +203,28 @@ ${transcriptText.slice(0, 300000)}` } // Safely cap at 300k chars just in case
           }
         });
       }
+    }
+
+    // Auto-create CRM tasks for extracted meeting action items
+    const rawItems = Array.isArray(parsed?.actionItems)
+      ? parsed.actionItems
+      : Array.isArray(parsed?.commitments)
+        ? parsed.commitments
+        : [];
+    for (const item of rawItems.slice(0, 8)) {
+      const taskTitle = typeof item === 'string' ? item : item?.task || item?.title || item?.description;
+      if (!taskTitle) continue;
+      await prisma.task
+        .create({
+          data: {
+            title: String(taskTitle).slice(0, 180),
+            description: `Compromiso extraído automáticamente de reunión: ${meetingName}`,
+            priority: 'HIGH',
+            dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+            tenantId: tenantId || null,
+          },
+        })
+        .catch(() => {});
     }
 
     return NextResponse.json({ success: true, result: parsed, fileId: newMediaFile.id });
