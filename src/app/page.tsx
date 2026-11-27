@@ -31,6 +31,8 @@ const RealWebRtcRoom = dynamic(() => import('@/components/video/RealWebRtcRoom')
 const UserRoleManager = dynamic(() => import('@/components/users/UserRoleManager'), { ssr: false });
 const BackupManager = dynamic(() => import('@/components/admin/BackupManager'), { ssr: false });
 const ImportCSVModal = dynamic(() => import('@/components/contacts/ImportCSVModal').then(m => m.ImportCSVModal), { ssr: false });
+const DuplicateMergeModal = dynamic(() => import('@/components/contacts/DuplicateMergeModal').then(m => m.DuplicateMergeModal), { ssr: false });
+const CommandPalette = dynamic(() => import('@/components/ui/CommandPalette').then(m => m.CommandPalette), { ssr: false });
 const MediaDriveManager = dynamic(() => import('@/components/drive/MediaDriveManager').then(m => m.MediaDriveManager), { ssr: false });
 const HermesAgentStudio = dynamic(() => import('@/components/hermes/HermesAgentStudio').then(m => m.HermesAgentStudio), { ssr: false });
 
@@ -80,6 +82,8 @@ export default function Home() {
     try {
       const savedTab = localStorage.getItem('crm_active_tab') as string | null;
       if (savedTab && savedTab !== 'syndicates') setActiveTabState(savedTab as ActiveTab);
+      const savedLists = localStorage.getItem('crm_smart_lists');
+      if (savedLists) setSmartLists(JSON.parse(savedLists));
     } catch (e) {}
 
     fetch('/api/auth/me')
@@ -94,7 +98,10 @@ export default function Home() {
   }, []);
 
   const [contacts, setContacts] = useState<Contact[]>([]);
+  const [totalContacts, setTotalContacts] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const [showDuplicateModal, setShowDuplicateModal] = useState(false);
+  const [smartLists, setSmartLists] = useState<Array<{ id: string; name: string; searchTerm: string; selectedType: string; selectedStage: string; selectedSource: string }>>([]);
   const [visibleLimit, setVisibleLimit] = useState<number>(60);
 
   // Filters
@@ -168,11 +175,13 @@ export default function Home() {
       
       if (selectedStage !== 'ALL') query.append('stage', selectedStage);
       if (selectedSource !== 'ALL') query.append('source', selectedSource);
+      query.append('limit', String(Math.max(120, visibleLimit)));
 
       const res = await fetch(`/api/contacts?${query.toString()}`);
       const data = await res.json();
       if (data.success) {
         setContacts(data.contacts);
+        setTotalContacts(typeof data.total === 'number' ? data.total : data.contacts.length);
       }
     } catch (e) {
       console.error(e);
@@ -322,11 +331,18 @@ export default function Home() {
                 {/* Left Workspace Title & Stats Summary (Connected to var(--bg-card)) */}
                 <ConcaveCard
                   bgColor="var(--bg-card)"
-                  notchWidth={370}
+                  notchWidth={460}
                   notchHeight={52}
                   className="lg:col-span-2 shadow-2xl flex flex-col justify-between"
                   actionButton={
                     <div className="flex items-center justify-end gap-2 pr-2 w-full h-full">
+                      <button
+                        onClick={() => setShowDuplicateModal(true)}
+                        title="Detectar y fusionar contactos duplicados"
+                        className="px-3 py-1.5 rounded-full bg-slate-900/90 border border-white/10 text-slate-300 text-xs font-black flex items-center gap-1.5 hover:bg-slate-800 hover:text-white transition-all shadow-md cursor-pointer"
+                      >
+                        <span className="hidden sm:inline">Duplicados</span>
+                      </button>
                       <button
                         onClick={() => setShowImportModal(true)}
                         title="Importar Contactos desde CSV"
@@ -404,7 +420,7 @@ export default function Home() {
                       style={{ backgroundColor: 'var(--bg-card)' }}
                       className="px-2.5 py-0.5 rounded-full text-slate-400 font-mono text-xs font-bold"
                     >
-                      {contacts.length} Leads
+                      {totalContacts || contacts.length} Leads
                     </span>
 
                     {/* View Mode Switcher Toolbar */}
@@ -501,7 +517,55 @@ export default function Home() {
                         </button>
                       );
                     })}
+
+                    <button
+                      onClick={() => {
+                        const listName = window.prompt('Nombre para esta Smart List:');
+                        if (!listName?.trim()) return;
+                        const next = [
+                          ...smartLists,
+                          { id: String(Date.now()), name: listName.trim(), searchTerm, selectedType, selectedStage, selectedSource },
+                        ];
+                        setSmartLists(next);
+                        try { localStorage.setItem('crm_smart_lists', JSON.stringify(next)); } catch {}
+                      }}
+                      className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-emerald-400 border border-emerald-500/30 text-xs font-bold cursor-pointer"
+                    >
+                      + Guardar Vista
+                    </button>
                   </div>
+
+                  {smartLists.length > 0 && (
+                    <div className="flex items-center gap-2 flex-wrap pt-1">
+                      <span className="text-[10px] font-black uppercase text-slate-500">Smart Lists:</span>
+                      {smartLists.map((sl) => (
+                        <div key={sl.id} className="flex items-center gap-1 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-xs">
+                          <button
+                            onClick={() => {
+                              setSearchTerm(sl.searchTerm);
+                              setSelectedType(sl.selectedType);
+                              setSelectedStage(sl.selectedStage);
+                              setSelectedSource(sl.selectedSource);
+                            }}
+                            className="text-slate-200 hover:text-white font-semibold"
+                          >
+                            {sl.name}
+                          </button>
+                          <button
+                            onClick={() => {
+                              const next = smartLists.filter((x) => x.id !== sl.id);
+                              setSmartLists(next);
+                              try { localStorage.setItem('crm_smart_lists', JSON.stringify(next)); } catch {}
+                            }}
+                            className="text-slate-500 hover:text-red-400 ml-1 font-bold"
+                            title="Eliminar Smart List"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Contacts Multi-View Display (Grid / List / Table) */}
@@ -720,24 +784,34 @@ export default function Home() {
                     )}
 
                     {/* Pagination / Load More Bar for 5,000+ Contacts */}
-                    {contacts.length > visibleLimit && (
+                    {(contacts.length > visibleLimit || totalContacts > contacts.length) && (
                       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-sm bg-[#1C1B1B] border border-white/10 mt-4">
                         <span className="text-xs text-slate-400 font-mono">
                           Mostrando <strong className="text-white">{Math.min(visibleLimit, contacts.length)}</strong> de{' '}
-                          <strong className="text-[#FF002C]">{contacts.length}</strong> contactos
+                          <strong className="text-[#FF002C]">{totalContacts || contacts.length}</strong> contactos
                         </span>
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() => setVisibleLimit((prev) => prev + 60)}
+                            onClick={async () => {
+                              const nextLimit = visibleLimit + 60;
+                              setVisibleLimit(nextLimit);
+                              if (nextLimit > contacts.length && totalContacts > contacts.length) {
+                                const query = new URLSearchParams();
+                                if (searchTerm) query.append('search', searchTerm);
+                                if (selectedStage !== 'ALL') query.append('stage', selectedStage);
+                                if (selectedSource !== 'ALL') query.append('source', selectedSource);
+                                query.append('limit', '120');
+                                query.append('offset', String(contacts.length));
+                                const res = await fetch(`/api/contacts?${query.toString()}`);
+                                const data = await res.json();
+                                if (data.success && Array.isArray(data.contacts)) {
+                                  setContacts((prev) => [...prev, ...data.contacts]);
+                                }
+                              }
+                            }}
                             className="px-4 py-2 rounded-full bg-[#FF002C] text-white text-xs font-black hover:brightness-110 transition-all cursor-pointer shadow-lg"
                           >
                             + Cargar 60 más
-                          </button>
-                          <button
-                            onClick={() => setVisibleLimit(contacts.length)}
-                            className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-bold border border-white/10 transition-all cursor-pointer"
-                          >
-                            Ver todos ({contacts.length})
                           </button>
                         </div>
                       </div>
@@ -1088,6 +1162,17 @@ export default function Home() {
           fetchContacts();
         }}
         tenantName={brandName}
+      />
+      {showDuplicateModal && (
+        <DuplicateMergeModal
+          onClose={() => setShowDuplicateModal(false)}
+          onMerged={() => fetchContacts()}
+        />
+      )}
+      <CommandPalette
+        onNavigateTab={(tab) => setActiveTab(tab)}
+        onSelectContact={(c) => setSelectedContact360(c)}
+        onNewContact={() => setShowAddContactModal(true)}
       />
     </div>
   );

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Contact } from '@/types/crm';
+import { getContactHealth, applyTimeDecayScore } from '@/lib/contact-utils';
 import { ConcaveCard } from '@/components/ui/ConcaveCard';
 import {
   X,
@@ -518,6 +519,28 @@ export const Contact360View: React.FC<Contact360ViewProps> = ({
                 </div>
 
                 {/* Comprehensive Fields Overview Grid */}
+                {(() => {
+                  const health = getContactHealth({ email: editEmail, phone: editPhone, whatsapp: (contact as any).whatsapp });
+                  const decay = applyTimeDecayScore(contact.leadScore || 50, (contact as any).updatedAt);
+                  return (
+                    <div className="flex flex-wrap items-center gap-2">
+                      {health.issues.length > 0 ? (
+                        <span className="px-2.5 py-1 rounded-sm bg-rose-500/15 border border-rose-500/30 text-rose-300 text-[11px] font-bold">
+                          Salud de Dato: {health.issues.join(' · ')}
+                        </span>
+                      ) : (
+                        <span className="px-2.5 py-1 rounded-sm bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[11px] font-bold">
+                          Canales Verificados (Email &amp; Teléfono válidos)
+                        </span>
+                      )}
+                      {decay.decayPenalty > 0 && (
+                        <span className="px-2.5 py-1 rounded-sm bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[11px] font-mono">
+                          Score c/ decaimiento ({decay.daysInactive}d inactivo): {decay.effectiveScore} pts (-{decay.decayPenalty})
+                        </span>
+                      )}
+                    </div>
+                  );
+                })()}
                 <div className="grid grid-cols-2 gap-3 text-xs font-medium">
                   <div style={{ backgroundColor: 'var(--bg-card-inner)' }} className="p-3.5 rounded-sm space-y-1">
                     <span className="text-[10px] text-slate-400 font-bold uppercase block">Email</span>
