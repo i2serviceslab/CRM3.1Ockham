@@ -20,12 +20,23 @@ async function safeFetchJson(url: string, init?: RequestInit) {
 }
 
 export async function GET() {
-  const [radar, intent, omnichannel, ssot] = await Promise.all([
+  const [radar, intent, omnichannel, analytics, ssot] = await Promise.all([
     safeFetchJson(`${WEB_BASE}/api/seo-radar`),
     safeFetchJson(`${WEB_BASE}/api/investor-intent`),
     safeFetchJson(`${WEB_BASE}/api/omnichannel-stats`),
+    safeFetchJson(`${WEB_BASE}/api/analytics?limit=500`),
     getCopperFactsSSOT(true),
   ]);
+
+  const rawEvents = Array.isArray(analytics.data) ? analytics.data : [];
+  const geoEvents = rawEvents
+    .filter((e: any) => e?.geo?.country && e.geo.country !== 'Unknown')
+    .map((e: any) => ({
+      country: String(e.geo.country),
+      city: e.geo.city ? String(e.geo.city) : '',
+      type: String(e.type || ''),
+      device: String(e.hw?.category || ''),
+    }));
 
   return NextResponse.json({
     ok: true,
@@ -34,6 +45,7 @@ export async function GET() {
     radar: radar.ok ? radar.data : null,
     intent: intent.ok ? intent.data : null,
     omnichannel: omnichannel.ok ? omnichannel.data : null,
+    geoEvents,
     errors: {
       radar: radar.ok ? null : radar.data?.error || `HTTP ${radar.status}`,
       intent: intent.ok ? null : intent.data?.error || `HTTP ${intent.status}`,

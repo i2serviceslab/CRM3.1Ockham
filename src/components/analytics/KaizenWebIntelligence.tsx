@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Globe, RefreshCw, Sparkles, Target, TrendingUp, ExternalLink, KeyRound } from 'lucide-react';
+import { VisitorWorldMap, GeoVisitEvent } from '@/components/analytics/VisitorWorldMap';
 
 interface RadarResult {
   q: string;
@@ -41,6 +42,7 @@ export const KaizenWebIntelligence: React.FC = () => {
     topSessions: IntentSession[];
   } | null>(null);
   const [omni, setOmni] = useState<any>(null);
+  const [geoEvents, setGeoEvents] = useState<GeoVisitEvent[]>([]);
   const [ssot, setSsot] = useState<any>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -58,6 +60,7 @@ export const KaizenWebIntelligence: React.FC = () => {
       }
       if (data.intent) setIntent(data.intent);
       if (data.omnichannel) setOmni(data.omnichannel);
+      if (Array.isArray(data.geoEvents)) setGeoEvents(data.geoEvents);
       if (data.ssot) setSsot(data.ssot);
     } catch (e: any) {
       setErrorMsg(e?.message || 'Error conectando con coppergiant.com');
@@ -203,6 +206,9 @@ export const KaizenWebIntelligence: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Global Visitor Country Map */}
+      <VisitorWorldMap events={geoEvents} />
 
       {/* Main 2-column grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
