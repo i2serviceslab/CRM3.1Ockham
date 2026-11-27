@@ -11,6 +11,7 @@ const PUBLIC_ROUTES = [
   '/api/whatsapp/webhook',
   '/api/hermes/webhook',
   '/api/hermes/telegram-webhook',
+  '/api/slack/webhook',
   '/api/media-drive/share/',
   '/api/cron/morning-briefing',
 ];
